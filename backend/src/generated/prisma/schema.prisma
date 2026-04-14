@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  name      String?
+  password  String
+  img       String?
+  role      Role       @default(USER)
+  createdAt DateTime   @default(now())
+  progress  Progress[]
+  ratings   Rating[]
+}
+
+model Module {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  img         String
+  createdAt   DateTime    @default(now())
+  classrooms  Classroom[]
+  ratings     Rating[]
+}
+
+model Classroom {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  url         String
+  img         String
+  moduleId    String
+  module      Module     @relation(fields: [moduleId], references: [id])
+  questions   Question[]
+  progress    Progress[]
+}
+
+model Question {
+  id          String    @id @default(uuid())
+  statement   String
+  classroomId String
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  options     Option[]
+}
+
+model Option {
+  id         String   @id @default(uuid())
+  option     String
+  isCorrect  Boolean  @default(false)
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
+}
+
+model Progress {
+  id          String    @id @default(uuid())
+  userId      String
+  classroomId String
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  user        User      @relation(fields: [userId], references: [id])
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+
+  @@unique([userId, classroomId])
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  userId    String
+  moduleId  String
+  score     Int
+  comment   String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  module    Module   @relation(fields: [moduleId], references: [id])
+
+  @@unique([userId, moduleId])
+}
+
+enum Role {
+  ADMIN
+  USER
+}
