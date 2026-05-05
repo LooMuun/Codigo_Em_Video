@@ -6,6 +6,11 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './user/user.module';
 import { AuthModule } from './auth/authModule.module';
+import { ModulesModule } from './modules/modules.module';
+import { ClassroomModule } from './classRoms/classRoom.module';
+import { QuestionModule } from './questions/question.module';
+import { ProgressModule } from './progress/progress.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -17,8 +22,14 @@ import { AuthModule } from './auth/authModule.module';
     }),
     AuthModule,
     UsersModule,
+    ModulesModule,
+    ClassroomModule,
+    QuestionModule,
+    ProgressModule,
+    RatingModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+  
