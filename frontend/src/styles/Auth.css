@@ -1,0 +1,59 @@
+/* Container que ocupa a tela toda */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #273940; /* Cor escura do seu fundo no Figma */
+}
+
+/* O Card de Login */
+.auth-card {
+  background-color: #161B22; /* Tom do retângulo do login */
+  padding: 40px;
+  border-radius: 20px; 
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: #273940;
+}
+
+.auth-card img {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+/* Estilização dos Inputs */
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form input {
+  background-color: #0D1117;
+  border: 1px solid #30363D;
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  outline: none;
+}
+
+/* O botão laranja que você padronizou */
+.auth-button {
+  background-color: #E38B3D; /* Cor laranja do botão ENTRAR */
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.auth-button:hover {
+  filter: brightness(1.1);
+}

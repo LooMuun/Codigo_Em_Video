@@ -1,0 +1,267 @@
+/* RESET E FONTES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif; 
+}
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  background-color: #0D1117;
+  overflow: hidden; 
+}
+
+/* CONTAINER PRINCIPAL */
+.auth-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0D1117; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; 
+}
+
+/* WRAPPER */
+.login-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1100px;       
+  padding: 0 50px;           
+  position: relative;
+  z-index: 2;
+  gap: 150px;
+}
+
+/* LOGIN (ESQUERDA) */
+
+h2 {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #E0E0E0; 
+  letter-spacing: 0.5px;
+  text-align: center;
+  width: 100%;
+}
+
+.mini-logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 15px;
+  object-fit: contain;
+}
+.auth-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.auth-card-horizontal {
+  background: #273940;
+  padding: 40px;
+  border-radius: 40px;
+  width: 450px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4); 
+  flex: 0 0 auto;
+}
+
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
+  gap: 12px; 
+  margin-top: 20px;
+}
+
+.input-wrapper {
+  background-color: #F8F9FA !important; 
+  border-radius: 50px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #D1D5DB; 
+  width: 100%;
+}
+
+.input-wrapper input {
+  background: transparent !important;
+  border: none;
+  color: #1A1A1A !important; 
+  padding: 10px;
+  flex: 1;
+  outline: none;
+}
+
+.label-row {
+  display: flex;
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #E0E0E0; 
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.field-icon, .eye-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.field-icon {
+  margin-right: 12px;
+  opacity: 0.7;
+}
+
+.eye-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.eye-icon:hover {
+  opacity: 1;
+}
+
+.link-text {
+  color: #58A6FF !important;
+  font-size: 11px;
+  text-decoration: none;
+  font-family: 'League Spartan', sans-serif;
+  cursor: pointer;
+}
+
+.link-text:hover {
+  filter: brightness(1.2);
+  text-decoration: underline;
+}
+
+.guest-link {
+  text-align: center;
+  font-size: 13px;
+  color: #CCCCCC; 
+  margin-top: 15px;
+  cursor: pointer;
+  font-family: 'League Spartan', sans-serif;
+}
+
+.guest-link:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+/* SEÇÃO DA MARCA (DIREITA) */
+
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #F0F0F0; /* Off-white */
+  flex: 1;
+}
+
+.big-logo {
+  width: 220px; 
+  height: auto;
+}
+
+.platform-name {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 1.1;
+  margin-top: 15px;
+  letter-spacing: 2px;
+  color: #E0E0E0 ;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.highlight-code {
+  color: #88CCD7;
+}
+
+/* BOTÃO  */
+.auth-button {
+  width: 100%; 
+  background-color: #ffb864;
+  color: #1A1A1A; 
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.auth-button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+/* FUNDO (BOLAS GEOMÉTRICAS) */
+.shape-blue, .shape-green {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.8; 
+}
+
+.shape-blue {
+  bottom: -400px;
+  left: -250px;
+  width: 650px;
+  height: 650px;
+  background: #1b56bf;
+}
+
+.shape-green {
+  top: -200px;
+  right: -100px;
+  width: 450px;
+  height: 450px;
+  background: #2bf1c0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+.fade-in-container {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.brand-section {
+  animation: fadeIn 1s ease-out 0.3s forwards;
+  opacity: 0;
+}
