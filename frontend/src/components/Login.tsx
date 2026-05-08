@@ -3,18 +3,17 @@ import logoCev from "../assets/logo-cev.svg";
 import iconMail from "../assets/mail.svg";
 import iconLock from "../assets/locked.svg";
 import iconEye from "../assets/eye.svg";
-import '../styles/App.css';
+import "../styles/App.css";
 
 const Login = () => {
   return (
     <div className="auth-page">
       {/* Elementos de fundo */}
-      <div className="shape-blue"></div>
-      <div className="shape-green"></div>
+      <div key="login-blue" className="shape-blue"></div>
+      <div key="login-green" className="shape-green"></div>
 
       {/* Animação de fade-in */}
       <div className="login-wrapper fade-in-container">
-        
         {/* Lado Esquerdo*/}
         <div className="auth-card-horizontal">
           <div className="auth-header">
@@ -25,14 +24,14 @@ const Login = () => {
           <form className="auth-form">
             <div className="input-group">
               <div className="label-row">
-                <label>Email</label>
+                <label>E-mail</label>
                 <a href="/cadastro" className="link-text">
                   Novo aqui? Cadastre-se
                 </a>
               </div>
               <div className="input-wrapper">
                 <img src={iconMail} alt="" className="field-icon" />
-                <input type="email" placeholder="Seu email aqui" required />
+                <input type="email" placeholder="Seu e-mail aqui" required />
               </div>
             </div>
 
@@ -61,10 +60,11 @@ const Login = () => {
         <div className="brand-section">
           <img src={logoCev} alt="Logo Grande" className="big-logo" />
           <h1 className="platform-name">
-            <span className="highlight-code">CÓDIGO</span><br/>EM VÍDEO
+            <span className="highlight-code">CÓDIGO</span>
+            <br />
+            EM VÍDEO
           </h1>
         </div>
-
       </div>
     </div>
   );

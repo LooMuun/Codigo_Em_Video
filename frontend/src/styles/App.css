@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap');
+
 /* RESET E FONTES */
 * {
   margin: 0;
@@ -13,19 +15,22 @@ body, html, #root {
   overflow: hidden; 
 }
 
-/* CONTAINER PRINCIPAL */
+/* PÁGINA CADASTRO*/
+
+
+/* Container Principal Login */
 .auth-page {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-color: #0D1117; 
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; 
+  min-height: 100vh; 
+  width: 100%;
+  padding: 40px 20px; 
+  background-color: #0D1117;
+  overflow-y: auto; 
 }
 
-/* WRAPPER */
+/* Wrapper */
 .login-wrapper {
   display: flex;
   flex-direction: row;
@@ -39,12 +44,12 @@ body, html, #root {
   gap: 150px;
 }
 
-/* LOGIN (ESQUERDA) */
+/* Login (Parte da Esquerda) */
 
 h2 {
   font-family: 'League Spartan', sans-serif;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 32px;
   margin-bottom: 20px;
   color: #E0E0E0; 
   letter-spacing: 0.5px;
@@ -80,38 +85,42 @@ h2 {
   width: 100%;
   display: flex;
   flex-direction: column; 
-  gap: 12px; 
+  gap: 20px; 
   margin-top: 20px;
 }
 
 .input-wrapper {
-  background-color: #F8F9FA !important; 
-  border-radius: 50px;
-  padding: 8px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #D1D5DB; 
-  width: 100%;
+    background-color: #F8F9FA !important; 
+    border-radius: 50px;
+    padding: 8px 18px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #D1D5DB; 
+    width: 100%;
+    margin-top: 4px; 
 }
 
 .input-wrapper input {
-  background: transparent !important;
-  border: none;
-  color: #1A1A1A !important; 
-  padding: 10px;
-  flex: 1;
-  outline: none;
+    background: transparent !important;
+    border: none !important;
+    color: #1A1A1A !important; 
+    padding: 10px;
+    flex: 1;
+    outline: none;
+}
+
+.input-wrapper input::placeholder {
+    color: #9CA3AF; 
 }
 
 .label-row {
   display: flex;
   font-family: 'League Spartan', sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
   color: #E0E0E0; 
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: baseline;
   width: 100%;
   margin-bottom: 8px;
 }
@@ -140,8 +149,10 @@ h2 {
 }
 
 .link-text {
+  display: inline;
   color: #58A6FF !important;
-  font-size: 11px;
+  align-items: baseline;
+  font-size: 13px;
   text-decoration: none;
   font-family: 'League Spartan', sans-serif;
   cursor: pointer;
@@ -154,7 +165,7 @@ h2 {
 
 .guest-link {
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
   color: #CCCCCC; 
   margin-top: 15px;
   cursor: pointer;
@@ -162,11 +173,11 @@ h2 {
 }
 
 .guest-link:hover {
-  color: #FFFFFF;
+  color: #F8F9FA;
   text-decoration: underline;
 }
 
-/* SEÇÃO DA MARCA (DIREITA) */
+/* Seção da marca Login (Parte da Direita) */
 
 
 .brand-section {
@@ -174,7 +185,7 @@ h2 {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #F0F0F0; /* Off-white */
+  color: #F0F0F0; 
   flex: 1;
 }
 
@@ -200,7 +211,7 @@ h2 {
   color: #88CCD7;
 }
 
-/* BOTÃO  */
+/* Botão de Cadastro  */
 .auth-button {
   width: 100%; 
   background-color: #ffb864;
@@ -209,7 +220,7 @@ h2 {
   border: none;
   border-radius: 12px;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -227,7 +238,8 @@ h2 {
   position: absolute;
   border-radius: 50%;
   z-index: 1;
-  opacity: 0.8; 
+  opacity: 0.8;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .shape-blue {
@@ -236,6 +248,7 @@ h2 {
   width: 650px;
   height: 650px;
   background: #1b56bf;
+  animation: blueShapeIn 1s ease-out both;
 }
 
 .shape-green {
@@ -244,6 +257,16 @@ h2 {
   width: 450px;
   height: 450px;
   background: #2bf1c0;
+  animation: greenShapeIn 1.2s ease-out 0.1s both;
+}
+
+.fade-in-container {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.brand-section {
+  animation: fadeIn 1s ease-out 0.3s forwards;
+  opacity: 0;
 }
 
 @keyframes fadeIn {
@@ -255,13 +278,224 @@ h2 {
     opacity: 1;
     transform: translateY(0)
   }
+} 
+
+
+/* FIM DA PÁGINA LOGIN */
+
+
+/* PÁGINA CADASTRO */
+
+.auth-header-row {
+  flex-direction: row !important; 
+  gap: 10px;                    
+  margin-bottom: 5px;
 }
 
-.fade-in-container {
-  animation: fadeIn 1s ease-out forwards;
+.auth-header-row h2 {
+  margin-bottom: 0;             
+  font-size: 24px;
 }
 
-.brand-section {
-  animation: fadeIn 1s ease-out 0.3s forwards;
-  opacity: 0;
+.auth-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.brand-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.brand-name {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #E0E0E0;
+  letter-spacing: 1px;
+}
+
+.register-title {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;
+  font-size: 28px !important;
+  color: #FFFFFF !important;
+  text-align: center;
+  margin: 0 !important;
+}
+
+.brand-text-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.brand-header-row .mini-logo {
+  height: 42px;           
+  width: auto;            
+  margin-bottom: 0;
+}
+
+.brand-code {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #88CCD7;
+  letter-spacing: 1px;
+}
+
+.brand-video {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #E0E0E0;
+  letter-spacing: 2.5px; 
+}
+
+.brand-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+
+.shape-blue-register {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.8; 
+  top: -200px;
+  right: -100px;
+  width: 450px;
+  height: 450px;
+  background: #1b56bf;
+  animation: blueShapeIn 1s ease-out both;
+}
+
+.shape-green-register {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.8; 
+  bottom: -400px;
+  left: -250px;
+  width: 650px;
+  height: 650px;
+  background: #2bf1c0;
+  animation: greenShapeIn 1.2s ease-out 0.1s both;
+}
+
+.register-card {
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px; 
+  border-radius: 40px;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  animation: cardFadeIn 0.8s ease-out 0.3s both;
+}
+
+.register-card::-webkit-scrollbar {
+  display: none;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  color: #F8F9FA !important; 
+  font-size: 18px;
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 500;
+  text-align: left; 
+  width: 100%;
+}
+
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 250px;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.success-icon-svg {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 25px;
+  filter: invert(85%) sepia(30%) saturate(1000%) hue-rotate(110deg) brightness(100%) contrast(98%) drop-shadow(0 0 12px rgba(43, 241, 192, 0.6));
+  animation: scaleUp 0.5s ease-out;
+}
+
+.success-message {
+  color: #E0E0E0;
+  font-size: 18px;
+  margin-bottom: 30px;
+  line-height: 1.4;
+  font-weight: 500;
+  width: 100%; 
+}
+
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blueShapeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 0.8; 
+    transform: translateX(0);
+  }
+}
+
+@keyframes greenShapeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px); 
+  }
+  100% {
+    opacity: 0.8;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
