@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login' 
 import Cadastro from './components/Cadastro'
 import Recuperar from './components/Recuperar'
+import Dashboard from './components/Home';
 import './styles/App.css';
 
 
@@ -14,6 +15,8 @@ function App() {
         <Route path='/cadastro' element={<Cadastro />} /> 
 
         <Route path='/recuperar' element={<Recuperar />} /> 
+
+        <Route path='/dashboard' element={<Dashboard />}></Route>
 
       </Routes>
     </Router>

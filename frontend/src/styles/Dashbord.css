@@ -1,0 +1,256 @@
+body {
+    overflow-y: visible !important;
+}
+
+.dashboard-container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #273940;
+}
+
+.navbar {
+    display: flex;
+    position: sticky;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    background-color: #273940;
+    border-bottom: 1px solid #273940;
+    z-index: 1001
+}
+
+.nav-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-menu a {
+    color: #E0E0E0 !important;
+    text-decoration: none;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.nav-menu a.active {
+    color: #E0E0E0 !important;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #2bf1c0;
+}
+
+.nav-menu a:hover {
+    opacity: 1;
+    color: #E0E0E0 !important; 
+    border-bottom: 2px solid rgba(43, 241, 192, 0.5);
+}
+.user-profile {
+    width: 45px;
+    height: 45px;
+    background-color: #273940; 
+    border-radius: 50%;
+    display: flex;     
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid #E0E0E0;
+}
+
+.user-profile:hover {
+    border-color: #2bf1c0;
+    transform: scale(1.05);
+}
+
+.user-profile img {
+    width: 24px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+.courses-content {
+    padding: 40px 60px;
+    display: flex;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px; 
+    padding: 40px 60px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: min-content;
+}
+
+.courses-dashboard-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll; 
+    background-color: #0D1117;
+    display: block;
+}
+
+@media (max-width: 1100px) {
+    .modules-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 por linha em tablets */
+    }
+}
+
+@media (max-width: 700px) {
+    .modules-grid {
+        grid-template-columns: 1fr; /* 1 por linha no celular */
+    }
+}
+
+
+/* Card Individual */
+.module-card {
+    width: 320px; 
+    background-color: #273940;
+    border-radius: 15px;
+    border: 1px solid #273940;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-8px);
+    border-color: #2bf1c0;
+}
+
+
+.module-banner {
+    width: 100%;
+    height: 160px;
+    background-color: #273940; /* Fundo reserva caso a imagem falhe */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.module-banner img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid #273940;
+}
+
+/* Info e Botão */
+.module-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.module-info h3 {
+    font-size: 18px;
+    color: #E0E0E0;
+    font-family: 'League Spartan', sans-serif;
+    margin-bottom: 20px;
+}
+
+.module-tag {
+    display: block;
+    text-align: center;
+    padding: 12px 0;
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 15px;
+    font-family: 'League Spartan', sans-serif;
+    background-color: rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn-ver-mais {
+    background-color: #FFB864 !important;
+    color: #1a1a1a !important;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    margin-top: auto; 
+}
+
+.btn-ver-mais:hover {
+    filter: brightness(1.05);
+}
+
+/* IA */
+.ia-fab {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 65px;
+    height: 65px;
+    background-color: #2bf1c0; /* O seu verde padrão */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    z-index: 1000;
+    box-shadow: 0 8px 25px rgba(43, 241, 192, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.ia-fab:hover {
+    transform: scale(1.1);
+}
+
+.ia-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #2bf1c0;
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulse-animation 2s infinite;
+}
+
+.ia-fab:hover {
+    transform: scale(1.1);
+}
+
+.ia-fab:hover .ia-pulse {
+    opacity: 0.6;
+    animation: pulse-active 1.5s infinite;
+}
+
+.ia-pulse {
+    animation: pulse-animation 4s infinite;
+}
+
+@keyframes pulse-active {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
