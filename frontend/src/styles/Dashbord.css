@@ -52,32 +52,41 @@ body {
     color: #E0E0E0 !important; 
     border-bottom: 2px solid rgba(43, 241, 192, 0.5);
 }
+
 .user-profile {
     width: 45px;
     height: 45px;
-    background-color: #273940; 
+    background-color: transparent;
     border-radius: 50%;
     display: flex;     
     justify-content: center;
     align-items: center;
     overflow: hidden;
     cursor: pointer;
-    transition: 0.3s;
-    border: 1px solid #E0E0E0;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2); 
 }
 
 .user-profile:hover {
     border-color: #2bf1c0;
-    transform: scale(1.05);
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px #2bf1c0);
 }
 
 .user-profile img {
     width: 24px;
-    height: 100px;
+    height: 120px;
     border-radius: 50%;
-    cursor: pointer;
     filter: brightness(0) invert(1);
-    opacity: 0.9;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    image-rendering: -webkit-optimize-contrast; 
+    -webkit-font-smoothing: antialiased;
+}
+
+.user-profile:hover img {
+    opacity: 1;
+    filter: brightness(0) invert(1) drop-shadow(0 0 2px #2bf1c0);
 }
 
 .courses-content {
@@ -119,7 +128,8 @@ body {
 
 /* Card Individual */
 .module-card {
-    width: 320px; 
+    width: 100%; 
+    max-width: 350px;
     background-color: #273940;
     border-radius: 15px;
     border: 1px solid #273940;
@@ -149,6 +159,65 @@ body {
     aspect-ratio: 16 / 9;
     object-fit: cover;
     border-bottom: 1px solid #273940;
+}
+
+.card-blur {
+    opacity: 0.5;
+    filter: blur(4px);
+    transform: scale(0.95);
+    transition: all 0.4s ease;
+    pointer-events: none; 
+}
+
+/* Container de detalhes inferior */
+.module-details-info-card {
+    background-color: #273940;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    max-width: 1300px;
+    gap: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.details-description {
+    flex: 3;
+}
+
+.details-description p {
+    color: #E0E0E0;
+    font-size: 17px;
+    line-height: 1.6;
+    font-family: 'League Spartan', sans-serif;
+    text-align: justify;
+}
+
+.details-actions-list {
+    flex: 1;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 40px;
+}
+
+.details-actions-list ul {
+    list-style: none;
+}
+
+.details-actions-list li {
+    color: #E0E0E0;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.details-actions-list li:hover {
+    color: #2bf1c0;
+    transform: translateX(10px);
 }
 
 /* Info e Botão */
@@ -197,60 +266,64 @@ body {
     filter: brightness(1.05);
 }
 
-/* IA */
+
+/* IA */ 
 .ia-fab {
     position: fixed;
-    bottom: 40px;
-    right: 40px;
-    width: 65px;
-    height: 65px;
-    background-color: #2bf1c0; /* O seu verde padrão */
-    border: none;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
+    background: #0d1117;
+    border: 2px solid #2bf1c0;
     cursor: pointer;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 24px;
-    z-index: 1000;
-    box-shadow: 0 8px 25px rgba(43, 241, 192, 0.4);
-    transition: transform 0.3s ease;
-}
-
-.ia-fab:hover {
-    transform: scale(1.1);
+    justify-content: center;
+    z-index: 2000;
+    overflow: hidden;
+    transition: transform 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
 }
 
 .ia-pulse {
-    position: absolute;
     width: 100%;
     height: 100%;
-    background-color: #2bf1c0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    z-index: -1;
-    animation: pulse-animation 2s infinite;
 }
 
-.ia-fab:hover {
-    transform: scale(1.1);
-}
 
 .ia-fab:hover .ia-pulse {
-    opacity: 0.6;
-    animation: pulse-active 1.5s infinite;
+    animation: pulse-verde 2s infinite;
 }
 
-.ia-pulse {
-    animation: pulse-animation 4s infinite;
+
+.ia-fab:hover {
+    transform: scale(1.15);
+    border-color: #2bf1c0;
+    filter: drop-shadow(0 0 12px #2bf1c0);
+    animation: neon-glow-pulse 1.8s infinite;
 }
 
-@keyframes pulse-active {
+.ia-icon-img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain;
+    transform: scale(4); 
+    pointer-events: none;
+}
+
+@keyframes neon-glow-pulse {
     0% {
-        transform: scale(1);
-        opacity: 0.6;
+        filter: drop-shadow(0 0 8px #2bf1c0);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(43, 241, 192, 0.9));
     }
     100% {
-        transform: scale(1.8);
-        opacity: 0;
+        filter: drop-shadow(0 0 8px #2bf1c0);
     }
 }
