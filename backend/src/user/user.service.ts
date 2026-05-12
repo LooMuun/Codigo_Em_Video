@@ -21,11 +21,11 @@ export class UsersService {
 
     if (currentUser.role !== 'ADMIN') {
       const { role, ...safeData } = data;
-      const { password, ...resunt } = await this.prisma.user.update({
+      const { password, ...result } = await this.prisma.user.update({
         where: { id },
         data: safeData,
       });
-      return resunt;
+      return result;
     }
 
     const { password, ...result } = await this.prisma.user.update({

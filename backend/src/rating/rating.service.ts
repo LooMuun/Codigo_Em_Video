@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
@@ -15,13 +15,10 @@ export class RatingService {
   }
 
   async createRating(data: CreateRatingDto, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-
     const moduleExists = await this.prisma.module.findUnique({
       where: { id: data.moduleId },
     });
-
-    if (!moduleExists) throw new Error('Módulo não encontrado');
+    if (!moduleExists) throw new NotFoundException('Módulo não encontrado');
 
     return this.prisma.rating.upsert({
       where: {
@@ -44,8 +41,9 @@ export class RatingService {
   }
 
   async deleteRating(moduleId: string, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-    if (currentUser.role !== 'ADMIN') throw new Error('Unauthorized');
+    if (currentUser.role !== 'ADMIN') {
+      throw new ForbiddenException('Apenas admins podem deletar avaliações');
+    }
 
     return this.prisma.rating.delete({
       where: {

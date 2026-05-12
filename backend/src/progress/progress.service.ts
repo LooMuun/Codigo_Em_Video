@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProgressDto } from './dto/create-progress.dto';
 import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
@@ -15,12 +15,10 @@ export class ProgressService {
   }
 
   async completeClassroom(data: CreateProgressDto, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-
     const classroomExists = await this.prisma.classroom.findUnique({
       where: { id: data.classroomId },
     });
-    if (!classroomExists) throw new Error('Aula não encontrada');
+    if (!classroomExists) throw new NotFoundException('Aula não encontrada');
 
     return this.prisma.progress.upsert({
       where: {
@@ -43,8 +41,6 @@ export class ProgressService {
   }
 
   async removeProgress(classroomId: string, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-
     return this.prisma.progress.delete({
       where: {
         userId_classroomId: {

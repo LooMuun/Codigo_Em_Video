@@ -19,6 +19,7 @@ export class ModulesController {
   @Roles('ADMIN')
   @Post()
   async createModule(@Body() data: CreateModuleDto, @Req() req) {
+    console.log('body recebido:', JSON.stringify(data));
     return this.moduleService.createModule(data, req.user);
   }
 

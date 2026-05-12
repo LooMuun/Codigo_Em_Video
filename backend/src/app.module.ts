@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,14 +11,21 @@ import { ClassroomModule } from './classRoms/classRoom.module';
 import { QuestionModule } from './questions/question.module';
 import { ProgressModule } from './progress/progress.module';
 import { RatingModule } from './rating/rating.module';
+import { AiModule } from './ai/ai.module';
+import { QuizAnswerModule } from './quiz-answer/quiz-answer.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '7d' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '7d' },
+      }),
+      global: true,
     }),
     AuthModule,
     UsersModule,
@@ -26,10 +33,11 @@ import { RatingModule } from './rating/rating.module';
     ClassroomModule,
     QuestionModule,
     ProgressModule,
-    RatingModule
+    RatingModule,
+    AiModule,
+    QuizAnswerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
-  

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -8,9 +8,9 @@ import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
 export class QuestionService {
   constructor(private prisma: PrismaService) {}
 
-  private async validateAdmin(currentUser: JwtPayload) {
+  private validateAdmin(currentUser: JwtPayload) {
     if (!currentUser || currentUser.role !== 'ADMIN') {
-      throw new Error('Unauthorized');
+      throw new ForbiddenException('Apenas admins podem realizar esta ação');
     }
   }
 
@@ -22,30 +22,26 @@ export class QuestionService {
   }
 
   async createQuestion(data: CreateQuestionDto, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-    await this.validateAdmin(currentUser);
+    this.validateAdmin(currentUser);
 
     const classroomExists = await this.prisma.classroom.findUnique({
       where: { id: data.classroomId },
     });
-    if (!classroomExists) throw new Error('Aula não encontrada');
+    if (!classroomExists) throw new NotFoundException('Aula não encontrada');
 
     const { options, ...questionData } = data;
 
     return this.prisma.question.create({
       data: {
         ...questionData,
-        options: options?.length
-          ? { create: options }
-          : undefined,
+        options: options?.length ? { create: options } : undefined,
       },
       include: { options: true },
     });
   }
 
   async updateQuestion(id: string, data: UpdateQuestionDto, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-    await this.validateAdmin(currentUser);
+    this.validateAdmin(currentUser);
 
     const { options, ...questionData } = data;
 
@@ -53,18 +49,14 @@ export class QuestionService {
       where: { id },
       data: {
         ...questionData,
-        options: options?.length
-          ? { create: options }
-          : undefined,
+        options: options?.length ? { create: options } : undefined,
       },
       include: { options: true },
     });
   }
 
   async deleteQuestion(id: string, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-    await this.validateAdmin(currentUser);
-
+    this.validateAdmin(currentUser);
     return this.prisma.question.delete({ where: { id } });
   }
 }
