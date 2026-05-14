@@ -3,17 +3,17 @@ import { IsString } from 'class-validator';
 
 export class CreateClassroomDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  url: string;
+  url!: string;
 
   @IsString()
-  description: string;
+  description!: string;
 
   @IsString()
-  img: string;
+  img!: string;
 
   @IsString()
-  moduleId: string;
+  moduleId!: string;
 }

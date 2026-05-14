@@ -18,6 +18,7 @@ model User {
   progress    Progress[]
   ratings     Rating[]
   quizAnswers QuizAnswer[]
+  aiUsage     AiUsage[]
 }
 
 model Module {
@@ -97,6 +98,16 @@ model QuizAnswer {
   option     Option   @relation(fields: [optionId], references: [id])
 
   @@unique([userId, questionId])
+}
+
+model AiUsage {
+  id     String @id @default(uuid())
+  userId String
+  date   String
+  count  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
 }
 
 enum Role {

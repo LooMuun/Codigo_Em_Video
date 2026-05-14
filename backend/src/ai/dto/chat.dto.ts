@@ -3,23 +3,23 @@ import { Type } from 'class-transformer';
 
 export class ChatContextDto {
   @IsIn(['module', 'classroom'])
-  type: 'module' | 'classroom';
+  type!: 'module' | 'classroom';
 
   @IsString()
-  id: string;
+  id!: string;
 }
 
 export class ChatMessageDto {
   @IsString()
-  role: 'user' | 'model';
+  role!: 'user' | 'model';
 
   @IsString()
-  content: string;
+  content!: string;
 }
 
 export class ChatDto {
   @IsString()
-  message: string;
+  message!: string;
 
   @IsOptional()
   @ValidateNested()

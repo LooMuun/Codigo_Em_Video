@@ -2,29 +2,19 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2023",
-
-    "ignoreDeprecations": "6.0",
-
+    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
-
     "paths": {
       "@/*": ["src/*"]
     },
-
     "outDir": "./dist",
-
     "strict": true,
-
     "sourceMap": true,
     "declaration": true,
-
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-
     "esModuleInterop": true,
-
     "forceConsistentCasingInFileNames": true,
-
     "skipLibCheck": true
   }
 }

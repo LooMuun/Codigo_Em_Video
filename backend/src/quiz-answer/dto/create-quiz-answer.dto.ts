@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export class CreateQuizAnswerDto {
   @IsString()
-  questionId: string;
+  questionId!: string;
 
   @IsString()
-  optionId: string;
+  optionId!: string;
 }
