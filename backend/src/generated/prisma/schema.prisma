@@ -8,15 +8,17 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  name      String?
-  password  String
-  img       String?
-  role      Role       @default(USER)
-  createdAt DateTime   @default(now())
-  progress  Progress[]
-  ratings   Rating[]
+  id          String       @id @default(uuid())
+  email       String       @unique
+  name        String?
+  password    String
+  img         String?
+  role        Role         @default(USER)
+  createdAt   DateTime     @default(now())
+  progress    Progress[]
+  ratings     Rating[]
+  quizAnswers QuizAnswer[]
+  aiUsage     AiUsage[]
 }
 
 model Module {
@@ -42,19 +44,21 @@ model Classroom {
 }
 
 model Question {
-  id          String    @id @default(uuid())
+  id          String       @id @default(uuid())
   statement   String
   classroomId String
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  classroom   Classroom    @relation(fields: [classroomId], references: [id])
   options     Option[]
+  quizAnswers QuizAnswer[]
 }
 
 model Option {
-  id         String   @id @default(uuid())
-  option     String
-  isCorrect  Boolean  @default(false)
-  questionId String
-  question   Question @relation(fields: [questionId], references: [id])
+  id          String       @id @default(uuid())
+  option      String
+  isCorrect   Boolean      @default(false)
+  questionId  String
+  question    Question     @relation(fields: [questionId], references: [id])
+  quizAnswers QuizAnswer[]
 }
 
 model Progress {
@@ -80,6 +84,30 @@ model Rating {
   module    Module   @relation(fields: [moduleId], references: [id])
 
   @@unique([userId, moduleId])
+}
+
+model QuizAnswer {
+  id         String   @id @default(uuid())
+  userId     String
+  questionId String
+  optionId   String
+  isCorrect  Boolean
+  answeredAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id])
+  option     Option   @relation(fields: [optionId], references: [id])
+
+  @@unique([userId, questionId])
+}
+
+model AiUsage {
+  id     String @id @default(uuid())
+  userId String
+  date   String
+  count  Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
 }
 
 enum Role {

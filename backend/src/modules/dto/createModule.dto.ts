@@ -4,13 +4,13 @@ import { CreateClassroomDto } from 'src/classRoms/dto/createClassroomDto.dto';
 
 export class CreateModuleDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  description: string;
+  description!: string;
 
   @IsString()
-  img: string;
+  img!: string;
 
   @IsOptional()
   @IsArray()

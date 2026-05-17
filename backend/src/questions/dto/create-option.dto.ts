@@ -2,8 +2,8 @@ import { IsString, IsBoolean } from 'class-validator';
 
 export class CreateOptionDto {
   @IsString()
-  option: string;
+  option!: string;
 
   @IsBoolean()
-  isCorrect: boolean;
+  isCorrect!: boolean;
 }

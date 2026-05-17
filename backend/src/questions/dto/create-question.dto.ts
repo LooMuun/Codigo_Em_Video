@@ -4,10 +4,10 @@ import { CreateOptionDto } from './create-option.dto';
 
 export class CreateQuestionDto {
   @IsString()
-  statement: string;
+  statement!: string;
 
   @IsString()
-  classroomId: string;
+  classroomId!: string;
 
   @IsOptional()
   @IsArray()

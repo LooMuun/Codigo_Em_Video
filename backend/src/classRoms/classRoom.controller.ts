@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateClassroomDto } from './dto/createClassroomDto.dto';
 import { UpdateClassroomDto } from './dto/updateClassroomdto.dto';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { AuthenticatedRequest } from '@/common/interfaces/authenticated-request.interface';
 
 @Controller('classrooms')
 export class ClassroomController {
@@ -28,21 +29,21 @@ export class ClassroomController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
-  createClassroom(@Body() data: CreateClassroomDto, @Req() req) {
+  createClassroom(@Body() data: CreateClassroomDto, @Req() req: AuthenticatedRequest) {
     return this.classRomsService.createClassroom(data, req.user);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
-  updateClassroom(@Param('id') id: string, @Body() data: UpdateClassroomDto, @Req() req) {
+  updateClassroom(@Param('id') id: string, @Body() data: UpdateClassroomDto, @Req() req: AuthenticatedRequest) {
     return this.classRomsService.updateClassroom(id, data, req.user);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
-  deleteClassroom(@Param('id') id: string, @Req() req) {
+  deleteClassroom(@Param('id') id: string, @Req() req: AuthenticatedRequest) {
     return this.classRomsService.deleteClassroom(id, req.user);
   }
 }

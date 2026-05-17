@@ -1,16 +1,16 @@
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateModuleDto } from './dto/createModule.dto';
 import { UpdateModuleDto } from './dto/updateModule.dto';
 import { JwtPayload } from 'src/auth/interface/jwt-payload.interface';
-import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 
 @Injectable()
 export class ModuleService {
   constructor(private prisma: PrismaService) {}
 
-  async validateAdmin(currentUser: JwtPayload) {
+  private validateAdmin(currentUser: JwtPayload) {
     if (!currentUser || currentUser.role !== 'ADMIN') {
-      throw new Error('Unauthorized');
+      throw new ForbiddenException('Apenas admins podem realizar esta ação');
     }
   }
 
@@ -19,8 +19,7 @@ export class ModuleService {
   }
 
   async createModule(data: CreateModuleDto, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-    await this.validateAdmin(currentUser);
+    this.validateAdmin(currentUser);
 
     const { classrooms, ...moduleData } = data;
 
@@ -33,13 +32,8 @@ export class ModuleService {
     });
   }
 
-  async updateModule(
-    id: string,
-    data: UpdateModuleDto,
-    currentUser: JwtPayload,
-  ) {
-    if (!currentUser) throw new Error('User not found');
-    await this.validateAdmin(currentUser);
+  async updateModule(id: string, data: UpdateModuleDto, currentUser: JwtPayload) {
+    this.validateAdmin(currentUser);
 
     const { classrooms, ...moduleData } = data;
 
@@ -54,9 +48,7 @@ export class ModuleService {
   }
 
   async deleteModule(id: string, currentUser: JwtPayload) {
-    if (!currentUser) throw new Error('User not found');
-    await this.validateAdmin(currentUser);
-
+    this.validateAdmin(currentUser);
     return this.prisma.module.delete({ where: { id } });
   }
 }
