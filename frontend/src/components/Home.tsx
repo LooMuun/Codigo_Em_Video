@@ -136,14 +136,14 @@ const Dashboard = () => {
                       />
                       <span>Materiais</span>
                     </li>
-                    <li>
+                    {/* <li>
                       <img
                         src={iconExercicios}
                         alt=""
                         className="detail-li-icon"
                       />
                       <span>Exercícios</span>
-                    </li>
+                    </li> */}
                     <li>
                       <img
                         src={iconAvaliacao}
@@ -177,8 +177,9 @@ const Dashboard = () => {
             navigate("/chat");
           }}
         >
-          <div className="ia-pulse"></div>
-          <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
+          <div className="ia-pulse">
+            <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
+          </div>
         </button>
       </div>
     </div>
