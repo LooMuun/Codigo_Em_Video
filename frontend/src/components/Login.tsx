@@ -8,11 +8,9 @@ import "../styles/App.css";
 const Login = () => {
   return (
     <div className="auth-page">
-      {/* Elementos de fundo */}
       <div key="login-blue" className="shape-blue"></div>
       <div key="login-green" className="shape-green"></div>
 
-      {/* Animação de fade-in */}
       <div className="login-wrapper fade-in-container">
         {/* Lado Esquerdo*/}
         <div className="auth-card-horizontal">

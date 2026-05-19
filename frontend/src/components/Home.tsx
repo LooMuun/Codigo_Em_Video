@@ -1,12 +1,31 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import iconAvatar from "../assets/avatar.svg";
 import logoCev from "../assets/logo-cev.svg";
 import iaLogo from '../assets/ia-cev.svg';
-import "../styles/Dashbord.css";
+import iconAulas from "../assets/school.svg";
+import iconMateriais from "../assets/materials.svg";
+import iconExercicios from "../assets/exercises.svg";
+import iconAvaliacao from "../assets/avaliation.svg";
+import thumb1 from "../assets/thumb1.png";
+import thumb2 from "../assets/thumb2.png";
+import thumb3 from "../assets/thumb3.png";
+import thumb4 from "../assets/thumb4.png";
+
+import "../styles/Dashboard.css";
 
 const Dashboard = () => { 
     const [abaAtiva, setAbaAtiva] = useState("cursos");
     const [moduloAtivo, setModuloAtivo] = useState<number | null>(null);
+
+    const navigate = useNavigate();
+
+    const thumbsModulos: Record<number, string> = {
+        1: thumb1,
+        2: thumb2,
+        3: thumb3,
+        4: thumb4
+    };
 
     const conteudoModulos = {
         1: "Neste módulo introdutório, você explorará os fundamentos da Ciência de Dados e as etapas essenciais de um projeto na área, mergulhando na sintaxe da linguagem Python para dominar desde tipos básicos, variáveis e operadores até estruturas de controle de fluxo condicionais e de repetição. O conteúdo avança para a organização técnica de informações através de estruturas de dados fundamentais como listas, tuplas, conjuntos e dicionários, além de ensinar a definição e o uso de funções para a criação de códigos modulares e eficientes.",
@@ -16,10 +35,11 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="courses-dashboard-container">
-            {/* Navbar permanece igual */}
-            <nav className="navbar">
-                <img src={logoCev} alt="" className="nav-logo" />
+        <div className="courses-dashboard-container" onClick={() => setModuloAtivo(null)}>
+            
+            {/* Navbar */}
+            <nav className="navbar" onClick={(e) => e.stopPropagation()}>
+                <img src={logoCev} alt="Logo" className="nav-logo" />
                 <div className="nav-menu"> 
                     <a href="#" className={abaAtiva === "cursos" ? "active" : ""} 
                     onClick={() => setAbaAtiva("cursos")}>Cursos</a>
@@ -32,17 +52,23 @@ const Dashboard = () => {
             </nav>
 
             <div className="courses-content">
+                {/* Aba cursos */}
                 {abaAtiva === "cursos" && (
                     <div className="fade-in-container">
                         <div className="modules-grid">
                             {[1, 2, 3, 4].map((num) => (
                                 <div 
                                     key={num} 
-                                    className={`module-card ${moduloAtivo !== null && moduloAtivo !== num ? "card-blur" : ""}`}
-                                    >
+                                    onClick={(e) => {
+                                        e.stopPropagation(); 
+                                        setModuloAtivo(moduloAtivo === num ? null : num);
+                                    }}
+                                    className={`module-card ${moduloAtivo !== null && moduloAtivo !== num ? "card-blur" : ""} ${moduloAtivo === num ? "card-selecionado" : ""}`}
+                                    style={{ cursor: 'pointer' }} 
+                                >
                                     <span className="module-tag">Módulo {num}</span>
                                     <div className="module-banner">
-                                        <img src={`/assets/thumb${num}.png`} alt="" />
+                                        <img src={thumbsModulos[num]} alt={`Miniatura Módulo ${num}`} />
                                     </div>
                                     <div className="module-info">
                                         <h3>
@@ -53,8 +79,10 @@ const Dashboard = () => {
                                         </h3>
                                         <button 
                                             className="btn-ver-mais" 
-                                            /* Se clicar no que já está aberto, ele fecha (set null) */
-                                            onClick={() => setModuloAtivo(moduloAtivo === num ? null : num)}
+                                            onClick={(e) => {
+                                                e.stopPropagation(); 
+                                                setModuloAtivo(moduloAtivo === num ? null : num);
+                                            }}
                                         >
                                             {moduloAtivo === num ? "Fechar" : "Ver Mais"}
                                         </button>
@@ -63,37 +91,58 @@ const Dashboard = () => {
                             ))}
                         </div>
 
-                        {/* Ver mais */}
+                        {/* Detalhes do Módulo Expandido */}
                         {moduloAtivo !== null && (
-    <div className="module-details-info-card fade-in-container" key={moduloAtivo}>
-        <div className="details-description">
-            {/* Aqui a mágica acontece: o texto muda conforme o número no estado */}
-            <p>{conteudoModulos[moduloAtivo as keyof typeof conteudoModulos]}</p>
-        </div>
-        <div className="details-actions-list">
-            <ul>
-                <li><span>🎓</span> Aulas</li>
-                <li><span>📖</span> Materiais</li>
-                <li><span>✏️</span> Exercícios</li>
-                <li><span>👍</span> Avaliação</li>
-            </ul>
-        </div>
-    </div>
-)}
+                            <div 
+                                className="module-details-info-card fade-in-container" 
+                                key={moduloAtivo}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <div className="details-description">
+                                    <p>{conteudoModulos[moduloAtivo as keyof typeof conteudoModulos]}</p>
+                                </div>
+                                <div className="details-actions-list">
+                                    <ul>
+                                        <li>
+                                            <img src={iconAulas} alt="" className="detail-li-icon" /> 
+                                            <span>Aulas</span>
+                                        </li>
+                                        <li>
+                                            <img src={iconMateriais} alt="" className="detail-li-icon" /> 
+                                            <span>Materiais</span>
+                                        </li>
+                                        <li>
+                                            <img src={iconExercicios} alt="" className="detail-li-icon" /> 
+                                            <span>Exercícios</span>
+                                        </li>
+                                        <li>
+                                            <img src={iconAvaliacao} alt="" className="detail-li-icon" /> 
+                                            <span>Avaliação</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 
-                {/* Dashboard e Botão IA*/}
+                {/* Aba Dashboard */}
                 {abaAtiva === "dashboard" && (
-                    <div className="empty-state fade-in-container">
+                    <div className="empty-state fade-in-container" onClick={(e) => e.stopPropagation()}>
                         <h2>Seu progresso aparecerá aqui</h2>
                     </div>
                 )}
 
-                <button className="ia-fab">
-                    <div className="ia-pulse">
-                        <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
-                    </div>
+                {/* Botão IA Cody */}
+                <button 
+                    className="ia-fab" 
+                    onClick={(e) => {
+                        e.stopPropagation(); 
+                        navigate("/chat");   
+                    }}
+                >
+                    <div className="ia-pulse"></div>
+                    <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
                 </button>
             </div>
         </div> 

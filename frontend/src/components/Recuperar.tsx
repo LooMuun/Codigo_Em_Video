@@ -36,7 +36,7 @@ const Recuperar = () => {
                     </h2>
                 </div>
 
-                {/* SOLICITAR EMAIL */}
+                {/* Solicitar email */}
                 {etapa === "email" && (
                     <form className="auth-form fade-in-container" onSubmit={handleProximaEtapa}>
                         <div className="input-group">
@@ -51,7 +51,7 @@ const Recuperar = () => {
                     </form>
                 )}
 
-                {/* VALIDAR CÓDIGO */}
+                {/* Validar código */}
                 {etapa === "codigo" && (
                     <form className="auth-form fade-in-container" onSubmit={handleProximaEtapa}>
                         <p style={{ color: '#ccc', textAlign: 'center', marginBottom: '15px', fontSize: '14px' }}>
@@ -77,7 +77,7 @@ const Recuperar = () => {
                     </form>
                 )}
 
-                {/* TELA DE SUCESSO */}
+                {/* Tela de Sucesso */}
                 {etapa === "sucesso" && (
                     <div className="auth-form fade-in-container success-container">
                     {}

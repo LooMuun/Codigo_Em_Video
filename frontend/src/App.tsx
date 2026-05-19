@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login' 
-import Cadastro from './components/Cadastro'
-import Recuperar from './components/Recuperar'
+import Login from './components/Login';
+import Cadastro from './components/Cadastro';
+import Recuperar from './components/Recuperar';
 import Dashboard from './components/Home';
+import Chat from './components/Chat';
 import './styles/App.css';
 
 
@@ -18,6 +19,7 @@ function App() {
 
         <Route path='/dashboard' element={<Dashboard />}></Route>
 
+        <Route path='/chat' element={<Chat isOpen={true} />} />
       </Routes>
     </Router>
   );
