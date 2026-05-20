@@ -141,8 +141,12 @@ const Dashboard = () => {
                         navigate("/chat");   
                     }}
                 >
-                    <div className="ia-pulse"></div>
-                    <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
+                    <div className="ia-pulse">
+
+                         <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
+
+                    </div>
+                  
                 </button>
             </div>
         </div> 

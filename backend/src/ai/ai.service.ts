@@ -25,8 +25,9 @@ export class AiService {
   constructor(private prisma: PrismaService) {
     this.groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
   }
-
+ 
   private async buildStudentContext(userId: string): Promise<string> {
+    
     const [progress, wrongAnswers] = await Promise.all([
       this.prisma.progress.findMany({
         where: { userId, completed: true },
