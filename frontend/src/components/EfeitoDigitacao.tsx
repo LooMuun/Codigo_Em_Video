@@ -10,11 +10,10 @@ const EfeitoDigitacao = ({ texto, velocidade = 20 }: EfeitoDigitacaoProps) => {
 
   useEffect(() => {
     let i = 0;
-    setTextoExibido("");
 
     const timer = setInterval(() => {
       if (i < texto.length) {
-        setTextoExibido((prev) => prev + texto.charAt(i));
+        setTextoExibido(texto.slice(0, i + 1)); /*Mudei do Prev pro Slice pq tava engolindo letras*/
         i++;
       } else {
         clearInterval(timer);

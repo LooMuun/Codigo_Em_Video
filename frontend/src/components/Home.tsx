@@ -5,8 +5,8 @@ import logoCev from "../assets/logo-cev.svg";
 import iaLogo from '../assets/ia-cev.svg';
 import iconAulas from "../assets/school.svg";
 import iconMateriais from "../assets/materials.svg";
-import iconExercicios from "../assets/exercises.svg";
 import iconAvaliacao from "../assets/avaliation.svg";
+import workInProgress from "../assets/WorkInProgress.png";
 import thumb1 from "../assets/thumb1.png";
 import thumb2 from "../assets/thumb2.png";
 import thumb3 from "../assets/thumb3.png";
@@ -112,10 +112,6 @@ const Dashboard = () => {
                                             <span>Materiais</span>
                                         </li>
                                         <li>
-                                            <img src={iconExercicios} alt="" className="detail-li-icon" /> 
-                                            <span>Exercícios</span>
-                                        </li>
-                                        <li>
                                             <img src={iconAvaliacao} alt="" className="detail-li-icon" /> 
                                             <span>Avaliação</span>
                                         </li>
@@ -128,8 +124,9 @@ const Dashboard = () => {
 
                 {/* Aba Dashboard */}
                 {abaAtiva === "dashboard" && (
-                    <div className="empty-state fade-in-container" onClick={(e) => e.stopPropagation()}>
-                        <h2>Seu progresso aparecerá aqui</h2>
+                    <div className="wip-container fade-in-container" onClick={(e) => e.stopPropagation()}>
+                        <h2>Esta pagina esta em desenvolvimento!</h2>
+                        <img src={workInProgress} alt="Cody construtor atopo de placa escrita EM PROGRESSO" />
                     </div>
                 )}
 
@@ -143,10 +140,10 @@ const Dashboard = () => {
                 >
                     <div className="ia-pulse">
 
-                         <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
+                        <img src={iaLogo} alt="IA Assistente" className="ia-icon-img" />
 
                     </div>
-                  
+                
                 </button>
             </div>
         </div> 
