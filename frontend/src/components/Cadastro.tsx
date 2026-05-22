@@ -32,6 +32,11 @@ const Cadastro = () => {
       return;
     }
 
+    if (password.length < 6) {
+      setError("A senha deve ter no mínimo 6 caracteres.");
+      return;
+    }
+
     try {
       setIsLoading(true);
       await authService.register({ name, email, password });
@@ -40,9 +45,19 @@ const Cadastro = () => {
       setTimeout(() => navigate("/"), 2500); 
     } catch (err: any) {
       console.error(err);
+      // ERRO 409, email já registrado
       if (err.response?.status === 409) {
         setError("Este e-mail já está cadastrado.");
-      } else {
+        //ERRO 400, senha fraca, email inválido e etc.
+      }else if (err.response?.status === 400 && err.response?.data?.message) {
+        const backendMessage = Array.isArray(err.response.data.message) 
+          ? err.response.data.message[0] 
+          : err.response.data.message;
+          
+        setError(`Atenção: ${backendMessage}`);
+      } 
+      // Erro genérico
+      else {
         setError("Erro ao criar conta. Tente novamente.");
       }
     } finally {
@@ -125,8 +140,7 @@ const Cadastro = () => {
                 <div className="input-group">
                   <div className="input-wrapper">
                     <svg className="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                      <rect x="2" y="4" width="20" height="16" rx="2" />
-                      <path d="m2 7 10 7 10-7" />
+                      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                     </svg>
                     <input 
                       type={showPassword ? "text" : "password"} 
@@ -155,8 +169,7 @@ const Cadastro = () => {
                 <div className="input-group">
                   <div className="input-wrapper">
                     <svg className="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                      <rect x="2" y="4" width="20" height="16" rx="2" />
-                      <path d="m2 7 10 7 10-7" />
+                      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                     </svg>
                     <input 
                       type={showConfirmPassword ? "text" : "password"} 
@@ -181,19 +194,6 @@ const Cadastro = () => {
                   </div>
                 </div>
 
-                {/* Indicador de força da senha */}
-                {password.length > 0 && (
-                  <div className="password-strength">
-                    <div className="strength-bars">
-                      <span className={`strength-bar ${password.length >= 1 ? "active weak" : ""}`} />
-                      <span className={`strength-bar ${password.length >= 6 ? "active medium" : ""}`} />
-                      <span className={`strength-bar ${password.length >= 10 && /[A-Z]/.test(password) && /[0-9]/.test(password) ? "active strong" : ""}`} />
-                    </div>
-                    <span className="strength-label">
-                      {password.length < 6 ? "Fraca" : password.length < 10 ? "Média" : "Forte"}
-                    </span>
-                  </div>
-                )}
 
                 {/* Exibição de Erros */}
                 {error && <p className="login-error">{error}</p>}
