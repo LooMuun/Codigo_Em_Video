@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import logoCev from "../assets/logo-cev.svg";
@@ -6,6 +7,8 @@ import meshGradient from "../assets/image-mesh-gradient.png";
 import "../styles/App.css";
 
 const Cadastro = () => {
+  const [isLoading, setIsLoading]       = useState(false);
+
   return (
     <div className="auth-page">
       {/* Fundo */}
@@ -68,6 +71,10 @@ const Cadastro = () => {
               <input type="password" placeholder="Confirme a sua senha" required />
             </div>
           </div>
+
+            <button type="submit" className="btn-primary" disabled={isLoading}>
+              {isLoading ? "Cadastrando..." : "Cadastrar"}
+            </button>
 
             <div className="divider">
               <span className="divider-line" />
