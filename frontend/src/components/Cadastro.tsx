@@ -36,9 +36,13 @@ const Register = () => {
       await authService.register({ name, email, password });
       setSuccess(true);
       setTimeout(() => navigate("/login"), 2500);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setError("Erro ao criar conta. Tente novamente.");
+      if (err.response?.status === 409) {
+        setError("Este e-mail já está cadastrado.");
+      } else {
+        setError("Erro ao criar conta. Tente novamente.");
+      }
     } finally {
       setIsLoading(false);
     }

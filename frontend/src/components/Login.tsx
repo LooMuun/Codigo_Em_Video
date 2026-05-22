@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import logoCev from "../assets/logo-cev.svg";
+import meshGradient from "../assets/image-mesh-gradient.png";
 import { authService } from "../services/auth.service";
 
 import "../styles/App.css";
@@ -140,6 +141,7 @@ const Login = () => {
 
         {/* ── LADO DIREITO: gradient + logo ── */}
         <div className="card-right">
+          <img src={meshGradient} alt="" className="card-right-bg" />
           <div className="card-right-content">
             <img src={logoCev} alt="Logo" className="brand-big-logo" />
             <p className="brand-big-name">

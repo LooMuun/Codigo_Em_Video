@@ -11,13 +11,13 @@ function App() {
   return (
     <Router> 
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<Dashboard />} />
 
         <Route path='/cadastro' element={<Cadastro />} /> 
 
         <Route path='/recuperar' element={<Recuperar />} /> 
 
-        <Route path='/dashboard' element={<Dashboard />}></Route>
+        <Route path='/login' element={<Login />}></Route>
 
         <Route path='/chat' element={<Chat isOpen={true} />} />
       </Routes>
