@@ -56,6 +56,7 @@ const Login = () => {
             <Link to="/cadastro" className="tab-item">Cadastrar</Link>
           </div>
 
+          {/* E-mail */}
           <form className="auth-form" onSubmit={handleLogin}>
             <div className="input-group">
               <div className="input-wrapper">
@@ -67,6 +68,7 @@ const Login = () => {
               </div>
             </div>
 
+          {/* Senha */}
             <div className="input-group">
               <div className="input-wrapper">
                 <svg className="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -90,6 +92,7 @@ const Login = () => {
               </div>
             </div>
 
+            {/* Esqueçeu a senha? */}
             <div className="options-row">
               <label className="remember-label">
                 <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
@@ -100,6 +103,7 @@ const Login = () => {
 
             {error && <p className="login-error">{error}</p>}
 
+            {/* Botão de Logar */}
             <button type="submit" className="btn-primary" disabled={isLoading}>
               {isLoading ? "Entrando..." : "Login"}
             </button>
@@ -152,7 +156,7 @@ const Login = () => {
               <span className="brand-highlight">CÓDIGO</span> EM VÍDEO
             </p>
           </div>
-          <p className="card-copyright">© 2025 Código em Vídeo · Todos os direitos reservados</p>
+          <p className="card-copyright">© 2026 Código em Vídeo · Todos os direitos reservados</p>
         </div>
 
       </div>
