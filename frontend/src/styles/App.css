@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
+
+:root {
+  --bg-dark: #0D1117;
+  --accent-blue: #3a6fff;
+  --accent-blue-hover: #2b5be8;
+  --tech-green: #2bf1c0;
+  
+  --bg-input: #f6f6f6;
+  --border-light: #e8e8e4;
+  
+  --radius-card: 24px;
+  --radius-button: 8px;
+  
+  --font-main: 'DM Sans', sans-serif;
+}
+
 *, *::before, *::after {
   margin: 0; padding: 0;
   box-sizing: border-box;
