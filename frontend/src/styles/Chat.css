@@ -1,27 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap');
+
 .fullscreen-chat-container {
     width: 100%;
     height: 100vh;
-    background-color: #0b1315; /* Tom escuro de fundo da sua imagem */
+    background: var(--bg-dark);
     display: flex;
     flex-direction: column;
     position: relative;
     font-family: 'League Spartan', sans-serif;
     overflow: hidden;
+    z-index: 1;
 }
 
 /* ==========================================================================
-   TOPBAR ESTILO GEMINI
+   TOPBAR
    ========================================================================== */
 .chat-topbar {
     width: 100%;
     height: 60px;
-    background-color: #0b1315;
-    border-bottom: 1px solid #1a2729; /* Linha divisória sutil */
+    background-color: rgba(13, 17, 23, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    z-index: 5;
+    z-index: 10;
 }
 
 /* Botão Voltar para Dashboard / Módulos */
@@ -42,8 +46,8 @@
 }
 
 .btn-back-dashboard:hover {
-    color: #2bf1c0; /* Brilha no seu verde neon */
-    background-color: #1a2729;
+    color: var(--tech-green);
+    background-color: rgba(255, 255, 255, 0.03);
 }
 
 .btn-back-dashboard svg {
@@ -51,7 +55,7 @@
 }
 
 .btn-back-dashboard:hover svg {
-    transform: translateX(-3px); /* Pequeno feedback foda de recuo */
+    transform: translateX(-3px);
 }
 
 /* Identidade Centralizada na Topbar */
@@ -64,7 +68,7 @@
     overflow: visible;
 }
 
-/* Mini logo tratada com scale por causa do fundo do SVG */
+/* Mini logo */
 .topbar-logo {
     width: 24px !important;
     height: 24px !important;
@@ -86,13 +90,14 @@
     width: 100px; 
 }
 
-/* ESTADO INICIAL: CENTRALIZADO COM LOGO GRANDE */
+/* ══ ESTADO INICIAL: CENTRALIZADO COM LOGO GRANDE ══ */
 .chat-welcome-box {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: 60px;
+    z-index: 2;
 }
 
 .welcome-center-content {
@@ -101,9 +106,17 @@
     align-items: center;
     text-align: center;
     gap: 32px;
+    animation: welcomeAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Caixa base controlada para a logo gigante da IA */
+.welcome-center-content p {
+    color: #94a3b8 !important;
+    font-size: 16px;
+    margin-top: 8px;
+    opacity: 0.85;
+}
+
+/* Caixa base para a logo gigante da IA */
 .welcome-logo-wrapper {
     width: 100px;
     height: 100px;
@@ -134,7 +147,7 @@
     margin: 0;
 }
 
-/* FLUXO DE CONVERSA E BALÕES */
+/* ══ FLUXO DE CONVERSA E BALÕES ══ */
 .chat-conversation-flow {
     flex: 1;
     overflow-y: auto;
@@ -142,6 +155,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 2;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.05) transparent;
 }
 
 .chat-messages-container {
@@ -168,16 +184,17 @@
 .chat-full-wrapper {
     display: flex;
     max-width: 100%;
+    gap: 16px;
 }
 
 .chat-full-content {
     word-break: break-word;
 }
 
-/* Mensagens do Usuário (Balão Verde Neon) */
+/* Mensagens do Usuário */
 .user-full-row .chat-full-content {
-    background-color: #2bf1c0;
-    color: #0b1315;
+    background-color: var(--tech-green);
+    color: #0d1117;
     font-weight: 500;
     border-radius: 16px;
     border-bottom-right-radius: 4px;
@@ -187,9 +204,10 @@
     font-size: 15px;
     line-height: 1.5;
     white-space: pre-wrap;
+    box-shadow: 0 4px 16px rgba(43, 241, 192, 0.15);
 }
 
-/* Respostas do Cody (Texto Puro Moderno) */
+/* Respostas do Cody */
 .ia-full-row .chat-full-content {
     background-color: transparent;
     color: #e3e7e8;
@@ -204,27 +222,64 @@
     margin: 0;
 }
 
-/* INPUT FOOTER & DROPDOWN MENUS */
+/* INDICADOR DE DIGITANDO */
+.cody-loading-row .chat-full-content {
+    padding: 12px 0;
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background: var(--tech-green);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: blink 1.4s infinite both;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ══ INPUT FOOTER & DROPDOWN MENUS ══ */
 .chat-footer-wrapper {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     padding: 24px 20px 40px 20px;
-    background: linear-gradient(transparent, #0b1315 40%);
+    background: linear-gradient(transparent, #0D1117 40%);
     display: flex;
     justify-content: center;
+    z-index: 5;
 }
 
 .chat-fullscreen-input-form {
     width: 100%;
     max-width: 768px;
-    background-color: #1a2729;
+    background-color: #161b22;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 28px;
     display: flex;
     align-items: center;
     padding: 6px 14px 6px 18px;
     gap: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-fullscreen-input-form:focus-within {
+    border-color: var(--accent-blue);
+    box-shadow: 0 10px 35px rgba(58, 111, 255, 0.12), 0 0 0 1px var(--accent-blue);
 }
 
 .chat-fullscreen-input-form input {
@@ -294,8 +349,8 @@
     transition: transform 0.2s ease;
 }
 
-.dropdown-item:hover { color: #2bf1c0; }
-.dropdown-item:hover svg { color: #2bf1c0; transform: scale(1.05); }
+.dropdown-item:hover { color: var(--tech-green); }
+.dropdown-item:hover svg { color: var(--tech-green); transform: scale(1.05); }
 
 .btn-attach {
     background: none;
@@ -307,8 +362,8 @@
     padding: 0;
 }
 .btn-attach svg { transition: transform 0.2s ease, color 0.2s ease; }
-.btn-attach:hover { color: #2bf1c0; }
-.btn-attach.active svg { transform: rotate(45deg); color: #2bf1c0; }
+.btn-attach:hover { color: var(--tech-green); }
+.btn-attach.active svg { transform: rotate(45deg); color: var(--tech-green); }
 
 .btn-fullscreen-send {
     background: none;
@@ -319,21 +374,14 @@
     align-items: center;
     justify-content: center;
     padding: 8px;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.15s ease;
 }
-.btn-fullscreen-send:hover { color: #2bf1c0; }
-
-/* Animação */
-
-.welcome-center-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 32px;
-    animation: welcomeAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.btn-fullscreen-send:hover { 
+    color: var(--tech-green); 
+    transform: scale(1.05);
 }
 
+/* ══ ANIMAÇÕES COMPLEMENTARES ══ */
 @keyframes ledPulse {
     0% {
         filter: 

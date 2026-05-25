@@ -418,6 +418,11 @@ body {
     }
 }
 
+.dont-invert-logo {
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+
 @keyframes neon-glow-pulse {
     0% { filter: drop-shadow(0 0 8px #2bf1c0); }
     50% { filter: drop-shadow(0 0 18px rgba(43, 241, 192, 0.8)); }
