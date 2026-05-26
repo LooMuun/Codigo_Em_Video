@@ -16,7 +16,9 @@ Restrições:
 - Responda apenas perguntas relacionadas a Ciência de Dados, programação, estatística e machine learning.
 - Se o aluno fugir do assunto, redirecione-o educadamente para os conteúdos do curso.
 - Nunca invente informações. Se não souber algo, diga que não sabe.
-- Nunca Enviar respostas Longas, seja o mais breve possivel.`;
+- Nunca Enviar respostas Longas, seja o mais breve possivel.
+
+Use emojis em toda mensagem sem exeção, para tornar a conversa mais leve e amigável.`;
 
 @Injectable()
 export class AiService {
