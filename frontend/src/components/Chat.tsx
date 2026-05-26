@@ -80,7 +80,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
   return (
     <div className="fullscreen-chat-container courses-dashboard-container">
       
-      {/* Luzes orgânicas de fundo */}
+      {/* Luzes de fundo */}
       <div className="bg-glow-blue" style={{ opacity: 0.15 }}></div>
       <div className="bg-glow-green" style={{ opacity: 0.15 }}></div>
 
@@ -149,8 +149,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
       {/* FOOTER COM O BOTÃO DE + TRAZIDO DE VOLTA */}
       <div className="chat-footer-wrapper">
         <form className="chat-fullscreen-input-form" onSubmit={handleEnviar}>
-          
-          {/* RE-ADICIONADO: Container do botão de anexo (+) e seu Dropdown */}
+
           <div className="attach-button-container">
             <button 
               type="button" 
@@ -158,14 +157,12 @@ const Chat = ({ isOpen = true }: ChatProps) => {
               onClick={() => setIsAttachOpen(!isAttachOpen)}
               disabled={isLoading}
             >
-              {/* Ícone de Mais (+) nativo do design de vocês */}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
             </button>
 
-            {/* Dropdown Menu que herda os estilos do vosso Chat.css */}
             {isAttachOpen && (
               <div className="attach-dropdown-menu">
                 <button type="button" className="dropdown-item">
@@ -186,7 +183,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             disabled={isLoading}
-            onFocus={() => setIsAttachOpen(false)} // Fecha o menu ao clicar no input
+            onFocus={() => setIsAttachOpen(false)}
           />
 
           <button type="submit" className="btn-fullscreen-send" disabled={!inputMessage.trim() || isLoading}>

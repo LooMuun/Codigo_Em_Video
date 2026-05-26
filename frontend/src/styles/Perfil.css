@@ -1,0 +1,305 @@
+/* Container Geral da Página */
+.profile-page-container {
+    background-color: #0D1117;
+    min-height: 100vh;
+    width: 100%;
+    color: #FFFFFF;
+    position: relative;
+    display: block;
+    overflow-y: auto !important;
+    height: 100vh;
+}
+
+.profile-page-container .navbar {
+    /* Ocupa a largura total menos os 16px da barra de scroll apenas nesta página */
+    width: calc(100% - 16px) !important; 
+}
+
+
+/* Wrapper de Conteúdo com o Padding para a Navbar Fixed */
+.profile-content-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 130px 40px 60px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* Card Principal (Avatar + Nome + Bio) */
+.profile-main-card {
+    background: rgba(22, 27, 34, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .profile-main-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Avatar Frame */
+.profile-avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.profile-avatar-frame {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, #2ea043, #3a6fff);
+}
+
+.profile-avatar-frame img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #0d1117;
+}
+
+.profile-level-tag {
+    background: rgba(58, 111, 255, 0.15);
+    color: #58a6ff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid rgba(58, 111, 255, 0.3);
+}
+
+/* Informações de Texto */
+.profile-info-section {
+    flex: 1;
+}
+
+.profile-user-name {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.profile-user-sub {
+    color: #8b949e;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.profile-user-bio {
+    color: #c9d1d9;
+    font-size: 15px;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 24px;
+    max-width: 700px;
+}
+
+/* Botões */
+.btn-profile-edit, .btn-profile-save {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-profile-edit:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-profile-save {
+    background: #238636;
+    border-color: rgba(24, 251, 24, 0.2);
+}
+
+.btn-profile-save:hover {
+    background: #2ea043;
+}
+
+.btn-back-link {
+    background: none;
+    border: none;
+    color: #8b949e;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-back-link:hover {
+    color: #2bf1c0; 
+}
+
+.back-icon-svg {
+    transition: transform 0.2s ease;
+}
+
+.btn-back-link:hover .back-icon-svg {
+    transform: translateX(-3px);
+}
+
+.btn-back-link:hover {
+    color: #2bf1c0;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+}
+/* Inputs de Edição */
+.profile-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-input-edit, .profile-textarea-edit {
+    background: #161b22;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px;
+    color: #fff;
+    font-family: inherit;
+}
+
+/* Grid Secundário (Conquistas + Detalhes) */
+.profile-secondary-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 32px;
+}
+
+@media (max-width: 900px) {
+    .profile-secondary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profile-section-card {
+    background: rgba(22, 27, 34, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 32px;
+}
+
+.profile-section-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.section-subtitle {
+    color: #8b949e;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* Grid de Badges */
+.badges-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    position: relative;
+}
+
+.badge-item.locked {
+    opacity: 0.5;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.badge-icon {
+    font-size: 28px;
+    background: rgba(255, 255, 255, 0.04);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.badge-text h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.badge-text p {
+    color: #8b949e;
+    font-size: 13px;
+}
+
+.lock-indicator {
+    position: absolute;
+    right: 16px;
+    font-size: 14px;
+}
+
+/* Detalhes Acadêmicos */
+.academic-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.academic-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.info-label {
+    color: #8b949e;
+    font-size: 14px;
+}
+
+.info-value {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.info-value-badge {
+    background: rgba(58, 111, 255, 0.1);
+    color: #3a6fff;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.text-green {
+    color: #2ea043;
+    font-weight: 600;
+}
