@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
+
+:root {
+  --bg-dark: #0D1117;
+  --accent-blue: #3a6fff;
+  --accent-blue-hover: #2b5be8;
+  --tech-green: #2bf1c0;
+  
+  --bg-input: #f6f6f6;
+  --border-light: #e8e8e4;
+  
+  --radius-card: 24px;
+  --radius-button: 8px;
+  
+  --font-main: 'DM Sans', sans-serif;
+}
+
 *, *::before, *::after {
   margin: 0; padding: 0;
   box-sizing: border-box;
@@ -236,7 +252,7 @@ body, html, #root {
 .btn-social:hover { background: #f5f5f3; transform: translateY(-1px); }
 .btn-social:active { transform: translateY(0); }
 
-/* ══ LADO DIREITO: gradient animado + logo ══ */
+/* ══ LADO DIREITO: imagem de fundo + logo ══ */
 .card-right {
   flex: 1;
   position: relative;
@@ -244,34 +260,14 @@ body, html, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(ellipse 110% 80% at 110% 10%, #4a7fff 0%, transparent 55%),
-    radial-gradient(ellipse 90%  90% at -10% 90%, #1230cc 0%, transparent 55%),
-    radial-gradient(ellipse 70%  60% at  60% 40%, #1a40e8 0%, transparent 50%),
-    radial-gradient(ellipse 80%  50% at  20% 20%, #2255ff 0%, transparent 55%),
-    #0a1560;
+  background: #0D1117;
 }
 
-.card-right::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 50% 45% at 75% 25%, rgba(130,170,255,0.45) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 55% at 25% 75%, rgba(20,60,200,0.5)    0%, transparent 55%),
-    radial-gradient(ellipse 35% 30% at 50% 55%, rgba(200,220,255,0.15) 0%, transparent 50%);
-  animation: wavePulse 10s ease-in-out infinite alternate;
-}
-
-@keyframes wavePulse {
-  from { transform: scale(1)    translate(0, 0); }
-  to   { transform: scale(1.08) translate(-12px, 10px); }
-}
-
-/* quando a imagem existir, ela sobrepõe o gradient */
 .card-right-bg {
   position: absolute;
-  inset: 0; z-index: 1;
-  width: 100%; height: 100%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
 }
@@ -316,67 +312,4 @@ body, html, #root {
   .login-card { width: calc(100% - 32px); flex-direction: column; height: auto; }
   .card-left  { width: 100%; }
   .card-right { display: none; }
-}
-
-/* ══ CADASTRO: estilos extras ══ */
-
-/* card de cadastro tem mais campos, aumenta a altura */
-.login-card.register {
-  height: auto;
-  max-height: 96vh;
-}
-
-/* indicador de força de senha */
-.password-strength {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: -4px;
-  margin-bottom: 4px;
-}
-
-.strength-bars {
-  display: flex;
-  gap: 4px;
-}
-
-.strength-bar {
-  width: 36px;
-  height: 3px;
-  border-radius: 99px;
-  background: #e0e0dc;
-  transition: background 0.3s;
-}
-
-.strength-bar.active.weak   { background: #e05252; }
-.strength-bar.active.medium { background: #e0a030; }
-.strength-bar.active.strong { background: #25c19F; }
-
-.strength-label {
-  font-size: 10px;
-  color: #aaa;
-  font-weight: 500;
-}
-
-/* tela de sucesso */
-.success-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex: 1;
-  padding: 20px 0;
-}
-
-.success-icon {
-  width: 56px;
-  height: 56px;
-  animation: scaleUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
-}
-
-@keyframes scaleUp {
-  from { transform: scale(0); opacity: 0; }
-  70%  { transform: scale(1.1); }
-  to   { transform: scale(1); opacity: 1; }
 }

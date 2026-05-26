@@ -21,4 +21,13 @@ export const authService = {
     const response = await api.post("/auth/register", payload);
     return response.data;
   },
+
+  async register(payload: RegisterPayload) {
+    const response = await api.post(
+      "/auth/register",
+      payload
+    );
+
+    return response.data;
+  },
 };
