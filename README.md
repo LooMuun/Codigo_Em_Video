@@ -14,7 +14,7 @@ Plataforma de ensino desenvolvida e gerenciada por alunos da Unifor.
 ### Front:
 ```bash
 cd frontend/
-npm i (somente na primeira vez)
+npm install --legacy-peer-deps (somente na primeira vez)
 npm run dev
 ```
 ### Back:
