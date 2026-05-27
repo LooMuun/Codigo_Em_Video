@@ -6,7 +6,7 @@ Plataforma de ensino desenvolvida e gerenciada por alunos da Unifor.
 	Henrique de Carvalho Freire
 	Antonio Velton Sousa Monteiro
 	João Paulo Muniz Mesquita
-	Laura Soares da Silvza Santos
+	Laura Soares da Silva Santos
 	Luiz Gustavo Lemos Cunha
 
 ## Como rodar:
