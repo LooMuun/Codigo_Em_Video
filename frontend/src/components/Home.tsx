@@ -67,12 +67,12 @@ const Dashboard = () => {
         await new Promise((resolve) => setTimeout(resolve, 300));
         setDadosEvolucao([
           { dia: "Seg", minutos: 30 },
-          { dia: "Ter", minutos: 45 },
-          { dia: "Qua", minutos: 90 },
-          { dia: "Qui", minutos: 20 },
-          { dia: "Sex", minutos: 60 },
-          { dia: "Sáb", minutos: 15 },
-          { dia: "Dom", minutos: 40 },
+          { dia: "Ter", minutes: 45 },
+          { dia: "Qua", minutes: 90 },
+          { dia: "Qui", minutes: 20 },
+          { dia: "Sex", minutes: 60 },
+          { dia: "Sáb", minutes: 15 },
+          { dia: "Dom", minutes: 40 },
         ]);
 
         setMetricas({
@@ -286,7 +286,7 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {/* Detalhes do Módulo */}
+            {/* Detalhes do Módulo (Ementa Intermediária) */}
             {moduloAtivo !== null && (
               <div
                 className="module-details-info-card fade-in-container"
@@ -304,11 +304,16 @@ const Dashboard = () => {
                 </div>
                 <div className="details-actions-list">
                   <ul>
-                    <li>
+                    {/* Botão de Aulas configurado com redirecionamento dinâmico */}
+                    <li 
+                      onClick={() => navigate(`/modulo/${moduloAtivo}/aulas`)}
+                      style={{ cursor: "pointer" }}
+                      className="clickable-detail-item"
+                    >
                       <img src={iconAulas} alt="" className="detail-li-icon" />
                       <span>Aulas</span>
                     </li>
-                    <li>
+                    <li className="disabled-detail-item">
                       <img
                         src={iconMateriais}
                         alt=""
@@ -316,7 +321,7 @@ const Dashboard = () => {
                       />
                       <span>Materiais</span>
                     </li>
-                    <li>
+                    <li className="disabled-detail-item">
                       <img
                         src={iconAvaliacao}
                         alt=""

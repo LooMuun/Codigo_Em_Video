@@ -23,8 +23,10 @@
 }
 
 body, html, #root {
-  width: 100%; height: 100%;
-  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ══ PÁGINA: fundo escuro com shapes originais ══ */
@@ -312,4 +314,147 @@ body, html, #root {
   .login-card { width: calc(100% - 32px); flex-direction: column; height: auto; }
   .card-left  { width: 100%; }
   .card-right { display: none; }
+}
+
+
+
+/* Card de Aula Padrão (Fundo escuro discreto) */
+.lesson-card-item {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  
+  /* 🌟 Controla a suavidade da animação ao entrar e sair com o rato */
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🔥 Animaçãozinha ao passar o rato (Hover) */
+.lesson-card-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(58, 111, 255, 0.35); /* Borda azul sutil */
+  transform: translateX(6px);              /* Faz o card deslizar elegantemente para a direita */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Card da Aula que está Ativa/Selecionada no momento */
+.lesson-card-item.active-lesson {
+  background-color: rgba(58, 111, 255, 0.12) !important;
+  border-color: #3a6fff !important;
+  transform: translateX(4px); /* Mantém-se ligeiramente deslocado */
+}
+
+/* Elementos internos do Card */
+.lesson-badge {
+  font-size: 0.8rem;
+  color: #3a6fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.lesson-title {
+  font-weight: 500;
+  color: #ffffff;
+  margin: 4px 0 6px 0;
+}
+
+.lesson-duration {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Card de Aula Padrão */
+.lesson-card-item {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Animação Hover */
+.lesson-card-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(58, 111, 255, 0.35);
+  transform: translateX(6px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Selecionado */
+.lesson-card-item.active-lesson {
+  background-color: rgba(58, 111, 255, 0.12) !important;
+  border-color: #3a6fff !important;
+  transform: translateX(4px);
+}
+
+/* Elementos do Card */
+.lesson-badge {
+  font-size: 0.75rem;
+  color: #3a6fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.lesson-title {
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin: 4px 0;
+}
+
+.lesson-duration {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* 🌟 Estilização da listinha interna embutida (Pequena e elegante) */
+.lesson-embedded-contents {
+  margin-top: 10px;
+  animation: slideDown 0.2s ease-out; /* Animação suave de abertura */
+}
+
+.embedded-divider {
+  height: 1px;
+  background-color: rgba(58, 111, 255, 0.2);
+  margin-bottom: 8px;
+}
+
+.lesson-embedded-contents ul {
+  padding-left: 14px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lesson-embedded-contents ul li {
+  font-size: 0.8rem; /* Letra menor para ficar discreto */
+  color: #d1d5db;
+  line-height: 1.3;
+  list-style-type: circle;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.embedded-section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
