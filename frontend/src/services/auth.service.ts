@@ -1,4 +1,5 @@
 import { api } from "./api";
+import { supabase } from "../lib/supabase";
 
 interface LoginPayload {
   email: string;
@@ -22,12 +23,11 @@ export const authService = {
     return response.data;
   },
 
-  async register(payload: RegisterPayload) {
-    const response = await api.post(
-      "/auth/register",
-      payload
-    );
+  async signInWithProvider(provider: "github" | "google") {
+    return supabase.auth.signInWithOAuth({ provider });
+  },
 
-    return response.data;
+  async signOut() {
+    return supabase.auth.signOut();
   },
 };

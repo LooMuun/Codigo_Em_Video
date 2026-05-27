@@ -405,3 +405,47 @@
         transform: translateY(0);
     }
 }
+
+/* Estilos para o bloco de código com botão copiar */
+.code-block-container {
+    position: relative;
+    margin: 1em 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #282c34;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.code-language {
+    color: #abb2bf;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: 'League Spartan', sans-serif;
+}
+
+.btn-copy-code {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'League Spartan', sans-serif;
+}
+
+.btn-copy-code:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--tech-green);
+}

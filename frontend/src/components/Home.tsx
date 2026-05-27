@@ -20,11 +20,20 @@ import thumb2 from "../assets/thumb2.png";
 import thumb3 from "../assets/thumb3.png";
 import thumb4 from "../assets/thumb4.png";
 import "../styles/Home.css";
+import { supabase } from "../lib/supabase";
+
+interface UserData {
+  id: string;
+  email: string;
+  avatar_url: string | null;
+  user_metadata: any;
+}
 
 const Dashboard = () => {
   const [abaAtiva, setAbaAtiva] = useState("cursos");
   const [moduloAtivo, setModuloAtivo] = useState<number | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const navigate = useNavigate();
 
   /* ══ ESTADOS DINÂMICOS (SEM DADOS CHUMBADOS NO CÓDIGO) ══ */
@@ -41,6 +50,18 @@ const Dashboard = () => {
     3: thumb3,
     4: thumb4,
   };
+
+  /* ══ CARREGAR DADOS DO USUÁRIO DO LOCALSTORAGE ══ */
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      try {
+        setUserData(JSON.parse(user));
+      } catch (e) {
+        console.error("Erro ao parsear usuário", e);
+      }
+    }
+  }, []);
 
   const conteudoModulos = {
     1: "Neste módulo introdutório, você explorará os fundamentos da Ciência de Dados e as etapas essenciais de um projeto na área, mergulhando na sintaxe da linguagem Python para dominar desde tipos básicos, variáveis e operadores até estruturas de controle de fluxo condicionais e de repetição. O conteúdo avança para a organização técnica de informações através de estruturas de dados fundamentais como listas, tuplas, conjuntos e dicionários, além de ensinar a definição e o uso de funções para a criação de códigos modulares e eficientes.",
@@ -62,30 +83,50 @@ const Dashboard = () => {
   }, [isSidebarOpen]);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        setDadosEvolucao([
-          { dia: "Seg", minutos: 30 },
-          { dia: "Ter", minutos: 45 },
-          { dia: "Qua", minutos: 90 },
-          { dia: "Qui", minutos: 20 },
-          { dia: "Sex", minutos: 60 },
-          { dia: "Sáb", minutos: 15 },
-          { dia: "Dom", minutos: 40 },
-        ]);
+    const loadUser = async () => {
+      // Tenta pegar a sessão ativa do Supabase
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-        setMetricas({
-          ofensiva: 5,
-          horasEstudo: 4.7,
-          progressoGeral: 68,
+      if (session?.user) {
+        setUserData({
+          id: session.user.id,
+          email: session.user.email ?? "",
+          avatar_url: session.user.user_metadata?.avatar_url ?? null,
+          user_metadata: session.user.user_metadata,
         });
-      } catch (error) {
-        console.error("Erro ao buscar dados do mock da API:", error);
+        return;
+      }
+
+      // Fallback: tenta localStorage (login tradicional)
+      const stored = localStorage.getItem("user");
+      if (stored) {
+        try {
+          setUserData(JSON.parse(stored));
+        } catch (e) {
+          console.error("Erro ao parsear usuário", e);
+        }
       }
     };
 
-    fetchDashboardData();
+    loadUser();
+
+    // Escuta mudanças de sessão em tempo real
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUserData({
+          id: session.user.id,
+          email: session.user.email ?? "",
+          avatar_url: session.user.user_metadata?.avatar_url ?? null,
+          user_metadata: session.user.user_metadata,
+        });
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
@@ -127,7 +168,13 @@ const Dashboard = () => {
             setIsSidebarOpen(!isSidebarOpen);
           }}
         >
-          <img src={iconAvatar} alt="Perfil" />
+          <img
+            src={userData?.avatar_url || iconAvatar}
+            alt="Perfil"
+            onError={(e) => {
+              e.currentTarget.src = iconAvatar;
+            }}
+          />
         </div>
       </nav>
 
@@ -138,10 +185,21 @@ const Dashboard = () => {
       >
         <div className="sidebar-profile-header">
           <div className="sidebar-avatar-wrapper">
-            <img src={iconAvatar} alt="Avatar do Usuário" />
+            <img
+              src={userData?.avatar_url || iconAvatar}
+              alt="Avatar do Usuário"
+              onError={(e) => {
+                e.currentTarget.src = iconAvatar;
+              }}
+            />
           </div>
-          <h3>João Paulo</h3>
-          <p className="sidebar-student-sub"></p>
+          <h3>
+            {userData?.user_metadata?.full_name ||
+              userData?.user_metadata?.name ||
+              userData?.email?.split("@")[0] ||
+              "Usuário"}
+          </h3>
+          <p className="sidebar-student-sub">{userData?.email}</p>
           <span className="sidebar-level-badge">Nível 1</span>
         </div>
 

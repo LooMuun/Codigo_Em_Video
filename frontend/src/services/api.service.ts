@@ -1,16 +1,27 @@
-import { api } from "./api";
+import axios from "axios";
+import { supabase } from "../lib/supabase";
 
-interface ChatPayload {
-  message: string;
-}
+const api = axios.create({
+  baseURL: "http://localhost:3000",
+});
+
+api.interceptors.request.use(async (config) => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session?.access_token) {
+    config.headers.Authorization = `Bearer ${session.access_token}`;
+  }
+
+  return config;
+});
 
 export const aiService = {
-  async chat(payload: ChatPayload) {
-    const response = await api.post(
-      "/ai/chat",
-      payload
-    );
-
+  chat: async (data: { message: string }) => {
+    const response = await api.post("/ai/chat", data);
     return response.data;
   },
 };
+
+export default api;
