@@ -20,8 +20,8 @@ REGRAS:
 - Seja breve e direto.
 - Explique códigos passo a passo.
 - Nunca invente informações.
-- Use emojis.
 - Quando enviar código, envie completo.
+- Se não souber a resposta, admita que não sabe.
 `;
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import iaLogo from "../assets/ia-cev.svg";
+import iaLogo from "../assets/cody-big.png";
 import MessageRenderer from "../components/MessageRenderer";
 import api, { aiService } from "../services/api.service";
 import "../styles/Chat.css";
@@ -35,7 +35,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
 
   if (!isOpen) return null;
 
-  const handleVoltar = () => navigate("/");
+  const handleVoltar = () => navigate("/dashboard");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
@@ -138,7 +138,6 @@ const Chat = ({ isOpen = true }: ChatProps) => {
         </button>
 
         <div className="topbar-brand">
-          <img src={iaLogo} alt="Cody Logo" className="topbar-logo" />
           <span className="topbar-title">
             Cody <span className="ia-badge">IA</span>
           </span>
@@ -182,7 +181,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
               <div className="chat-full-row ia-full-row cody-loading-row">
                 <div className="chat-full-wrapper">
                   <div className="chat-full-content">
-                    <div className="typing-indicator">
+                    <div className="cody-pensante">
                       <span></span>
                       <span></span>
                       <span></span>

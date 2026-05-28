@@ -127,8 +127,8 @@
 }
 
 .welcome-center-logo {
-    width: 100% !important;
-    height: 100% !important;
+    width: 20% !important;
+    height: 20% !important;
     object-fit: contain;
     overflow: visible !important;
     transform: scale(6.5) translateY(2px) !important;
@@ -530,4 +530,25 @@
 .btn-copy-code:hover {
     background: rgba(255, 255, 255, 0.2);
     color: var(--tech-green);
+}
+
+/* Animação do Cody pensando */
+.cody-pensante {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background-image: url('../assets/cody-loading.png');
+    background-repeat: no-repeat;
+
+    image-rendering: pixelated;
+    animation: animacaoCody 1s steps(8) infinite;
+}
+
+@keyframes animacaoCody {
+    from { 
+        background-position: 0px 0px; 
+    }
+    to { 
+            background-position: -512px 0px; 
+        }
 }
