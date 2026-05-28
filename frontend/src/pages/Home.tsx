@@ -362,8 +362,8 @@ const Dashboard = () => {
                 </div>
                 <div className="details-actions-list">
                   <ul>
-                    {/* Botão de Aulas configurado com redirecionamento dinâmico */}
-                    <li 
+                    {/* Botão de Aulas */}
+                    <li
                       onClick={() => navigate(`/modulo/${moduloAtivo}/aulas`)}
                       style={{ cursor: "pointer" }}
                       className="clickable-detail-item"
@@ -371,7 +371,15 @@ const Dashboard = () => {
                       <img src={iconAulas} alt="" className="detail-li-icon" />
                       <span>Aulas</span>
                     </li>
-                    <li className="disabled-detail-item">
+
+                    {/* Botão de Materiais — ATIVADO E CONFIGURADO O REDIRECIONAMENTO */}
+                    <li
+                      onClick={() =>
+                        navigate(`/modulo/${moduloAtivo}/materiais`)
+                      }
+                      style={{ cursor: "pointer" }}
+                      className="clickable-detail-item"
+                    >
                       <img
                         src={iconMateriais}
                         alt=""
@@ -379,7 +387,15 @@ const Dashboard = () => {
                       />
                       <span>Materiais</span>
                     </li>
-                    <li className="disabled-detail-item">
+
+                    {/* Botão de Avaliação — DEIXADO PRONTO COMO CLICKABLE PARA A PRÓXIMA TELA */}
+                    <li
+                      onClick={() =>
+                        navigate(`/modulo/${moduloAtivo}/avaliacao`)
+                      }
+                      style={{ cursor: "pointer" }}
+                      className="clickable-detail-item"
+                    >
                       <img
                         src={iconAvaliacao}
                         alt=""

@@ -1,0 +1,248 @@
+.evaluation-page-container {
+    background-color: #060913;
+    background-image: 
+      radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(0, 112, 243, 0.02) 0%, transparent 50%);
+    min-height: 100vh;
+    padding: 32px 40px;
+    color: #ffffff;
+    box-sizing: border-box;
+    font-family: 'League Spartan', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.evaluation-header {
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 24px;
+}
+
+.evaluation-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+}
+
+.evaluation-subtitle {
+    color: #9ca3af;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Card Principal da Caixa de Avaliação */
+.evaluation-card-box {
+    background-color: #0b1120;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    margin: 40px auto; 
+}
+.evaluation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.evaluation-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.section-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e3e7e8;
+}
+
+/* Container das Estrelas */
+.stars-rating-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    color: #64797c;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.star-btn:hover {
+    transform: scale(1.15);
+}
+
+/* Estrela ativa acende no Verde Tech solicitado */
+.star-btn.active-star {
+    color: #2bf1c0;
+    filter: drop-shadow(0 0 8px rgba(43, 241, 192, 0.3));
+}
+
+.rating-feedback-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2bf1c0;
+    animation: quizFadeIn 0.2s ease-out;
+}
+
+/* Campo de Texto para Feedback */
+.evaluation-textarea {
+    width: 100%;
+    min-height: 120px;
+    background-color: #060913;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.evaluation-textarea:focus {
+    border-color: #3a6fff;
+}
+
+.char-count {
+    font-size: 12px;
+    color: #64797c;
+    text-align: right;
+    margin-top: -4px;
+}
+
+/* Botão de Envio Pílula */
+.evaluation-submit-btn {
+    width: fit-content;
+    padding: 12px 32px;
+    border-radius: 24px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+
+.evaluation-submit-btn:disabled {
+    background: #1f2937;
+    color: #64797c;
+    cursor: not-allowed;
+}
+
+.evaluation-submit-btn:not(:disabled) {
+    background: #2bf1c0;
+    color: #0d1117;
+    box-shadow: 0 4px 14px rgba(43, 241, 192, 0.2);
+}
+
+.evaluation-submit-btn:not(:disabled):hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(43, 241, 192, 0.4);
+}
+
+/* Tela de Sucesso */
+.evaluation-success-box {
+    text-align: center;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    animation: quizFadeIn 0.3s ease-out;
+}
+
+.success-icon-wrapper {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: rgba(43, 241, 192, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(43, 241, 192, 0.2);
+    margin-bottom: 8px;
+}
+
+.evaluation-success-box h2 {
+    font-size: 24px;
+    margin: 0;
+    color: #ffffff;
+}
+
+.evaluation-success-box p {
+    font-size: 15px;
+    color: #94a3b8;
+    line-height: 1.5;
+    max-width: 420px;
+    margin: 0 0 12px 0;
+}
+
+.btn-success-back {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.btn-success-back:hover {
+    background-color: #2bf1c0;
+    border-color: #2bf1c0;
+    color: #0d1117;
+}
+
+/* Reutilização do botão voltar do chat */
+.btn-back-dashboard {
+    background: none;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64797c;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+
+.btn-back-dashboard:hover {
+    color: #2bf1c0; /* Acende exatamente no verde tech */
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.btn-back-dashboard svg {
+    transition: transform 0.2s ease;
+}
+
+.btn-back-dashboard:hover svg {
+    transform: translateX(-3px);
+}
+
+@keyframes quizFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
