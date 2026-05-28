@@ -2,6 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2023",
+    "types": ["node", "multer"],
+    "esModuleInterop": true,
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {

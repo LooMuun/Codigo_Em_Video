@@ -1,121 +1,219 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
+
 import { PrismaService } from '../prisma/prisma.service';
 import { ChatDto } from './dto/chat.dto';
 import { JwtPayload } from '../auth/interface/jwt-payload.interface';
+
 import Groq from 'groq-sdk';
 
-const BASE_SYSTEM_PROMPT = `Você é um tutor educacional inteligente Chamado "Cody" da plataforma "Código em Vídeo", especializada no curso de Ciência de Dados.
+const pdfParse = require('pdf-parse');
 
-Responsabilidades:
-- Ajudar os alunos a entenderem os conteúdos do curso de forma clara, didática e amigável.
-- Responder sempre em português brasileiro.
-- Ser objetivo: respostas curtas, bem estruturadas e fáceis de ler, sem perder a completude.
-- Usar exemplos práticos sempre que possível.
+const BASE_SYSTEM_PROMPT = `
+Você é um tutor educacional inteligente chamado Cody.
 
-Restrições:
-- Responda apenas perguntas relacionadas a Ciência de Dados, programação, estatística e machine learning.
-- Se o aluno fugir do assunto, redirecione-o educadamente para os conteúdos do curso.
-- Nunca invente informações. Se não souber algo, diga que não sabe.
-- Nunca Enviar respostas Longas, seja o mais breve possivel.
-
-Use emojis em toda mensagem sem exeção, para tornar a conversa mais leve e amigável.`;
+REGRAS:
+- Responda sempre em português brasileiro.
+- Seja breve e direto.
+- Explique códigos passo a passo.
+- Nunca invente informações.
+- Use emojis.
+- Quando enviar código, envie completo.
+`;
 
 @Injectable()
 export class AiService {
   private groq: Groq;
 
   constructor(private prisma: PrismaService) {
-    this.groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-  }
- 
-  private async buildStudentContext(userId: string): Promise<string> {
-    
-    const [progress, wrongAnswers] = await Promise.all([
-      this.prisma.progress.findMany({
-        where: { userId, completed: true },
-        include: { classroom: true },
-      }),
-      this.prisma.quizAnswer.findMany({
-        where: { userId, isCorrect: false },
-        include: {
-          question: {
-            include: { classroom: { include: { module: true } } },
-          },
-        },
-      }),
-    ]);
-
-    let context = '';
-
-    if (progress.length > 0) {
-      const titles = progress.map((p) => p.classroom.title).join(', ');
-      context += `\n\nAulas concluídas pelo aluno: ${titles}.`;
-    }
-
-    if (wrongAnswers.length > 0) {
-      const weakTopics = [
-        ...new Set(
-          wrongAnswers.map(
-            (a) => `${a.question.classroom.module.title} - ${a.question.classroom.title}`,
-          ),
-        ),
-      ].join(', ');
-      context += `\n\nTópicos com dificuldade (errou questões): ${weakTopics}. Reforce esses temas quando relevante.`;
-    }
-
-    return context;
-  }
-
-  private async buildContentContext(dto: ChatDto): Promise<string> {
-    if (!dto.context) return '';
-
-    if (dto.context.type === 'module') {
-      const module = await this.prisma.module.findUnique({
-        where: { id: dto.context.id },
-        include: { classrooms: true },
-      });
-      if (!module) throw new NotFoundException('Módulo não encontrado');
-
-      const aulas = module.classrooms.map((c) => c.title).join(', ');
-      return `\n\nO aluno está no módulo "${module.title}": ${module.description}. Aulas: ${aulas}. Priorize o conteúdo deste módulo.`;
-    }
-
-    if (dto.context.type === 'classroom') {
-      const classroom = await this.prisma.classroom.findUnique({
-        where: { id: dto.context.id },
-        include: { module: true },
-      });
-      if (!classroom) throw new NotFoundException('Aula não encontrada');
-
-      return `\n\nO aluno está na aula "${classroom.title}" do módulo "${classroom.module.title}": ${classroom.description}. Priorize o conteúdo desta aula.`;
-    }
-
-    return '';
-  }
-
-  async chat(dto: ChatDto, currentUser: JwtPayload) {
-    const [studentContext, contentContext] = await Promise.all([
-      this.buildStudentContext(currentUser.sub),
-      this.buildContentContext(dto),
-    ]);
-
-    const systemPrompt = BASE_SYSTEM_PROMPT + studentContext + contentContext;
-
-    const history = (dto.history ?? []).map((msg) => ({
-      role: msg.role as 'user' | 'assistant',
-      content: msg.content,
-    }));
-
-    const completion = await this.groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
-      max_tokens: 1024,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...history,
-        { role: 'user', content: dto.message },
-      ],
+    this.groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
     });
+  }
 
-    return { response: completion.choices[0].message.content };
+  // =========================================
+  // CHAT NORMAL
+  // =========================================
+  async chat(dto: ChatDto, user: JwtPayload) {
+    try {
+      if (!dto.message?.trim()) {
+        throw new BadRequestException('Mensagem obrigatória');
+      }
+
+      const messages: any[] = [
+        {
+          role: 'system',
+          content: BASE_SYSTEM_PROMPT,
+        },
+      ];
+
+      if (dto.history?.length) {
+        for (const msg of dto.history) {
+          if (!msg?.content) continue;
+
+          messages.push({
+            role: msg.role === 'model' ? 'assistant' : 'user',
+            content: String(msg.content),
+          });
+        }
+      }
+
+      messages.push({
+        role: 'user',
+        content: dto.message,
+      });
+
+      const completion = await this.groq.chat.completions.create({
+        model: process.env.GROQ_TEXT_MODEL || 'llama-3.3-70b-versatile',
+        temperature: 0.7,
+        max_tokens: 4096,
+        messages,
+      });
+
+      const answer =
+        completion.choices?.[0]?.message?.content ||
+        'Não foi possível gerar resposta';
+
+      return {
+        success: true,
+        response: answer,
+      };
+    } catch (error: any) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        error?.message || 'Erro ao processar IA',
+      );
+    }
+  }
+
+  // =========================================
+  // CHAT COM ARQUIVO (APENAS DOCUMENTOS)
+  // =========================================
+  async chatWithFile(dto: ChatDto, file: any, user: JwtPayload) {
+    try {
+      if (!file) {
+        throw new BadRequestException('Arquivo obrigatório');
+      }
+
+      if (!dto.message?.trim()) {
+        throw new BadRequestException('Mensagem obrigatória');
+      }
+
+      // Bloqueio explícito de imagens
+      if (file.mimetype.startsWith('image/')) {
+        throw new BadRequestException(
+          'O sistema não suporta análise de imagens. Envie apenas arquivos de texto ou PDF.',
+        );
+      }
+
+      let extractedText = '';
+      const fileNameLower = file.originalname.toLowerCase();
+
+      // =========================================
+      // PDF
+      // =========================================
+      if (file.mimetype === 'application/pdf' || fileNameLower.endsWith('.pdf')) {
+        try {
+          const parsed = await pdfParse(file.buffer);
+          extractedText = parsed.text || '';
+        } catch (pdfError) {
+          console.error('Erro PDF:', pdfError);
+          throw new BadRequestException(
+            'Esse PDF está corrompido ou não é suportado',
+          );
+        }
+      }
+      // =========================================
+      // TEXTO E CÓDIGOS
+      // =========================================
+      else if (
+        file.mimetype === 'text/plain' ||
+        file.mimetype === 'application/json' ||
+        file.mimetype === 'text/csv' ||
+        fileNameLower.endsWith('.txt') ||
+        fileNameLower.endsWith('.json') ||
+        fileNameLower.endsWith('.csv') ||
+        fileNameLower.endsWith('.ts') ||
+        fileNameLower.endsWith('.js') ||
+        fileNameLower.endsWith('.tsx') ||
+        fileNameLower.endsWith('.jsx') ||
+        fileNameLower.endsWith('.html') ||
+        fileNameLower.endsWith('.css') ||
+        fileNameLower.endsWith('.py') ||
+        fileNameLower.endsWith('.java') ||
+        fileNameLower.endsWith('.cpp')
+      ) {
+        extractedText = file.buffer.toString('utf-8');
+      }
+      // =========================================
+      // NÃO SUPORTADO
+      // =========================================
+      else {
+        throw new BadRequestException(
+          `Tipo de arquivo não suportado: ${file.mimetype}`,
+        );
+      }
+
+      if (!extractedText.trim()) {
+        throw new BadRequestException('Não foi possível ler o conteúdo do arquivo');
+      }
+
+      const messages: any[] = [
+        {
+          role: 'system',
+          content: BASE_SYSTEM_PROMPT,
+        },
+      ];
+
+      if (dto.history?.length) {
+        for (const msg of dto.history) {
+          if (!msg?.content) continue;
+          messages.push({
+            role: msg.role === 'model' ? 'assistant' : 'user',
+            content: String(msg.content),
+          });
+        }
+      }
+
+      messages.push({
+        role: 'user',
+        content: `
+Pergunta do usuário:
+${dto.message}
+
+Nome do arquivo:
+${file.originalname}
+
+Conteúdo do arquivo:
+${extractedText.substring(0, 15000)}
+`,
+      });
+
+      const completion = await this.groq.chat.completions.create({
+        model: process.env.GROQ_TEXT_MODEL || 'llama-3.3-70b-versatile',
+        temperature: 0.7,
+        max_tokens: 4096,
+        messages,
+      });
+
+      const answer =
+        completion.choices?.[0]?.message?.content ||
+        'Não foi possível gerar resposta';
+
+      return {
+        success: true,
+        filename: file.originalname,
+        type: 'document',
+        response: answer,
+      };
+    } catch (error: any) {
+      console.error(error);
+      throw new InternalServerErrorException(
+        error?.message || 'Erro ao processar arquivo',
+      );
+    }
   }
 }

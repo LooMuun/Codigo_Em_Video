@@ -22,7 +22,7 @@ import { QuizAnswerModule } from './quiz-answer/quiz-answer.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
+        secret: configService.get<string>('SUPABASE_JWT_SECRET'),
         signOptions: { expiresIn: '7d' },
       }),
       global: true,
