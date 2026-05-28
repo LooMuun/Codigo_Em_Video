@@ -36,7 +36,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const navigate = useNavigate();
 
-  /* ══ ESTADOS DINÂMICOS (SEM DADOS CHUMBADOS NO CÓDIGO) ══ */
+  /* ESTADOS DINÂMICOS */
   const [dadosEvolucao, setDadosEvolucao] = useState<any[]>([]);
   const [metricas, setMetricas] = useState({
     ofensiva: 0,
@@ -51,7 +51,7 @@ const Dashboard = () => {
     4: thumb4,
   };
 
-  /* ══ CARREGAR DADOS DO USUÁRIO DO LOCALSTORAGE ══ */
+  /* CARREGAR DADOS DO USUÁRIO DO LOCALSTORAGE */
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
@@ -70,7 +70,7 @@ const Dashboard = () => {
     4: "Este módulo final foca na comunicação visual de insights, ensinando como transformar análises complexas em gráficos claros, intuitivos e visualmente atraentes através das principais bibliotecas do Python, como Matplotlib e Seaborn. Você aprenderá a selecionar a visualização ideal para cada tipo de dado — desde séries temporais até distributions de frequências e correlações — dominando técnicas de customização de cores, eixos e legendas para criar dashboards que contam histórias de forma eficiente. O objetivo é capacitar você a traduzir resultados técnicos em representações visuais poderosas, garantindo que as discoveries da ciência de dados sejam compreendidas por qualquer público e facilitem a tomada de decisão estratégica.",
   };
 
-  /* ══ SIMULAÇÃO DE CONSULTO DE API (CONGELAMENTO DE SCROLL + CARGA DE DADOS) ══ */
+  /* SIMULAÇÃO DE CONSULTO DE API */
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -115,7 +115,7 @@ const Dashboard = () => {
     // Escuta mudanças de sessão em tempo real
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       if (session?.user) {
         setUserData({
           id: session.user.id,
