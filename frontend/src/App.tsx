@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Cadastro from './components/Cadastro';
+import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
 import Recuperar from './components/Recuperar';
-import Dashboard from './components/Home'; // Sua Home/Dashboard original
-import Chat from './components/Chat';
-import Perfil from "./components/Perfil";
-import Aulas from './components/Aulas'; // Sua tela de player de vídeo
-import Configuracoes from "./components/Configuracoes";
+import Dashboard from './pages/Home'; // Sua Home/Dashboard original
+import Chat from './pages/Chat';
+import Perfil from "./pages/Perfil";
+import Aulas from './pages/Aulas'; // Sua tela de player de vídeo
+import Configuracoes from "./pages/Configuracoes";
 import './styles/App.css';
 
 export default function App() {
