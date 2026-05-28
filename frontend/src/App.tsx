@@ -1,35 +1,30 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Cadastro from './components/Cadastro';
+import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
 import Recuperar from './components/Recuperar';
-import Dashboard from './components/Home';
-import Chat from './components/Chat';
-import Perfil from "./components/Perfil";
-import Configuracoes from "./components/Configuracoes";
+import Dashboard from './pages/Home';
+import Chat from './pages/Chat';
+import Perfil from "./pages/Perfil";
+import Aulas from './pages/Aulas';
+import Configuracoes from "./pages/Configuracoes";
 import './styles/App.css';
 
-
-function App() {
+export default function App() {
   return (
-    <Router> 
-      <Routes>
-        <Route path='/' element={<Dashboard />} />
-
-        <Route path='/cadastro' element={<Cadastro />} /> 
-
-        <Route path='/recuperar' element={<Recuperar />} /> 
-
-        <Route path='/login' element={<Login />}></Route>
-
-        <Route path='/chat' element={<Chat isOpen={true} />} />
-
-        <Route path="/perfil" element={<Perfil />} />
-
-        <Route path="/configuracoes" element={<Configuracoes />} />
-
-      </Routes>
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/recuperar" element={<Recuperar />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/home" element={<Dashboard />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/modulo/:moduloId/aulas" element={<Aulas />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
-
-export default App

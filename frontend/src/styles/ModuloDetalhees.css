@@ -1,0 +1,106 @@
+.modulo-detalhes-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #060913;
+  min-height: 80vh;
+  box-sizing: border-box;
+}
+
+.modulo-detalhes-card {
+  display: grid;
+  grid-template-columns: 1fr 2px 280px;
+  background-color: #0b1120;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  max-width: 1100px;
+  width: 100%;
+  padding: 48px;
+  gap: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 850px) {
+  .modulo-detalhes-card {
+    grid-template-columns: 1fr;
+  }
+  .modulo-vertical-divider {
+    display: none;
+  }
+}
+
+/* Área de Descrição */
+.modulo-info-section {
+  display: flex;
+  align-items: center;
+}
+
+.modulo-text-description {
+  color: #9ca3af;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Divisor Vertical */
+.modulo-vertical-divider {
+  background: rgba(255, 255, 255, 0.05);
+  height: 100%;
+  width: 100%;
+}
+
+/* Menu de Ações à Direita */
+.modulo-menu-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.modulo-menu-item {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.modulo-menu-item .menu-icon {
+  font-size: 1.35rem;
+  color: #9ca3af;
+  transition: color 0.2s ease;
+}
+
+.modulo-menu-item .menu-text {
+  color: #e5e7eb;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Efeito de Hover na opção ativa de Aulas */
+.modulo-menu-item:not(.disabled):hover {
+  background-color: rgba(0, 240, 255, 0.04);
+}
+
+.modulo-menu-item:not(.disabled):hover .menu-icon {
+  color: #00f0ff;
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.5));
+}
+
+.modulo-menu-item:not(.disabled):hover .menu-text {
+  color: #ffffff;
+}
+
+/* Estilo para opções ainda não implementadas */
+.modulo-menu-item.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

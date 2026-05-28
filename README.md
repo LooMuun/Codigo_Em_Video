@@ -22,6 +22,6 @@ npm run dev
 cd backend/
 npm i (somente na primeira vez)
 # Crie seu .env baseado no .env.example
-npx generate prisma (somente na primeira vez)
+npx prisma generate (somente na primeira vez)
 npm start dev
 ```

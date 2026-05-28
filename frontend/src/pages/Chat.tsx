@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import iaLogo from "../assets/ia-cev.svg";
+import MessageRenderer from "../components/MessageRenderer";
 import api, { aiService } from "../services/api.service";
-import MessageRenderer from "./MessageRenderer";
 import "../styles/Chat.css";
 
 interface ChatProps {

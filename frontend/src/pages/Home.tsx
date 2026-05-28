@@ -344,7 +344,7 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {/* Detalhes do Módulo */}
+            {/* Detalhes do Módulo (Ementa Intermediária) */}
             {moduloAtivo !== null && (
               <div
                 className="module-details-info-card fade-in-container"
@@ -362,11 +362,16 @@ const Dashboard = () => {
                 </div>
                 <div className="details-actions-list">
                   <ul>
-                    <li>
+                    {/* Botão de Aulas configurado com redirecionamento dinâmico */}
+                    <li 
+                      onClick={() => navigate(`/modulo/${moduloAtivo}/aulas`)}
+                      style={{ cursor: "pointer" }}
+                      className="clickable-detail-item"
+                    >
                       <img src={iconAulas} alt="" className="detail-li-icon" />
                       <span>Aulas</span>
                     </li>
-                    <li>
+                    <li className="disabled-detail-item">
                       <img
                         src={iconMateriais}
                         alt=""
@@ -374,7 +379,7 @@ const Dashboard = () => {
                       />
                       <span>Materiais</span>
                     </li>
-                    <li>
+                    <li className="disabled-detail-item">
                       <img
                         src={iconAvaliacao}
                         alt=""

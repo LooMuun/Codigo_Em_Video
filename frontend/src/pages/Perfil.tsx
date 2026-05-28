@@ -12,29 +12,19 @@ const Perfil = () => {
     const [usuario, setUsuario] = useState({
         nome: "Diga seu Nome",
         nivel: 1,
-        bio: "Fale sobre você",
         dataCadastro: "Maio de 2026",
         statusConta: "Ativa"
     });
 
     const [editNome, setEditNome] = useState(usuario.nome);
-    const [editBio, setEditBio] = useState(usuario.bio);
     
     const handleSalvar = () => {
         setUsuario({
             ...usuario,
             nome: editNome,
-            bio: editBio
         });
         setIsEditing(false);
     };
-
-    const conquistas = [
-        { id: 1, titulo: "Primeiro Passo", desc: "Concluiu o primeiro módulo", icone: "🌱", desbloqueado: true },
-        { id: 2, titulo: "Foco Total", desc: "Alcançou 5 dias de ofensiva", icone: "🔥", desbloqueado: true },
-        { id: 3, titulo: "Mestre do Pandas", desc: "Completou o módulo de análise de dados", icone: "🐼", desbloqueado: false },
-        { id: 4, titulo: "Visualizador Supremo", desc: "Gerou 50+ gráficos com Seaborn", icone: "📊", desbloqueado: false },
-    ];
 
     return (
         <div className="profile-page-container">
@@ -90,12 +80,6 @@ const Perfil = () => {
                                     onChange={(e) => setEditNome(e.target.value)} 
                                     className="profile-input-edit"
                                 />
-                                <textarea 
-                                    value={editBio} 
-                                    onChange={(e) => setEditBio(e.target.value)} 
-                                    className="profile-textarea-edit"
-                                    rows={3}
-                                />
                                 <button type="button" className="btn-profile-save" onClick={handleSalvar}>
                                     Salvar Alterações
                                 </button>
@@ -103,7 +87,6 @@ const Perfil = () => {
                         ) : (
                             <>
                                 <h1 className="profile-user-name">{usuario.nome}</h1>
-                                <p className="profile-user-bio">"{usuario.bio}"</p>
                                 <button type="button" className="btn-profile-edit" onClick={() => setIsEditing(true)}>
                                     Editar Perfil
                                 </button>
@@ -114,25 +97,7 @@ const Perfil = () => {
 
                 {/* Seção Lateral/Inferior */}
                 <div className="profile-secondary-grid">
-                    
-                    {/* Bloco de Conquistas */}
-                    <div className="profile-section-card">
-                        <h2>Minhas Conquistas</h2>
-                        <p className="section-subtitle">Gamificação e evolução técnica no curso</p>
-                        
-                        <div className="badges-grid">
-                            {conquistas.map((badge) => (
-                                <div key={badge.id} className={`badge-item ${badge.desbloqueado ? "unlocked" : "locked"}`}>
-                                    <span className="badge-icon">{badge.icone}</span>
-                                    <div className="badge-text">
-                                        <h4>{badge.titulo}</h4>
-                                        <p>{badge.desc}</p>
-                                    </div>
-                                    {!badge.desbloqueado && <span className="lock-indicator">🔒</span>}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+        
 
                     {/* Bloco de Informações do Usuário (Agnóstico e Limpo) */}
                     <div className="profile-section-card academic-details">

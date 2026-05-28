@@ -1,0 +1,328 @@
+:root {
+  --bg-main: #060913; 
+  --bg-card: #0b1120; 
+  --bg-card-hover: #121a2e;
+  --color-primary: #00f0ff; 
+  --color-primary-glow: rgba(0, 240, 255, 0.15);
+  --color-text-main: #ffffff;
+  --color-text-muted: #4b5563;
+  --color-text-body: #9ca3af;
+  --border-color: rgba(255, 255, 255, 0.04);
+}
+
+.video-page-container {
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(0, 112, 243, 0.03) 0%, transparent 50%);
+  min-height: 100vh;
+  padding: 32px 40px;
+  color: var(--color-text-main);
+  box-sizing: border-box;
+}
+
+/* Header estilizado e limpo */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 24px;
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+}
+
+.lessons-count {
+  color: var(--color-text-body);
+  font-size: 0.875rem;
+}
+
+.progress-badge {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text-main);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Layout Grid Proporcional */
+.main-content-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px; 
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .main-content-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Conteúdo da Esquerda: Player ou Intro Card */
+.video-player-container {
+  width: 100%;
+}
+
+/* Card de Boas-vindas antes de iniciar o vídeo */
+.module-intro-card {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px;
+  box-sizing: border-box;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(135deg, rgba(0, 240, 255, 0.02) 0%, transparent 60%);
+}
+
+.intro-badge {
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--color-primary);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+}
+
+.module-intro-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #fff;
+}
+
+.module-intro-card p {
+  color: var(--color-text-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 580px;
+  margin: 0 0 32px 0;
+}
+
+/* Botão Começar a Assistir Premium */
+.start-course-btn {
+  background: var(--color-primary);
+  color: #060913;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);
+}
+
+.start-course-btn span {
+  font-size: 0.85rem;
+}
+
+.start-course-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px var(--color-primary-glow);
+  filter: brightness(1.1);
+}
+
+/* Video Player Modernizado */
+.video-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9; 
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.play-button-blur {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.video-placeholder:hover .play-button-blur {
+  transform: scale(1.08);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.play-icon {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-left: 4px;
+  transition: color 0.3s;
+}
+
+.video-placeholder:hover .play-icon {
+  color: var(--color-primary);
+}
+
+.video-title-overlay {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 14px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+/* Sidebar Estilo Listagem Premium */
+.sidebar-lessons {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+}
+
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Itens de Aula Individuais */
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.lesson-item:last-child {
+  border-bottom: none;
+}
+
+.lesson-index {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.lesson-details {
+  flex: 1;
+}
+
+.lesson-item h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  color: var(--color-text-body);
+  line-height: 1.4;
+}
+
+.lesson-time {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Container e comportamento do pequeno ícone de play à direita */
+.lesson-play-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-muted);
+  opacity: 0.3;
+  transition: all 0.2s ease;
+}
+
+.lesson-play-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Hover e Estados Ativos melhorados */
+.lesson-item:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.lesson-item:hover h3 {
+  color: #fff;
+}
+
+.lesson-item:hover .lesson-play-icon {
+  opacity: 0.8;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.lesson-item.active {
+  background-color: rgba(0, 240, 255, 0.02);
+  border-left: 3px solid var(--color-primary);
+  padding-left: 21px; 
+}
+
+.lesson-item.active .lesson-index {
+  color: var(--color-primary);
+}
+
+.lesson-item.active h3 {
+  color: #fff;
+  font-weight: 600;
+}
+
+.lesson-item.active .lesson-time {
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+/* Destaca o ícone de play quando a aula está selecionada/ativa */
+.lesson-item.active .lesson-play-icon {
+  opacity: 1;
+  color: var(--color-primary);
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.4));
+}

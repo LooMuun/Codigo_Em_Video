@@ -23,8 +23,10 @@
 }
 
 body, html, #root {
-  width: 100%; height: 100%;
-  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ══ PÁGINA: fundo escuro com shapes originais ══ */
@@ -99,7 +101,7 @@ body, html, #root {
 .card-left {
   width: 340px;
   flex-shrink: 0;
-  background: #ffffff;
+  background: #161b22;
   padding: 32px 30px;
   display: flex;
   flex-direction: column;
@@ -130,29 +132,30 @@ body, html, #root {
 /* títulos */
 .card-title {
   font-size: 19px; font-weight: 700;
-  color: #0f0f13; margin-bottom: 2px;
+  color: #ffffff; margin-bottom: 2px;
   letter-spacing: -0.2px;
 }
 .card-subtitle {
-  font-size: 11px; color: #999;
+  font-size: 11px;
+  color: #8b949e;
   margin-bottom: 16px;
 }
 
 /* abas */
 .tab-row {
   display: flex;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #30363d;
   margin-bottom: 14px;
 }
 .tab-item {
-  font-size: 12px; font-weight: 500; color: #bbb;
+  font-size: 12px; font-weight: 500; color: #8b949e;
   padding: 5px 0; margin-right: 18px; margin-bottom: -1px;
   border-bottom: 2px solid transparent;
   cursor: pointer; text-decoration: none;
   transition: color 0.2s, border-color 0.2s;
 }
-.tab-item.active { color: #111; border-bottom-color: #111; }
-.tab-item:hover:not(.active) { color: #555; }
+.tab-item.active { color: #ffffff; border-bottom-color: #ffffff; }
+.tab-item:hover:not(.active) { color: #c9d1d9; }
 
 /* form */
 .auth-form { display: flex; flex-direction: column; }
@@ -161,8 +164,8 @@ body, html, #root {
 
 .input-wrapper {
   display: flex; align-items: center;
-  background: #f6f6f6;
-  border: 1px solid #e8e8e4;
+  background: #0D1117;
+  border: 1px solid #30363d;
   border-radius: 8px;
   padding: 0 10px; height: 36px;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -170,7 +173,7 @@ body, html, #root {
 .input-wrapper:focus-within {
   border-color: #3a6fff;
   box-shadow: 0 0 0 2px rgba(58,111,255,0.12);
-  background: #fff;
+  background: #000000;
 }
 .field-icon {
   width: 13px; height: 13px;
@@ -179,7 +182,7 @@ body, html, #root {
 .input-wrapper input {
   border: none; outline: none;
   background: transparent;
-  font-size: 12px; color: #111; flex: 1;
+  font-size: 12px; color: #ffffff; flex: 1;
   font-family: 'DM Sans', sans-serif;
 }
 .input-wrapper input::placeholder { color: #c0c0bb; font-size: 12px; }
@@ -199,7 +202,7 @@ body, html, #root {
 }
 .remember-label {
   display: flex; align-items: center; gap: 5px;
-  font-size: 11px; color: #666; cursor: pointer;
+  font-size: 11px; color: #8b949e; cursor: pointer;
 }
 .remember-label input[type="checkbox"] {
   width: 12px; height: 12px;
@@ -237,19 +240,19 @@ body, html, #root {
 .divider {
   display: flex; align-items: center; gap: 8px; margin-bottom: 9px;
 }
-.divider-line { flex: 1; height: 1px; background: #ebebeb; }
-.divider-text { font-size: 10px; color: #bbb; white-space: nowrap; }
+.divider-line { flex: 1; height: 1px; background: #30363d; }
+.divider-text { font-size: 10px; color: #8b949e; white-space: nowrap; }
 
 /* botões sociais */
 .btn-social {
   width: 100%; height: 34px;
-  background: #fff; border: 1px solid #e8e8e4; border-radius: 8px;
+  background: #21262d; border: 1px solid #30363d; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  font-size: 11px; font-weight: 500; color: #333; cursor: pointer;
+  font-size: 11px; font-weight: 500; color: #c9d1d9; cursor: pointer;
   margin-bottom: 7px; font-family: 'DM Sans', sans-serif;
   transition: background 0.2s, transform 0.15s;
 }
-.btn-social:hover { background: #f5f5f3; transform: translateY(-1px); }
+.btn-social:hover { background: #161616; transform: translateY(-1px); }
 .btn-social:active { transform: translateY(0); }
 
 /* ══ LADO DIREITO: imagem de fundo + logo ══ */
@@ -312,4 +315,147 @@ body, html, #root {
   .login-card { width: calc(100% - 32px); flex-direction: column; height: auto; }
   .card-left  { width: 100%; }
   .card-right { display: none; }
+}
+
+
+
+/* Card de Aula Padrão (Fundo escuro discreto) */
+.lesson-card-item {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  
+  /* 🌟 Controla a suavidade da animação ao entrar e sair com o rato */
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🔥 Animaçãozinha ao passar o rato (Hover) */
+.lesson-card-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(58, 111, 255, 0.35); /* Borda azul sutil */
+  transform: translateX(6px);              /* Faz o card deslizar elegantemente para a direita */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Card da Aula que está Ativa/Selecionada no momento */
+.lesson-card-item.active-lesson {
+  background-color: rgba(58, 111, 255, 0.12) !important;
+  border-color: #3a6fff !important;
+  transform: translateX(4px); /* Mantém-se ligeiramente deslocado */
+}
+
+/* Elementos internos do Card */
+.lesson-badge {
+  font-size: 0.8rem;
+  color: #3a6fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.lesson-title {
+  font-weight: 500;
+  color: #ffffff;
+  margin: 4px 0 6px 0;
+}
+
+.lesson-duration {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Card de Aula Padrão */
+.lesson-card-item {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Animação Hover */
+.lesson-card-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(58, 111, 255, 0.35);
+  transform: translateX(6px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Selecionado */
+.lesson-card-item.active-lesson {
+  background-color: rgba(58, 111, 255, 0.12) !important;
+  border-color: #3a6fff !important;
+  transform: translateX(4px);
+}
+
+/* Elementos do Card */
+.lesson-badge {
+  font-size: 0.75rem;
+  color: #3a6fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.lesson-title {
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin: 4px 0;
+}
+
+.lesson-duration {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* 🌟 Estilização da listinha interna embutida (Pequena e elegante) */
+.lesson-embedded-contents {
+  margin-top: 10px;
+  animation: slideDown 0.2s ease-out; /* Animação suave de abertura */
+}
+
+.embedded-divider {
+  height: 1px;
+  background-color: rgba(58, 111, 255, 0.2);
+  margin-bottom: 8px;
+}
+
+.lesson-embedded-contents ul {
+  padding-left: 14px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lesson-embedded-contents ul li {
+  font-size: 0.8rem; /* Letra menor para ficar discreto */
+  color: #d1d5db;
+  line-height: 1.3;
+  list-style-type: circle;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.embedded-section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
