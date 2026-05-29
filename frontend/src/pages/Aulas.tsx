@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/Aulas.css';
 
 const dadosDosModulos: Record<
   string, 
@@ -158,7 +159,7 @@ const dadosDosModulos: Record<
         tempo: "18 min",
         conteudos: [
           "Scatter plots para duas variáveis",
-          "O problema do overplotting",
+          "O problem do overplotting",
           "Transparência com o parâmetro 'alpha'",
           "Gráfico Hexbin para alta densidade"
         ]
@@ -271,33 +272,113 @@ const dadosDosModulos: Record<
   }
 };
 
+// Banco de dados estático de questionários por módulo (Lado do Front)
+const questionariosPorModulo: Record<
+  string, 
+  {
+    pergunta: string;
+    alternativas: { id: number; texto: string }[];
+    corretaId: number;
+    feedbackSucesso: string;
+    feedbackErro: string;
+  }
+> = {
+  "1": {
+    pergunta: "Qual dos seguintes conceitos descreve melhor o objetivo do 'Quarteto de Anscombe'?",
+    alternativas: [
+      { id: 1, texto: "Demonstrar que conjuntos de dados com estatísticas idênticas podem ter distribuições visuais completamente diferentes." },
+      { id: 2, texto: "Provar que gráficos de pizza são estatisticamente superiores aos gráficos de barras empilhadas." },
+      { id: 3, texto: "Mapear a escala exata de cores para o processamento visual pré-atentivo automático." },
+      { id: 4, texto: "Garantir a integridade do eixo Y em distribuições normais assimétricas." }
+    ],
+    corretaId: 1,
+    feedbackSucesso: "🎉 Excelente! O Quarteto prova por que visualizar os dados é tão crucial quanto calcular métricas.",
+    feedbackErro: "❌ Ops! Lembre-se que Anscombe criou os conjuntos para provar o impacto da visualização sobre a mera estatística descritiva."
+  },
+  "2": {
+    pergunta: "No Matplotlib, qual a principal diferença entre a abordagem implícita (pyplot) e a explícita (Orientada a Objetos)?",
+    alternativas: [
+      { id: 1, texto: "A abordagem implícita roda direto no backend em C, enquanto a explícita roda em Python puro." },
+      { id: 2, texto: "A implícita usa funções globais como plt.plot(), enquanto a explícita manipula diretamente os objetos instanciados de Figure e Axes (fig, ax)." },
+      { id: 3, texto: "A abordagem explícita não permite a criação de múltiplos subplots na mesma janela." },
+      { id: 4, texto: "A abordagem implícita é exclusiva para gráficos de dispersão de alta densidade (Hexbin)." }
+    ],
+    corretaId: 2,
+    feedbackSucesso: "🎯 Perfeito! A abordagem explícita (fig, ax) te dá controle total e cirúrgico sobre cada elemento do layout.",
+    feedbackErro: "❌ Não exatamente. O pyplot (implícito) gerencia o estado atual automaticamente, enquanto a OO (explícita) exige que você manipule os eixos diretamente."
+  },
+  "3": {
+    pergunta: "Ao analisar a distribuição de frequências e a presença de outliers em uma variável numérica contínua, quais gráficos são mais indicados?",
+    alternativas: [
+      { id: 1, texto: "Gráfico de Pizza e Gráfico de Linhas Temporais." },
+      { id: 2, texto: "Gráfico de Barras Empilhadas e Gráfico de Rosca." },
+      { id: 3, texto: "Histograma e Boxplot (ou Gráfico de Violino)." },
+      { id: 4, texto: "Scatter plot com opacidade alpha zerada." }
+    ],
+    corretaId: 3,
+    feedbackSucesso: "🔥 Sensacional! O Histograma mostra o formato da distribuição e o Boxplot isola os quartis e os outliers com precisão.",
+    feedbackErro: "❌ Quase! Lembre-se que para distribuições e outliers, ferramentas estatísticas como Histogramas e Boxplots são as escolhas padrão."
+  },
+  "4": {
+    pergunta: "Qual técnica é altamente recomendada para resolver o problema de 'overplotting' (sobreposição massiva de pontos) em um Scatter Plot com milhares de registros?",
+    alternativas: [
+      { id: 1, texto: "Aumentar o tamanho de todos os marcadores e remover as linhas de grade." },
+      { id: 2, texto: "Utilizar o parâmetro 'alpha' para aplicar transparência aos pontos ou agrupar os dados em um gráfico de Hexbin." },
+      { id: 3, texto: "Substituir imediatamente por um gráfico de pizza 3D para consolidar as proporções." },
+      { id: 4, texto: "Forçar o eixo Y a começar em um valor negativo flutuante." }
+    ],
+    corretaId: 2,
+    feedbackSucesso: "⚡ Brabo demais! A transparência (alpha) revela as zonas de maior densidade de acúmulo de pontos, e o hexbin consolida essas áreas.",
+    feedbackErro: "❌ Errado. Se você aumentar o tamanho dos marcadores, a sobreposição vai piorar. A transparência ou a agregação hexagonal resolvem o problema."
+  },
+  "5": {
+    pergunta: "De acordo com as boas práticas de Storytelling Visual, qual a melhor estratégia para guiar o olhar do tomador de decisão em um dashboard executivo?",
+    alternativas: [
+      { id: 1, texto: "Utilizar o máximo de cores vibrantes possíveis em todas as categorias para chamar a atenção." },
+      { id: 2, texto: "Manter elements secundários (grades, eixos) em tons neutros/suaves e usar uma cor de destaque de forma seletiva no ponto de interesse." },
+      { id: 3, texto: "Remover todos os títulos e anotações para deixar o design puramente minimalista." },
+      { id: 4, texto: "Sempre fixar o limite do eixo Y acima do dobro da maior métrica registrada." }
+    ],
+    corretaId: 2,
+    feedbackSucesso: "🏆 Padrão Ouro! O uso estratégico do contraste e de cores focais é a base de uma narrativa visual limpa e eficiente.",
+    feedbackErro: "❌ Xi, não. Muita cor gera poluição visual (chartjunk). O segredo é o minimalismo de fundo com destaques pontuais onde o dado realmente importa."
+  }
+};
+
 export default function Aulas() {
   const { moduloId } = useParams<{ moduloId: string }>();
   const navigate = useNavigate();
   
   const idChave = moduloId && dadosDosModulos[moduloId] ? moduloId : "1";
   const moduloAtual = dadosDosModulos[idChave];
+  const quizAtual = questionariosPorModulo[idChave] || questionariosPorModulo["1"];
   
-  // Alteração: Iniciamos com null para que nenhum conteúdo/vídeo apareça sem o clique inicial
   const [aulaAtivaId, setAulaAtivaId] = useState<number | null>(null);
   const [videoIniciado, setVideoIniciado] = useState<boolean>(false);
+  
+  // Estados para gerenciar a janela de questionário interativa
+  const [respostaSelecionada, setRespostaSelecionada] = useState<number | null>(null);
+  const [quizRespondido, setQuizRespondido] = useState<boolean>(false);
 
-  // Reseta estados se mudar de módulo na URL
   useEffect(() => {
     setAulaAtivaId(null);
     setVideoIniciado(false); 
+    setRespostaSelecionada(null);
+    setQuizRespondido(false);
   }, [moduloId]);
 
-  // Função inteligente que abre ou fecha a aula ao clicar
   const manipularCliqueAula = (id: number) => {
     if (aulaAtivaId === id) {
-      // Se clicou na mesma aula ativa, ela "sobe" (fecha)
       setAulaAtivaId(null);
       setVideoIniciado(false);
+      setRespostaSelecionada(null);
+      setQuizRespondido(false);
     } else {
-      // Se clicou em outra aula, abre ela e o vídeo normalmente
       setAulaAtivaId(id);
       setVideoIniciado(true);
+      // Reseta o estado do quiz ao trocar de aula dentro do mesmo módulo
+      setRespostaSelecionada(null);
+      setQuizRespondido(false);
     }
   };
 
@@ -307,8 +388,12 @@ export default function Aulas() {
     return (
       <div style={{ color: '#fff', padding: '40px', textAlign: 'center', backgroundColor: '#060913', minHeight: '100vh' }}>
         <h2>Módulo não encontrado</h2>
-        <button onClick={() => navigate('/dashboard')} style={{ marginTop: '20px', padding: '10px 20px', cursor: 'pointer' }}>
-          Voltar ao Dashboard
+        <button className="btn-back-dashboard" onClick={() => navigate('/dashboard')}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Voltar ao Dashboard</span>
         </button>
       </div>
     );
@@ -317,40 +402,133 @@ export default function Aulas() {
   return (
     <div className="video-page-container" style={{ backgroundColor: '#060913', minHeight: '100vh', color: '#fff', padding: '40px' }}>
       
+      {/* Botão de voltar unificado com o layout do chat */}
       <button 
+        type="button"
+        className="btn-back-dashboard" 
         onClick={() => navigate('/dashboard')} 
-        style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', marginBottom: '20px' }}
       >
-        ← Voltar ao Dashboard
+        <svg 
+          width="16" 
+          height="16" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2.5" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Voltar</span>
       </button>
 
-      <header className="page-header" style={{ marginBottom: '30px' }}>
+      <header className="page-header" style={{ marginBottom: '30px', marginTop: '10px' }}>
         <h1 style={{ fontSize: '2rem', marginBottom: '8px' }}>{moduloAtual.titulo}</h1>
         <p style={{ color: '#9ca3af' }}>Módulo {idChave} • {moduloAtual.aulas.length} aulas disponíveis</p>
       </header>
 
       <div className="main-content-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '30px' }}>
         
-        {/* Player de Vídeo Dinâmico */}
-        <section className="video-player-container" style={{ background: '#0b1120', borderRadius: '16px', height: '450px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
-          {videoIniciado && aulaAtual ? (
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(58, 111, 255, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3a6fff', fontSize: '1.5rem', margin: '0 auto 16px auto', border: '1px solid rgba(58, 111, 255, 0.4)' }}>
-                ▶
+        {/* Coluna da Esquerda (Player + Janela do Quiz Fixa Embaixo) */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          
+          <section className="video-player-container" style={{ background: '#0b1120', borderRadius: '16px', height: '450px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
+            {videoIniciado && aulaAtual ? (
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(58, 111, 255, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3a6fff', fontSize: '1.5rem', margin: '0 auto 16px auto', border: '1px solid rgba(58, 111, 255, 0.4)' }}>
+                  ▶
+                </div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: '500', color: '#ffffff' }}>
+                  Reproduzindo: {aulaAtual.titulo}
+                </h3>
               </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: '500', color: '#ffffff' }}>
-                Reproduzindo: {aulaAtual.titulo}
-              </h3>
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '20px' }}>
-              <h2>Pronto para começar?</h2>
-              <p style={{ color: '#9ca3af', marginBottom: '20px', marginTop: '10px' }}>Selecione uma aula na barra lateral para iniciar o vídeo.</p>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '20px' }}>
+                <h2>Pronto para começar?</h2>
+                <p style={{ color: '#9ca3af', marginBottom: '20px', marginTop: '10px' }}>Selecione uma aula na barra lateral para iniciar o vídeo.</p>
+              </div>
+            )}
+          </section>
+
+          {/* Janela de Questionário Fixa Abaixo do Player (Solicitado pelo Velton) */}
+          {videoIniciado && aulaAtual && quizAtual && (
+            <div className="quiz-window-card">
+              <div className="quiz-window-header">
+                <div className="quiz-header-title-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--tech-green, #2bf1c0)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  <h3>Fixação de Conteúdo — Módulo {idChave}</h3>
+                </div>
+                <span className="quiz-badge-top">1 QUESTÃO</span>
+              </div>
+
+              <div className="quiz-window-body">
+                <p className="quiz-question-text">{quizAtual.pergunta}</p>
+                
+                <div className="quiz-options-list">
+                  {quizAtual.alternativas.map((alt) => {
+                    let stateClass = "";
+                    if (respostaSelecionada === alt.id) {
+                      if (quizRespondido) {
+                        stateClass = alt.id === quizAtual.corretaId ? "correct-opt" : "wrong-opt";
+                      } else {
+                        stateClass = "selected-opt";
+                      }
+                    } else if (quizRespondido && alt.id === quizAtual.corretaId) {
+                      stateClass = "correct-opt-highlight";
+                    }
+
+                    return (
+                      <button
+                        key={alt.id}
+                        disabled={quizRespondido}
+                        onClick={() => setRespostaSelecionada(alt.id)}
+                        className={`quiz-option-item-btn ${stateClass}`}
+                      >
+                        <div className="quiz-option-radio-dot"></div>
+                        <span className="quiz-option-span-text">{alt.texto}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="quiz-window-footer">
+                {!quizRespondido ? (
+                  <button
+                    disabled={respostaSelecionada === null}
+                    onClick={() => setQuizRespondido(true)}
+                    className="quiz-submit-action-btn"
+                  >
+                    Enviar Resposta
+                  </button>
+                ) : (
+                  <div className="quiz-feedback-animated-box">
+                    <p className={respostaSelecionada === quizAtual.corretaId ? "feedback-success-txt" : "feedback-error-txt"}>
+                      {respostaSelecionada === quizAtual.corretaId ? quizAtual.feedbackSucesso : quizAtual.feedbackErro}
+                    </p>
+                    <button
+                      onClick={() => { setRespostaSelecionada(null); setQuizRespondido(false); }}
+                      className="quiz-reset-link-btn"
+                    >
+                      Tentar Novamente
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           )}
-        </section>
 
-        {/* Barra Lateral Direita com Efeito Desdobrável */}
+        </div>
+
+        {/* Coluna da Direita (Barra Lateral com as Aulas) */}
         <aside className="sidebar-lessons" style={{ background: '#0b1120', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.05)', height: 'fit-content' }}>
           <h3 style={{ marginBottom: '15px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>Conteúdo do Módulo</h3>
           <div className="lessons-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -366,7 +544,6 @@ export default function Aulas() {
                   <div className="lesson-title">{aula.titulo}</div>
                   <div className="lesson-duration">⏱️ {aula.tempo}</div>
                   
-                  {/* Container expandido que agora fecha ao clicar novamente */}
                   {isAtiva && (
                     <div className="lesson-embedded-contents">
                       <div className="embedded-divider"></div>

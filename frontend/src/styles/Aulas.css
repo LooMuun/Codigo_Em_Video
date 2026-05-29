@@ -5,61 +5,39 @@
   --color-primary: #00f0ff; 
   --color-primary-glow: rgba(0, 240, 255, 0.15);
   --color-text-main: #ffffff;
-  --color-text-muted: #4b5563;
+  --color-text-muted: #64797c;
   --color-text-body: #9ca3af;
-  --border-color: rgba(255, 255, 255, 0.04);
+  --border-color: rgba(255, 255, 255, 0.05);
 }
 
 .video-page-container {
   background-color: var(--bg-main);
   background-image: 
-    radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 10% 90%, rgba(0, 112, 243, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 80% 10%, rgba(0, 240, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(0, 112, 243, 0.02) 0%, transparent 50%);
   min-height: 100vh;
   padding: 32px 40px;
   color: var(--color-text-main);
   box-sizing: border-box;
 }
 
-/* Header estilizado e limpo */
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 32px;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 24px;
 }
 
 .page-header h1 {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
   letter-spacing: -0.02em;
 }
 
-.lessons-count {
-  color: var(--color-text-body);
-  font-size: 0.875rem;
-}
-
-.progress-badge {
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--color-text-main);
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  border: 1px solid var(--border-color);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Layout Grid Proporcional */
 .main-content-layout {
   display: grid;
-  grid-template-columns: 1fr 380px; 
-  gap: 32px;
+  grid-template-columns: 1fr 350px; 
+  gap: 30px;
   align-items: start;
 }
 
@@ -69,260 +47,405 @@
   }
 }
 
-/* Conteúdo da Esquerda: Player ou Intro Card */
 .video-player-container {
   width: 100%;
 }
 
-/* Card de Boas-vindas antes de iniciar o vídeo */
-.module-intro-card {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: var(--bg-card);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 48px;
-  box-sizing: border-box;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  background-image: linear-gradient(135deg, rgba(0, 240, 255, 0.02) 0%, transparent 60%);
-}
-
-.intro-badge {
-  background: rgba(0, 240, 255, 0.1);
-  color: var(--color-primary);
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  margin-bottom: 20px;
-}
-
-.module-intro-card h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-  color: #fff;
-}
-
-.module-intro-card p {
-  color: var(--color-text-body);
-  font-size: 1rem;
-  line-height: 1.6;
-  max-width: 580px;
-  margin: 0 0 32px 0;
-}
-
-/* Botão Começar a Assistir Premium */
-.start-course-btn {
-  background: var(--color-primary);
-  color: #060913;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.3);
-}
-
-.start-course-btn span {
-  font-size: 0.85rem;
-}
-
-.start-course-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px var(--color-primary-glow);
-  filter: brightness(1.1);
-}
-
-/* Video Player Modernizado */
-.video-placeholder {
-  width: 100%;
-  aspect-ratio: 16 / 9; 
-  background-color: var(--bg-card);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.play-button-blur {
-  width: 72px;
-  height: 72px;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.video-placeholder:hover .play-button-blur {
-  transform: scale(1.08);
-  border-color: var(--color-primary);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-}
-
-.play-icon {
-  font-size: 1.5rem;
-  color: #fff;
-  margin-left: 4px;
-  transition: color 0.3s;
-}
-
-.video-placeholder:hover .play-icon {
-  color: var(--color-primary);
-}
-
-.video-title-overlay {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(0, 0, 0, 0.4);
-  padding: 6px 14px;
-  border-radius: 8px;
-  backdrop-filter: blur(4px);
-}
-
-/* Sidebar Estilo Listagem Premium */
 .sidebar-lessons {
   background-color: var(--bg-card);
   border-radius: 16px;
   border: 1px solid var(--border-color);
-  overflow: hidden;
+  padding: 20px;
 }
 
-.sidebar-header {
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.sidebar-header h2 {
+.sidebar-lessons h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 15px 0;
   color: #fff;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
 }
 
 .lessons-list {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
-/* Itens de Aula Individuais */
-.lesson-item {
+.lesson-card-item {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 24px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   cursor: pointer;
-  border-bottom: 1px solid var(--border-color);
-  transition: background-color 0.2s, transform 0.2s;
+  transition: all 0.2s ease;
 }
 
-.lesson-item:last-child {
-  border-bottom: none;
+.lesson-card-item:hover {
+  background-color: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
-.lesson-index {
-  font-size: 0.875rem;
+.lesson-badge {
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-text-muted);
-  font-family: monospace;
+  color: #3a6fff;
+  letter-spacing: 0.05em;
 }
 
-.lesson-details {
-  flex: 1;
-}
-
-.lesson-item h3 {
+.lesson-title {
   font-size: 0.95rem;
   font-weight: 500;
-  margin: 0 0 4px 0;
-  color: var(--color-text-body);
+  color: #ffffff;
   line-height: 1.4;
 }
 
-.lesson-time {
+.lesson-duration {
   font-size: 0.8rem;
   color: var(--color-text-muted);
 }
 
-/* Container e comportamento do pequeno ícone de play à direita */
-.lesson-play-icon {
+.lesson-card-item.active-lesson {
+  background-color: rgba(58, 111, 255, 0.05);
+  border-color: #3a6fff;
+}
+
+.lesson-embedded-contents {
+  margin-top: 10px;
+  animation: quizFadeIn 0.2s ease-out;
+}
+
+.embedded-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin-bottom: 10px;
+}
+
+.embedded-section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-body);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.lesson-embedded-contents ul {
+  margin: 0;
+  padding-left: 16px;
+  color: var(--color-text-body);
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap');
+
+.btn-back-dashboard {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #64797c;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-back-dashboard:hover {
+  color: #2bf1c0;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.btn-back-dashboard svg {
+  transition: transform 0.2s ease;
+}
+
+.btn-back-dashboard:hover svg {
+  transform: translateX(-3px);
+}
+
+.quiz-window-card {
+  width: 100%;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  margin-top: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  font-family: 'League Spartan', sans-serif;
+  box-sizing: border-box;
+}
+
+.quiz-window-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background-color: rgba(13, 17, 23, 0.4);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.quiz-header-title-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quiz-header-title-box h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.quiz-badge-top {
+  font-size: 12px;
+  font-weight: 600;
   color: var(--color-text-muted);
-  opacity: 0.3;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.quiz-window-body {
+  padding: 24px;
+}
+
+.quiz-question-text {
+  font-size: 17px;
+  color: #e3e7e8;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.quiz-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-option-item-btn {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: #abb2bf;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.quiz-option-radio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--color-text-muted);
+  margin-top: 5px;
+  flex-shrink: 0;
   transition: all 0.2s ease;
 }
 
-.lesson-play-icon svg {
-  width: 20px;
-  height: 20px;
+.quiz-option-span-text {
+  font-size: 15px;
+  line-height: 1.4;
 }
 
-/* Hover e Estados Ativos melhorados */
-.lesson-item:hover {
-  background-color: var(--bg-card-hover);
+.quiz-option-item-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
 }
 
-.lesson-item:hover h3 {
-  color: #fff;
+/* Estado Selecionado */
+.quiz-option-item-btn.selected-opt {
+  border-color: #3a6fff;
+  background: rgba(58, 111, 255, 0.06);
+  color: #ffffff;
+}
+.quiz-option-item-btn.selected-opt .quiz-option-radio-dot {
+  border-color: #3a6fff;
+  background: #3a6fff;
+  box-shadow: 0 0 8px rgba(58, 111, 255, 0.5);
 }
 
-.lesson-item:hover .lesson-play-icon {
-  opacity: 0.8;
-  color: #fff;
-  transform: scale(1.1);
+.quiz-option-item-btn.correct-opt, 
+.quiz-option-item-btn.correct-opt-highlight {
+  border-color: var(--color-primary);
+  background: rgba(0, 240, 255, 0.06);
+  color: #ffffff;
+}
+.quiz-option-item-btn.correct-opt .quiz-option-radio-dot,
+.quiz-option-item-btn.correct-opt-highlight .quiz-option-radio-dot {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
 }
 
-.lesson-item.active {
-  background-color: rgba(0, 240, 255, 0.02);
-  border-left: 3px solid var(--color-primary);
-  padding-left: 21px; 
+.quiz-option-item-btn.wrong-opt {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+  color: #e3e7e8;
+}
+.quiz-option-item-btn.wrong-opt .quiz-option-radio-dot {
+  border-color: #ef4444;
+  background: #ef4444;
 }
 
-.lesson-item.active .lesson-index {
-  color: var(--color-primary);
+.quiz-window-footer {
+  padding: 0 24px 24px 24px;
 }
 
-.lesson-item.active h3 {
-  color: #fff;
+.quiz-submit-action-btn {
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: none;
+  font-size: 14px;
   font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.lesson-item.active .lesson-time {
-  color: var(--color-primary);
-  opacity: 0.8;
+.quiz-submit-action-btn:disabled {
+  background: #1f2937;
+  color: var(--color-text-muted);
+  cursor: not-allowed;
 }
 
-/* Destaca o ícone de play quando a aula está selecionada/ativa */
-.lesson-item.active .lesson-play-icon {
-  opacity: 1;
+.quiz-submit-action-btn:not(:disabled) {
+  background: var(--color-primary);
+  color: #060913;
+  box-shadow: 0 4px 14px rgba(0, 240, 255, 0.2);
+}
+
+.quiz-submit-action-btn:not(:disabled):hover {
+  transform: scale(1.02);
+}
+
+.quiz-feedback-animated-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: quizFadeIn 0.25s ease-out;
+}
+
+.feedback-success-txt {
+  margin: 0;
+  font-size: 15px;
   color: var(--color-primary);
-  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.4));
+  font-weight: 500;
+}
+
+.feedback-error-txt {
+  margin: 0;
+  font-size: 15px;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.quiz-reset-link-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  width: fit-content;
+  padding: 0;
+}
+
+@keyframes quizFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) { /* Aumentamos para 900px para quebrar antes de esmagar */
+    .video-page-container {
+        padding: 20px 16px;
+    }
+
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Força o grid a virar uma única coluna de verdade */
+    .main-content-layout {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    /* Ajusta o container do player ativo */
+    .video-player-container {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+    }
+
+    .module-intro-card,
+    .video-placeholder {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9; 
+        padding: 24px !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .module-intro-card h2 {
+        font-size: 1.5rem !important;
+    }
+
+    .module-intro-card p {
+        font-size: 0.9rem !important;
+        margin: 0 0 20px 0 !important;
+    }
+
+    .sidebar-lessons {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    
+    .quiz-window-card {
+        margin-top: 16px;
+        width: 100% !important;
+    }
+    
+    .quiz-window-header {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .quiz-window-body {
+        padding: 16px;
+    }
+
+    .quiz-option-item-btn {
+        padding: 12px 14px;
+    }
+    
+    .quiz-option-span-text {
+        font-size: 14px;
+    }
 }
