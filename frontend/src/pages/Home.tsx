@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import iconAvatar from "../assets/avatar.svg";
 import logoCev from "../assets/logo-cev.svg";
-import iaLogo from "../assets/ia-cev.svg";
+import iaLogo from "../assets/cody-regular.svg";
 import iconAulas from "../assets/school.svg";
 import iconMateriais from "../assets/materials.svg";
 import iconAvaliacao from "../assets/avaliation.svg";
