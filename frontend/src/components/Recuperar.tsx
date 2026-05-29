@@ -119,7 +119,7 @@ const Recuperar = () => {
                     <div className="card-right-content">
                         <img src={logoCev} alt="Logo Grande" className="brand-big-logo" />
                         <h1 className="brand-big-name">
-                            CÓDIGO <br />
+                            CÓDIGO 
                             <span className="brand-highlight">EM VÍDEO</span>
                         </h1>
                     </div>

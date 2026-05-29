@@ -35,7 +35,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
 
   if (!isOpen) return null;
 
-  const handleVoltar = () => navigate("/");
+  const handleVoltar = () => navigate("/dashboard");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
