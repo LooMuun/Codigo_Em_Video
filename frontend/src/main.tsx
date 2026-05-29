@@ -3,12 +3,14 @@ import { createRoot } from 'react-dom/client'
 import "./styles/index.css";
 import App from './App'
 import './styles/App.css'
-import { initSupabaseAuthListener } from './lib/supabase'
+import { ClerkProvider } from '@clerk/clerk-react'
 
-initSupabaseAuthListener();
+const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ClerkProvider publishableKey={publishableKey}>
+      <App />
+    </ClerkProvider>
   </StrictMode>,
 )

@@ -9,7 +9,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-symmetric') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('SUPABASE_JWT_SECRET', 'fallback'),
+      secretOrKey:
+        configService.get<string>('JWT_SECRET') ||
+        configService.get<string>('SUPABASE_JWT_SECRET') ||
+        'dev-secret',
     });
   }
 

@@ -1,56 +1,106 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logoCev from "../assets/logo-cev.svg";
 import iconMail from "../assets/mail.svg";
 import iconLock from "../assets/locked.svg";
 import iconCheck from "../assets/check_circle.svg";
 import imgMeshGradient from "../assets/image-mesh-gradient.png";
-import React, { useState } from "react";
+import { authService } from "../services/auth.service";
 
 const Recuperar = () => {
-    const [etapa, setEtapa] = useState("email");
+    const [email, setEmail] = useState("");
+    const [codigo, setCodigo] = useState("");
+    const [novaSenha, setNovaSenha] = useState("");
+    const [etapa, setEtapa] = useState("form");
+    const [erro, setErro] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleProximaEtapa = (e: React.FormEvent) => {
+    const handleRecuperarSenha = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (etapa === "email") setEtapa("codigo");
-        else if (etapa === "codigo") setEtapa("sucesso");
+        setErro("");
+        setLoading(true);
+
+        try {
+            await authService.recoverPassword({
+                email,
+                code: codigo,
+                newPassword: novaSenha,
+            });
+            setEtapa("sucesso");
+        } catch {
+            setErro("Nao foi possivel recuperar. Confira o e-mail, o codigo 2FA e a nova senha.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="courses-dashboard-container auth-page" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            
-            {/* Shapes do Background Global */}
             <div className="bg-glow-blue"></div>
             <div className="bg-glow-green"></div>
 
-            {/* CARD ÚNICO FLUTUANTE */}
             <div className="login-card fade-in-container">
-                
-                {/* LADO ESQUERDO: Conteúdo Centralizado e Limpo */}
                 <div className="card-left" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    
-                    {/* Títulos Dinâmicos (Sem o header repetido acima) */}
                     <h2 className="card-title" style={{ textAlign: 'center', marginBottom: '6px' }}>
-                        {etapa === "email" && "Recuperar Senha"}
-                        {etapa === "codigo" && "Verificar Código"}
-                        {etapa === "sucesso" && "Tudo Pronto!"}
+                        {etapa === "form" ? "Recuperar Senha" : "Senha Atualizada"}
                     </h2>
                     <p className="card-subtitle" style={{ textAlign: 'center', marginBottom: '24px' }}>
-                        {etapa === "email" && "Pronto para continuar de onde parou."}
-                        {etapa === "codigo" && "Insira o código enviado para o seu e-mail."}
-                        {etapa === "sucesso" && "Sua identidade foi confirmada!"}
+                        {etapa === "form"
+                            ? "Use o codigo do seu app autenticador para criar uma nova senha."
+                            : "Agora voce ja pode entrar com sua nova senha."}
                     </p>
 
-                    {/* FORMULÁRIOS */}
-                    {etapa === "email" && (
-                        <form className="auth-form" onSubmit={handleProximaEtapa}>
+                    {erro && (
+                        <p style={{ color: '#ff4d4d', fontSize: '12px', textAlign: 'center', marginBottom: '12px' }}>
+                            {erro}
+                        </p>
+                    )}
+
+                    {etapa === "form" && (
+                        <form className="auth-form" onSubmit={handleRecuperarSenha}>
                             <div className="input-group">
                                 <div className="input-wrapper">
                                     <img src={iconMail} alt="" className="field-icon" />
-                                    <input type="email" placeholder="Digite seu e-mail cadastrado" required />
+                                    <input
+                                        type="email"
+                                        placeholder="Digite seu e-mail cadastrado"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
                                 </div>
                             </div>
-                            <button type="submit" className="btn-primary" style={{ marginTop: '10px' }}>
-                                ENVIAR CÓDIGO
+
+                            <div className="input-group">
+                                <div className="input-wrapper">
+                                    <img src={iconLock} alt="" className="field-icon" />
+                                    <input
+                                        inputMode="numeric"
+                                        placeholder="Codigo 2FA"
+                                        maxLength={6}
+                                        value={codigo}
+                                        onChange={(e) => setCodigo(e.target.value.replace(/\D/g, ""))}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="input-group">
+                                <div className="input-wrapper">
+                                    <img src={iconLock} alt="" className="field-icon" />
+                                    <input
+                                        type="password"
+                                        placeholder="Nova senha"
+                                        minLength={6}
+                                        value={novaSenha}
+                                        onChange={(e) => setNovaSenha(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <button type="submit" className="btn-primary" style={{ marginTop: '10px' }} disabled={loading || codigo.length < 6}>
+                                {loading ? "ATUALIZANDO..." : "ATUALIZAR SENHA"}
                             </button>
                             <Link to='/' className="forgot-link" style={{ textAlign: 'center', marginTop: '14px' }}>
                                 Lembrou? Entrar
@@ -58,79 +108,44 @@ const Recuperar = () => {
                         </form>
                     )}
 
-                    {etapa === "codigo" && (
-                        <form className="auth-form" onSubmit={handleProximaEtapa}>
-                            <div className="input-group">
-                                <div className="input-wrapper">
-                                    <img src={iconLock} alt="" className="field-icon" />
-                                    <input 
-                                        type="text" 
-                                        placeholder="000000" 
-                                        maxLength={6} 
-                                        required 
-                                        style={{ 
-                                            textAlign: 'center', 
-                                            letterSpacing: '6px', 
-                                            fontWeight: 'bold',
-                                            fontSize: '15px'
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                            <button type="submit" className="btn-primary" style={{ marginTop: '10px' }}>
-                                VALIDAR CÓDIGO
-                            </button>
-                            <button 
-                                type="button" 
-                                className="forgot-link" 
-                                onClick={() => setEtapa("email")} 
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0' }}
-                            >
-                                Reenviar e-mail
-                            </button>
-                        </form>
-                    )}
-
                     {etapa === "sucesso" && (
                         <div className="auth-form" style={{ alignItems: 'center' }}>
-                            <img 
-                                src={iconCheck} 
-                                alt="Sucesso" 
-                                style={{ 
-                                    width: '56px', 
-                                    height: '56px', 
+                            <img
+                                src={iconCheck}
+                                alt="Sucesso"
+                                style={{
+                                    width: '56px',
+                                    height: '56px',
                                     marginBottom: '16px',
                                     filter: 'invert(82%) sepia(51%) saturate(941%) hue-rotate(113deg) brightness(102%) drop-shadow(0 0 12px rgba(43, 241, 192, 0.85))'
-                                }} 
+                                }}
                             />
                             <p style={{ color: '#666', fontSize: '12px', textAlign: 'center', lineHeight: '1.6', marginBottom: '20px' }}>
-                                Identidade confirmada. Agora você já pode acessar a plataforma com segurança.
+                                Senha alterada com seguranca usando seu codigo 2FA.
                             </p>
                             <Link to="/" className="btn-primary" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                VOLTAR PARA O LOGIN
+                                ENTRAR
                             </Link>
                         </div>
                     )}
                 </div>
 
-                {/* LADO DIREITO: Identidade Visual com o PNG Real */}
                 <div className="card-right">
                     <img src={imgMeshGradient} alt="Fundo Gradiente" className="card-right-bg" />
                     <div className="card-right-content">
                         <img src={logoCev} alt="Logo Grande" className="brand-big-logo" />
                         <h1 className="brand-big-name">
-                            CÓDIGO <br />
-                            <span className="brand-highlight">EM VÍDEO</span>
+                            CODIGO <br />
+                            <span className="brand-highlight">EM VIDEO</span>
                         </h1>
                     </div>
                     <div className="card-copyright">
-                        &copy; 2026 Código em Vídeo. Todos os direitos reservados.
+                        2026 Codigo em Video. Todos os direitos reservados.
                     </div>
                 </div>
-
             </div>
         </div>
     );
-}
+};
 
 export default Recuperar;

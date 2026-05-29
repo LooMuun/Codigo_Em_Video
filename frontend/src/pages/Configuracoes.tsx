@@ -1,21 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logoCev from "../assets/logo-cev.svg";
+import { authService } from "../services/auth.service";
 import "../styles/Configuracoes.css";
 
 const Configuracoes = () => {
     const navigate = useNavigate();
 
-    // Estados simplificados para as notificações
     const [notificacoesEmail, setNotificacoesEmail] = useState(true);
     const [notificacoesPush, setNotificacoesPush] = useState(false);
+    const [recovery2faEnabled, setRecovery2faEnabled] = useState(false);
+    const [totpSecret, setTotpSecret] = useState("");
+    const [totpUri, setTotpUri] = useState("");
+    const [totpCode, setTotpCode] = useState("");
+    const [securityMessage, setSecurityMessage] = useState("");
+    const [securityError, setSecurityError] = useState("");
+    const [securityLoading, setSecurityLoading] = useState(false);
+
+    useEffect(() => {
+        authService.getRecovery2faStatus()
+            .then((data) => setRecovery2faEnabled(Boolean(data.enabled)))
+            .catch(() => setSecurityError("Nao foi possivel carregar o status do 2FA."));
+    }, []);
+
+    const handleSetupRecovery2fa = async () => {
+        setSecurityError("");
+        setSecurityMessage("");
+        setSecurityLoading(true);
+
+        try {
+            const data = await authService.setupRecovery2fa();
+            setTotpSecret(data.secret);
+            setTotpUri(data.otpauthUrl);
+            setSecurityMessage("Adicione esta chave no seu app autenticador e confirme com o codigo gerado.");
+        } catch {
+            setSecurityError("Nao foi possivel gerar a chave de recuperacao.");
+        } finally {
+            setSecurityLoading(false);
+        }
+    };
+
+    const handleEnableRecovery2fa = async () => {
+        setSecurityError("");
+        setSecurityMessage("");
+        setSecurityLoading(true);
+
+        try {
+            await authService.enableRecovery2fa(totpCode);
+            setRecovery2faEnabled(true);
+            setTotpCode("");
+            setSecurityMessage("2FA de recuperacao ativado com sucesso.");
+        } catch {
+            setSecurityError("Codigo invalido. Confira o app autenticador e tente novamente.");
+        } finally {
+            setSecurityLoading(false);
+        }
+    };
 
     return (
         <div className="settings-page-container">
             <div className="bg-glow-blue"></div>
             <div className="bg-glow-green"></div>
 
-            {/* Navbar padrão unificada */}
             <nav className="navbar">
                 <img src={logoCev} alt="Logo" className="nav-logo" style={{ cursor: "pointer" }} onClick={() => navigate("/dashboard")} />
                 <div className="nav-menu">
@@ -29,19 +75,16 @@ const Configuracoes = () => {
                 </div>
             </nav>
 
-            {/* Conteúdo Principal centralizado e unificado */}
             <div className="settings-content-wrapper fade-in-container">
                 <main className="settings-main-panel">
-                    
-                    {/* Seção de Notificações */}
                     <div className="settings-section">
-                        <h2>Configurações de Notificação</h2>
-                        <p className="section-subtitle">Escolha como e quando você deseja receber alertas da plataforma.</p>
+                        <h2>Configuracoes de Notificacao</h2>
+                        <p className="section-subtitle">Escolha como e quando voce deseja receber alertas da plataforma.</p>
 
                         <div className="settings-row">
                             <div className="settings-info">
                                 <h4>Alertas por E-mail</h4>
-                                <p>Receba resumos de progresso semanal e novos conteúdos lançados.</p>
+                                <p>Receba resumos de progresso semanal e novos conteudos lancados.</p>
                             </div>
                             <label className="settings-switch">
                                 <input type="checkbox" checked={notificacoesEmail} onChange={(e) => setNotificacoesEmail(e.target.checked)} />
@@ -51,8 +94,8 @@ const Configuracoes = () => {
 
                         <div className="settings-row">
                             <div className="settings-info">
-                                <h4>Notificações Push</h4>
-                                <p>Receba avisos direto no navegador sobre sua ofensiva diária de estudos.</p>
+                                <h4>Notificacoes Push</h4>
+                                <p>Receba avisos direto no navegador sobre sua ofensiva diaria de estudos.</p>
                             </div>
                             <label className="settings-switch">
                                 <input type="checkbox" checked={notificacoesPush} onChange={(e) => setNotificacoesPush(e.target.checked)} />
@@ -61,18 +104,58 @@ const Configuracoes = () => {
                         </div>
                     </div>
 
-                    {/* Divisor estético entre as seções */}
                     <div className="settings-divider"></div>
 
-                    {/* Seção de Segurança */}
                     <div className="settings-section">
-                        <h2>Segurança da Conta</h2>
+                        <h2>Seguranca da Conta</h2>
                         <p className="section-subtitle">Gerencie suas credenciais de acesso para manter seu perfil seguro.</p>
 
                         <div className="settings-row-stack">
+                            <h4>2FA para recuperar senha</h4>
+                            <p>Ative uma chave local no seu app autenticador. Ela sera usada somente se voce esquecer a senha.</p>
+
+                            <div className="settings-status-line">
+                                Status: <strong>{recovery2faEnabled ? "Ativado" : "Desativado"}</strong>
+                            </div>
+
+                            {!totpSecret && (
+                                <button type="button" className="btn-settings-action" onClick={handleSetupRecovery2fa} disabled={securityLoading}>
+                                    {securityLoading ? "Gerando..." : recovery2faEnabled ? "Gerar nova chave" : "Ativar 2FA de recuperacao"}
+                                </button>
+                            )}
+
+                            {totpSecret && (
+                                <div className="settings-2fa-box">
+                                    <label>Chave manual</label>
+                                    <code>{totpSecret}</code>
+                                    <label>URI para app autenticador</label>
+                                    <textarea className="settings-textarea" value={totpUri} readOnly />
+                                    <div className="settings-input-group">
+                                        <input
+                                            inputMode="numeric"
+                                            maxLength={6}
+                                            placeholder="Codigo do app"
+                                            className="settings-input"
+                                            value={totpCode}
+                                            onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ""))}
+                                        />
+                                        <button type="button" className="btn-settings-action" onClick={handleEnableRecovery2fa} disabled={securityLoading || totpCode.length < 6}>
+                                            Confirmar
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {securityMessage && <p className="settings-success">{securityMessage}</p>}
+                            {securityError && <p className="settings-error">{securityError}</p>}
+                        </div>
+
+                        <div className="settings-divider"></div>
+
+                        <div className="settings-row-stack">
                             <h4>Alterar Senha</h4>
-                            <p>Recomendamos o uso de uma senha forte com caracteres especiais e números.</p>
-                            
+                            <p>Recomendamos o uso de uma senha forte com caracteres especiais e numeros.</p>
+
                             <div className="settings-input-group">
                                 <input type="password" placeholder="Senha Atual" className="settings-input" />
                                 <input type="password" placeholder="Nova Senha" className="settings-input" />
@@ -80,7 +163,6 @@ const Configuracoes = () => {
                             <button type="button" className="btn-settings-action">Atualizar Senha</button>
                         </div>
                     </div>
-
                 </main>
             </div>
             <div className="settings-footer-spacing" style={{ height: '60px' }}></div>

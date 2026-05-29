@@ -23,6 +23,26 @@ export const authService = {
     return response.data;
   },
 
+  async getRecovery2faStatus() {
+    const response = await api.get("/auth/recovery-2fa/status");
+    return response.data;
+  },
+
+  async setupRecovery2fa() {
+    const response = await api.post("/auth/recovery-2fa/setup");
+    return response.data;
+  },
+
+  async enableRecovery2fa(code: string) {
+    const response = await api.post("/auth/recovery-2fa/enable", { code });
+    return response.data;
+  },
+
+  async recoverPassword(payload: { email: string; code: string; newPassword: string }) {
+    const response = await api.post("/auth/recover-password", payload);
+    return response.data;
+  },
+
   async signInWithProvider(provider: "github" | "google") {
     return supabase.auth.signInWithOAuth({ provider });
   },

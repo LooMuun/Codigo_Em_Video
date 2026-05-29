@@ -13,6 +13,7 @@ import { ProgressModule } from './progress/progress.module';
 import { RatingModule } from './rating/rating.module';
 import { AiModule } from './ai/ai.module';
 import { QuizAnswerModule } from './quiz-answer/quiz-answer.module';
+import { OtpModule } from './otp/otp.module';
 
 @Module({
   imports: [
@@ -22,7 +23,10 @@ import { QuizAnswerModule } from './quiz-answer/quiz-answer.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('SUPABASE_JWT_SECRET'),
+        secret:
+          configService.get<string>('JWT_SECRET') ||
+          configService.get<string>('SUPABASE_JWT_SECRET') ||
+          'dev-secret',
         signOptions: { expiresIn: '7d' },
       }),
       global: true,
@@ -36,6 +40,7 @@ import { QuizAnswerModule } from './quiz-answer/quiz-answer.module';
     RatingModule,
     AiModule,
     QuizAnswerModule,
+    OtpModule
   ],
   controllers: [AppController],
   providers: [AppService],
