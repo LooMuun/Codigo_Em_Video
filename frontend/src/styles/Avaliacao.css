@@ -246,3 +246,59 @@
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 768px) {
+    .materials-page-container {
+        padding: 20px 16px;
+    }
+
+    .materials-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .material-item-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .material-card-left {
+        gap: 12px;
+    }
+
+    .file-icon-badge {
+        width: 40px;
+        height: 40px;
+    }
+
+    .btn-download-material {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .evaluation-page-container {
+        padding: 20px 16px;
+    }
+
+    .evaluation-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .evaluation-card-box {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .star-btn svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .evaluation-submit-btn {
+        width: 100%; 
+        text-align: center;
+    }
+}
