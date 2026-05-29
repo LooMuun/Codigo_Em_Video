@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import iaLogo from "../assets/cody-regular.svg";
 import MessageRenderer from "../components/MessageRenderer";
 import api, { aiService } from "../services/api.service";
+import EfeitoDigitacao from '../components/EfeitoDigitacao';
 import "../styles/Chat.css";
 
 interface ChatProps {
@@ -32,6 +33,16 @@ const Chat = ({ isOpen = true }: ChatProps) => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  //Fazer a tela scrollar pra baixo quando a IA mandar uma menssagem
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [mensagens, isLoading]);
 
   if (!isOpen) return null;
 
@@ -160,7 +171,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
       ) : (
         <div className="chat-conversation-flow">
           <div className="chat-messages-container">
-            {mensagens.map((msg) => (
+            {mensagens.map((msg, index) => (
               <div
                 key={msg.id}
                 className={`chat-full-row ${msg.enviadoPor === "user" ? "user-full-row" : "ia-full-row"}`}
@@ -168,9 +179,23 @@ const Chat = ({ isOpen = true }: ChatProps) => {
                 <div className="chat-full-wrapper">
                   <div className="chat-full-content">
                     {msg.enviadoPor === "ia" ? (
-                      <MessageRenderer content={msg.texto} />
+                      index === mensagens.length - 1 ? (
+                        <EfeitoDigitacao texto={msg.texto} />
+                      ) : (
+                        <MessageRenderer content={msg.texto} />
+                      )
                     ) : (
+                      //Identifica mensagens com arquivos e bota um fundo bonitinho no arquivo
+                      msg.texto.includes("📎") ? (
+                        <div className="user-message-with-file">
+                          {msg.texto.split("📎")[0] && <p>{msg.texto.split("📎")[0]}</p>}
+                          <div className="file-attachment-tag">
+                            📎 {msg.texto.split("📎")[1]}
+                          </div>
+                        </div>
+                      ) : (
                       <p>{msg.texto}</p>
+                      )
                     )}
                   </div>
                 </div>
@@ -190,6 +215,7 @@ const Chat = ({ isOpen = true }: ChatProps) => {
                 </div>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
         </div>
       )}
