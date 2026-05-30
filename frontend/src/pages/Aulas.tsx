@@ -272,7 +272,6 @@ const dadosDosModulos: Record<
   }
 };
 
-// Banco de dados estático de questionários por módulo (Lado do Front)
 const questionariosPorModulo: Record<
   string, 
   {
@@ -308,7 +307,7 @@ const questionariosPorModulo: Record<
     feedbackErro: "❌ Não exatamente. O pyplot (implícito) gerencia o estado atual automaticamente, enquanto a OO (explícita) exige que você manipule os eixos diretamente."
   },
   "3": {
-    pergunta: "Ao analisar a distribuição de frequências e a presença de outliers em uma variável numérica contínua, quais gráficos são mais indicados?",
+    pergunta: "Ao analisar a distribuição de frequências e a presença of outliers em uma variável numérica contínua, quais gráficos são mais indicados?",
     alternativas: [
       { id: 1, texto: "Gráfico de Pizza e Gráfico de Linhas Temporais." },
       { id: 2, texto: "Gráfico de Barras Empilhadas e Gráfico de Rosca." },
@@ -328,7 +327,7 @@ const questionariosPorModulo: Record<
       { id: 4, texto: "Forçar o eixo Y a começar em um valor negativo flutuante." }
     ],
     corretaId: 2,
-    feedbackSucesso: "⚡ Brabo demais! A transparência (alpha) revela as zonas de maior densidade de acúmulo de pontos, e o hexbin consolida essas áreas.",
+    feedbackSucesso: "⚡ Brabo demais! A transparência (alpha) revela as zones de maior densidade de acúmulo de pontos, e o hexbin consolida essas áreas.",
     feedbackErro: "❌ Errado. Se você aumentar o tamanho dos marcadores, a sobreposição vai piorar. A transparência ou a agregação hexagonal resolvem o problema."
   },
   "5": {
@@ -340,7 +339,7 @@ const questionariosPorModulo: Record<
       { id: 4, texto: "Sempre fixar o limite do eixo Y acima do dobro da maior métrica registrada." }
     ],
     corretaId: 2,
-    feedbackSucesso: "🏆 Padrão Ouro! O uso estratégico do contraste e de cores focais é a base de uma narrativa visual limpa e eficiente.",
+    feedbackSucesso: "🏆 Padrão Ouro! O uso estratégico do contraste e de cores focais é a base de uma narrativa visual limpa e efficient.",
     feedbackErro: "❌ Xi, não. Muita cor gera poluição visual (chartjunk). O segredo é o minimalismo de fundo com destaques pontuais onde o dado realmente importa."
   }
 };
@@ -356,7 +355,6 @@ export default function Aulas() {
   const [aulaAtivaId, setAulaAtivaId] = useState<number | null>(null);
   const [videoIniciado, setVideoIniciado] = useState<boolean>(false);
   
-  // Estados para gerenciar a janela de questionário interativa
   const [respostaSelecionada, setRespostaSelecionada] = useState<number | null>(null);
   const [quizRespondido, setQuizRespondido] = useState<boolean>(false);
 
@@ -365,7 +363,7 @@ export default function Aulas() {
     setVideoIniciado(false); 
     setRespostaSelecionada(null);
     setQuizRespondido(false);
-  }, [moduloId]);
+  }, [moduloId]); 
 
   const manipularCliqueAula = (id: number) => {
     if (aulaAtivaId === id) {
@@ -376,7 +374,6 @@ export default function Aulas() {
     } else {
       setAulaAtivaId(id);
       setVideoIniciado(true);
-      // Reseta o estado do quiz ao trocar de aula dentro do mesmo módulo
       setRespostaSelecionada(null);
       setQuizRespondido(false);
     }
@@ -402,7 +399,6 @@ export default function Aulas() {
   return (
     <div className="video-page-container" style={{ backgroundColor: '#060913', minHeight: '100vh', color: '#fff', padding: '40px' }}>
       
-      {/* Botão de voltar unificado com o layout do chat */}
       <button 
         type="button"
         className="btn-back-dashboard" 
@@ -431,7 +427,6 @@ export default function Aulas() {
 
       <div className="main-content-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '30px' }}>
         
-        {/* Coluna da Esquerda (Player + Janela do Quiz Fixa Embaixo) */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           
           <section className="video-player-container" style={{ background: '#0b1120', borderRadius: '16px', height: '450px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
@@ -452,7 +447,6 @@ export default function Aulas() {
             )}
           </section>
 
-          {/* Janela de Questionário Fixa Abaixo do Player (Solicitado pelo Velton) */}
           {videoIniciado && aulaAtual && quizAtual && (
             <div className="quiz-window-card">
               <div className="quiz-window-header">
@@ -528,7 +522,7 @@ export default function Aulas() {
 
         </div>
 
-        {/* Coluna da Direita (Barra Lateral com as Aulas) */}
+        {/* Barra Lateral Corrigida com Link para o seu Quiz */}
         <aside className="sidebar-lessons" style={{ background: '#0b1120', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.05)', height: 'fit-content' }}>
           <h3 style={{ marginBottom: '15px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>Conteúdo do Módulo</h3>
           <div className="lessons-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -558,6 +552,33 @@ export default function Aulas() {
                 </div>
               );
             })}
+
+            {/* CARD DO DESAFIO FINAL */}
+            <div style={{ margin: '10px 0', borderTop: '1px dashed rgba(255,255,255,0.1)' }}></div>
+            
+            <div 
+              onClick={() => navigate(`/modulo/${idChave}/quiz`)}
+              className="lesson-card-item"
+              style={{ 
+                border: '1px solid #2bf1c0', 
+                background: 'rgba(43, 241, 192, 0.03)',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(43, 241, 192, 0.08)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(43, 241, 192, 0.03)'}
+            >
+              <div className="lesson-badge" style={{ background: '#2bf1c0', color: '#060913', fontWeight: 'bold' }}>
+                DESAFIO FINAL
+              </div>
+              <div className="lesson-title" style={{ color: '#2bf1c0', fontWeight: '600' }}>
+                Avaliação do Módulo {idChave}
+              </div>
+              <div className="lesson-duration" style={{ color: '#9ca3af' }}>
+                📝 Iniciar Teste Geral
+              </div>
+            </div>
+
           </div>
         </aside>
 

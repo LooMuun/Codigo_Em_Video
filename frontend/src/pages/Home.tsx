@@ -148,7 +148,7 @@ const Dashboard = () => {
             <span>Aulas</span>
           </li>
 
-          {/* Botão de Materiais — ATIVADO COM NAVEGAÇÃO DINÂMICA */}
+          {/* Botão de Materiais */}
           <li
             onClick={() => navigate(`/modulo/${num}/materiais`)}
             style={{ cursor: "pointer" }}
@@ -309,11 +309,57 @@ const Dashboard = () => {
         {/* Aba cursos */}
         {abaAtiva === "cursos" && (
           <div className="fade-in-container">
+            
+            {/* AVISO EM MODO CONVIDADO */}
+            {(userData?.email?.includes("guest") || 
+              userData?.email?.includes("convidado") || 
+              !userData?.id) && (
+              <div 
+                className="guest-warning-banner"
+                style={{
+                  background: 'rgba(245, 158, 11, 0.03)',
+                  border: '1px solid rgba(245, 158, 11, 0.2)',
+                  borderRadius: '12px',
+                  padding: '16px 20px',
+                  marginBottom: '25px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '15px'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>⚠️</span>
+                  <p style={{ color: '#fcd34d', fontSize: '0.95rem', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
+                    <strong>Modo Convidado ativo:</strong> Seu progresso de aulas e notas de desafios são mantidos apenas nesta sessão e serão <strong>perdidos permanentemente</strong> após fazer logout.
+                  </p>
+                </div>
+                <button 
+                  type="button"
+                  onClick={(e) => {
+                    e.currentTarget.parentElement?.remove();
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'rgba(245, 158, 11, 0.5)',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    padding: '4px',
+                    lineHeight: '1'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#fcd34d'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(245, 158, 11, 0.5)'}
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
             <div className="modules-grid">
               {[1, 2, 3, 4].map((num) => (
-                <>
+                <div key={num} style={{ display: 'contents' }}>
                   <div
-                    key={num}
                     onClick={(e) => {
                       e.stopPropagation();
                       setModuloAtivo(moduloAtivo === num ? null : num);
@@ -347,17 +393,15 @@ const Dashboard = () => {
                     </div>
                   </div>
 
-                  {/* Em mobile: renderiza o painel logo abaixo do card selecionado */}
                   {isMobile && moduloAtivo === num && (
-                    <div key={`mobile-details-${num}`} className="module-card-details-mobile">
+                    <div className="module-card-details-mobile">
                       <ModuleDetailsPanel num={num} />
                     </div>
                   )}
-                </>
+                </div>
               ))}
             </div>
 
-            {/* Em desktop: renderiza o painel abaixo de todos os cards */}
             {!isMobile && moduloAtivo !== null && (
               <ModuleDetailsPanel num={moduloAtivo} />
             )}
@@ -454,6 +498,7 @@ const Dashboard = () => {
 
         {/* Botão Cody */}
         <button
+          type="button"
           className="ia-fab"
           onClick={(e) => {
             e.stopPropagation();

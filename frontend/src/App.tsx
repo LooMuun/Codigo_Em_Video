@@ -8,6 +8,7 @@ import Perfil from "./pages/Perfil";
 import Aulas from './pages/Aulas';
 import Materiais from './pages/Materiais';
 import Avaliacao from './pages/Avaliacao';
+import Quiz from "./pages/Quiz";
 import Configuracoes from "./pages/Configuracoes";
 import './styles/App.css';
 
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/modulo/:moduloId/aulas" element={<Aulas />} />
           <Route path="/modulo/:moduloId/materiais" element={<Materiais />} />
           <Route path="/modulo/:moduloId/avaliacao" element={<Avaliacao />} />
+          <Route path="/modulo/:moduleId/quiz" element={<Quiz />} />
         </Routes>
       </div>
     </Router>
