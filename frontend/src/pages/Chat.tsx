@@ -2,9 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import iaLogo from "../assets/cody-regular.svg";
 import MessageRenderer from "../components/MessageRenderer";
-import api, { aiService } from "../services/api.service";
+
 import EfeitoDigitacao from '../components/EfeitoDigitacao';
 import "../styles/Chat.css";
+import { api } from '../services/api';
+import { aiService } from '../services/api.service';
 
 interface ChatProps {
   isOpen?: boolean;

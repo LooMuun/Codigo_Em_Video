@@ -6,6 +6,9 @@ import iconLock from "../assets/locked.svg";
 import iconCheck from "../assets/check_circle.svg";
 import imgMeshGradient from "../assets/image-mesh-gradient.png";
 import { authService } from "../services/auth.service";
+import { getUserFriendlyError } from "../utils/errorMessages";
+import { ButtonLoading, ErrorMessage, LoadingOverlay } from "../components/ui";
+
 
 const Recuperar = () => {
     const [email, setEmail] = useState("");
@@ -27,8 +30,8 @@ const Recuperar = () => {
                 newPassword: novaSenha,
             });
             setEtapa("sucesso");
-        } catch {
-            setErro("Nao foi possivel recuperar. Confira o e-mail, o codigo 2FA e a nova senha.");
+        } catch (err) {
+            setErro(getUserFriendlyError(err, "recover-password"));
         } finally {
             setLoading(false);
         }
@@ -36,6 +39,7 @@ const Recuperar = () => {
 
     return (
         <div className="courses-dashboard-container auth-page" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {loading && <LoadingOverlay />}
             <div className="bg-glow-blue"></div>
             <div className="bg-glow-green"></div>
 
@@ -99,9 +103,9 @@ const Recuperar = () => {
                                 </div>
                             </div>
 
-                            <button type="submit" className="btn-primary" style={{ marginTop: '10px' }} disabled={loading || codigo.length < 6}>
+                            <ButtonLoading isLoading={loading} className="btn-primary" type="submit" style={{ marginTop: '10px' }} disabled={loading || codigo.length < 6}>
                                 {loading ? "ATUALIZANDO..." : "ATUALIZAR SENHA"}
-                            </button>
+                            </ButtonLoading>
                             <Link to='/' className="forgot-link" style={{ textAlign: 'center', marginTop: '14px' }}>
                                 Lembrou? Entrar
                             </Link>

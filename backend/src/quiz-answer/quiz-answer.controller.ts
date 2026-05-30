@@ -23,4 +23,6 @@ export class QuizAnswerController {
   getMyWeaknesses(@Req() req: AuthenticatedRequest) {
     return this.quizAnswerService.getMyWeaknesses(req.user);
   }
+
+  
 }

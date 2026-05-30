@@ -6,13 +6,15 @@ import { ConfigService } from "@nestjs/config";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-symmetric') {
   constructor(configService: ConfigService) {
+    const supabaseJwtSecret = configService.get<string>('SUPABASE_JWT_SECRET') ?? '';
+
+    // O Supabase assina os tokens com o secret em base64 decoded (buffer raw)
+    const secretOrKey = Buffer.from(supabaseJwtSecret, 'base64');
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey:
-        configService.get<string>('JWT_SECRET') ||
-        configService.get<string>('SUPABASE_JWT_SECRET') ||
-        'dev-secret',
+      secretOrKey,
     });
   }
 
@@ -20,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-symmetric') {
     return {
       sub: payload.sub,
       email: payload.email,
-      role: payload.role || 'user', // Supabase não envia role por padrão, definimos 'user' como fallback
+      role: payload.role ?? 'user',
     };
   }
 }

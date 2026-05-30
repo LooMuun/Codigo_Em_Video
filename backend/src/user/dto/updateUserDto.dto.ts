@@ -4,17 +4,21 @@ import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  userName?: string
+  name?: string;
 
   @IsOptional()
   @IsEmail()
-  email?: string
+  email?: string;
 
   @IsOptional()
   @IsString()
-  password?: string
+  password?: string;
+
+  @IsOptional()
+  @IsString()
+  img?: string;
 
   @IsOptional()
   @IsEnum(Role)
-  role?: Role 
+  role?: Role;
 }

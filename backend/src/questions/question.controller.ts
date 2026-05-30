@@ -21,9 +21,18 @@ import { AuthenticatedRequest } from '@/common/interfaces/authenticated-request.
 export class QuestionController {
   constructor(private questionService: QuestionService) {}
 
-  @Get('classroom/:classroomId')
-  getQuestions(@Param('classroomId') classroomId: string) {
-    return this.questionService.getQuestions(classroomId);
+  // A rota GET unificada e protegida
+// A rota GET unificada e protegida
+  @UseGuards(JwtAuthGuard) 
+  @Get('classroom/:id')
+  findByClassroom(
+    @Param('id') classroomId: string, 
+    @Req() req: AuthenticatedRequest
+  ) {
+    // Aqui está a correção: usamos apenas o 'sub' (que já existe no seu JwtPayload)
+    const userId = req.user.sub; 
+    
+    return this.questionService.findByClassroom(classroomId, userId);
   }
 
   @Post()

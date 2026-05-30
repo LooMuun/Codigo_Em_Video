@@ -16,6 +16,13 @@ export class UsersService {
     }
   }
 
+  async getMe(currentUser: JwtPayload) {
+    const { password, ...result } = await this.prisma.user.findUnique({
+      where: { id: currentUser.sub },
+    });
+    return result;
+  }
+
   async update(id: string, data: UpdateUserDto, currentUser: JwtPayload) {
     this.checkPermission(id, currentUser);
 

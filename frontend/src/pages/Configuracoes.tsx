@@ -150,18 +150,6 @@ const Configuracoes = () => {
                             {securityError && <p className="settings-error">{securityError}</p>}
                         </div>
 
-                        <div className="settings-divider"></div>
-
-                        <div className="settings-row-stack">
-                            <h4>Alterar Senha</h4>
-                            <p>Recomendamos o uso de uma senha forte com caracteres especiais e numeros.</p>
-
-                            <div className="settings-input-group">
-                                <input type="password" placeholder="Senha Atual" className="settings-input" />
-                                <input type="password" placeholder="Nova Senha" className="settings-input" />
-                            </div>
-                            <button type="button" className="btn-settings-action">Atualizar Senha</button>
-                        </div>
                     </div>
                 </main>
             </div>

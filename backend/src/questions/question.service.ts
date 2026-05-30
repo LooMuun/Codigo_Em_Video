@@ -14,10 +14,20 @@ export class QuestionService {
     }
   }
 
-  getQuestions(classroomId: string) {
+  // A antiga getQuestions foi substituída por esta
+  async findByClassroom(classroomId: string, userId: string) {
     return this.prisma.question.findMany({
-      where: { classroomId },
-      include: { options: true },
+      where: { 
+        classroomId: classroomId 
+      },
+      include: {
+        options: true, 
+        quizAnswers: {
+          where: {
+            userId: userId
+          }
+        }
+      }
     });
   }
 

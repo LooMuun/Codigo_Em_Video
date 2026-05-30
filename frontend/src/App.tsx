@@ -10,6 +10,7 @@ import Perfil from "./pages/Perfil";
 import Aulas from './pages/Aulas';
 import Configuracoes from "./pages/Configuracoes";
 import './styles/App.css';
+import { LoadingOverlay } from './components/ui/LoadingOverlay';
 
 // ReRoute pra que se um usuario ja estiver logado a pagina de login seja pulada e va direto pra home
 const PublicRoute = () =>{
@@ -38,7 +39,7 @@ const PublicRoute = () =>{
   }, []);
 
   if (isLoading) {
-    return <div style={{ color: '#fff', textAlign: 'center', marginTop: '20%' }}>Carregando...</div>;
+    return <LoadingOverlay />;
   }
 
   return isAuthed ? <Navigate to="/dashboard" replace /> : <Outlet />;
