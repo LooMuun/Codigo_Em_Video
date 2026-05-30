@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './authService.service';
 import { AuthController } from './authController.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalJwtStrategy } from './strategies/local-jwt.strategy';
 import { PrismaModule } from '../prisma/prisma.module';
 import { SupabaseStrategy } from './strategies/supabase.strategy';
 import { OtpModule } from '../otp/otp.module';
@@ -28,6 +29,6 @@ import { OtpModule } from '../otp/otp.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, SupabaseStrategy, JwtStrategy],
+  providers: [AuthService, SupabaseStrategy, JwtStrategy, LocalJwtStrategy],
 })
 export class AuthModule {}

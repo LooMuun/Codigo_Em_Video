@@ -17,9 +17,13 @@ export class UsersService {
   }
 
   async getMe(currentUser: JwtPayload) {
-    const { password, ...result } = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id: currentUser.sub },
     });
+
+    if (!user) return null;
+
+    const { password, ...result } = user;
     return result;
   }
 

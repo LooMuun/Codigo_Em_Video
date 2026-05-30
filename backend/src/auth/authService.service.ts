@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, Injectable, UnauthorizedExcepti
 import { CreateUserDto } from './dto/CreateUserDto.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { JwtPayload } from './interface/jwt-payload.interface';
 import { OtpService } from '../otp/otp.service';
@@ -12,6 +13,7 @@ export class AuthService {
     private prismaService: PrismaService,
     private jwtService: JwtService,
     private otpService: OtpService,
+    private configService: ConfigService,
   ) {}
 
   async register(data: CreateUserDto) {
@@ -134,7 +136,11 @@ export class AuthService {
       role: user.role,
     };
 
-    const token = this.jwtService.sign(payload);
+    const secret = this.configService.get<string>('JWT_SECRET') ||
+                   this.configService.get<string>('SUPABASE_JWT_SECRET') ||
+                   'dev-secret';
+
+    const token = this.jwtService.sign(payload, { secret });
 
     return {
       access_token: token,
