@@ -11,12 +11,10 @@
 }
 
 .profile-page-container .navbar {
-    /* Ocupa a largura total menos os 16px da barra de scroll apenas nesta página */
     width: calc(100% - 16px) !important; 
 }
 
 
-/* Wrapper de Conteúdo com o Padding para a Navbar Fixed */
 .profile-content-wrapper {
     max-width: 1100px;
     margin: 0 auto;
@@ -26,7 +24,7 @@
     gap: 32px;
 }
 
-/* Card Principal (Avatar + Nome + Bio) */
+/* Card Principal */
 .profile-main-card {
     background: rgba(22, 27, 34, 0.4);
     backdrop-filter: blur(12px);

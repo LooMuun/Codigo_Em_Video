@@ -7,7 +7,7 @@ import iconCheck from "../assets/check_circle.svg";
 import imgMeshGradient from "../assets/image-mesh-gradient.png";
 import { authService } from "../services/auth.service";
 import { getUserFriendlyError } from "../utils/errorMessages";
-import { ButtonLoading, ErrorMessage, LoadingOverlay } from "../components/ui";
+import { ButtonLoading, LoadingOverlay } from "../components/ui";
 
 
 const Recuperar = () => {
@@ -139,8 +139,8 @@ const Recuperar = () => {
                     <div className="card-right-content">
                         <img src={logoCev} alt="Logo Grande" className="brand-big-logo" />
                         <h1 className="brand-big-name">
-                            CODIGO <br />
-                            <span className="brand-highlight">EM VIDEO</span>
+                            CÓDIGO <br />
+                            <span className="brand-highlight">EM VÍDEO</span>
                         </h1>
                     </div>
                     <div className="card-copyright">

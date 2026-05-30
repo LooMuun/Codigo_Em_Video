@@ -23,9 +23,6 @@ api.interceptors.request.use(async (config) => {
 
 if (session?.access_token) {
     config.headers.Authorization = `Bearer ${session.access_token}`;
-    console.log("🔥 TOKEN INJETADO COM SUCESSO:", session.access_token.substring(0, 20) + "...");
-  } else {
-    console.warn("🚨 NENHUM TOKEN ENCONTRADO PARA:", config.url);
   }
 
   return config;

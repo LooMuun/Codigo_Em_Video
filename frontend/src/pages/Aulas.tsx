@@ -77,7 +77,6 @@ const css = `
     font-family: 'DM Sans', sans-serif;
   }
 
-  /* ── TOPBAR ─────────────────────────────── */
   .topbar {
     display: flex;
     align-items: center;
@@ -160,7 +159,6 @@ const css = `
     box-shadow: 0 0 6px rgba(0,240,255,0.6);
   }
 
-  /* ── BODY LAYOUT ─────────────────────────── */
   .body-layout {
     display: grid;
     grid-template-columns: 1fr 360px;
@@ -169,7 +167,6 @@ const css = `
     align-items: start;
   }
 
-  /* ── LEFT COLUMN ─────────────────────────── */
   .left-col {
     padding: 32px 36px;
     display: flex;
@@ -179,7 +176,6 @@ const css = `
     min-height: calc(100vh - 60px);
   }
 
-  /* ── PLAYER ──────────────────────────────── */
   .player-wrap {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -276,7 +272,6 @@ const css = `
     backdrop-filter: blur(12px);
   }
 
-  /* ── AULA INFO ───────────────────────────── */
   .lesson-info {
     display: flex;
     flex-direction: column;
@@ -308,7 +303,6 @@ const css = `
     margin-top: 2px;
   }
 
-  /* ── QUIZ ────────────────────────────────── */
   .quiz-wrap {
     display: flex;
     flex-direction: column;
@@ -393,7 +387,6 @@ const css = `
     gap: 36px;
   }
 
-  /* Resumo de acertos */
   .quiz-summary {
     display: flex;
     align-items: center;
@@ -421,7 +414,6 @@ const css = `
     margin-top: 3px;
   }
 
-  /* Questão individual */
   .question-block {
     display: flex;
     flex-direction: column;
@@ -459,7 +451,6 @@ const css = `
     gap: 8px;
   }
 
-  /* Botão de opção */
   .option-btn {
     width: 100%;
     border-radius: 11px;
@@ -522,7 +513,6 @@ const css = `
     margin-top: 4px;
   }
 
-  /* Empty state do quiz */
   .quiz-empty {
     text-align: center;
     padding: 48px 32px;
@@ -548,7 +538,6 @@ const css = `
     line-height: 1.6;
   }
 
-  /* ── RIGHT SIDEBAR ───────────────────────── */
   .right-sidebar {
     display: flex;
     flex-direction: column;
@@ -785,7 +774,6 @@ export default function Aulas() {
     const fetchDados = async () => {
       setLoading(true);
       try {
-        // Buscar dados públicos (módulos e aulas)
         const [modulosRes, aulasRes] = await Promise.all([
           api.get("/modules"),
           api.get("/classrooms"),
@@ -797,12 +785,10 @@ export default function Aulas() {
       }
 
       try {
-        // Buscar progresso (rota protegida - falha esperada para convidados)
         const progressoRes = await api.get("/progress");
         setProgresso(progressoRes.data);
       } catch (err: any) {
         if (err.response?.status === 401) {
-          // Guest mode: progresso vazio, sem erro no console
           setProgresso([]);
         } else {
           console.error("Erro ao buscar progresso:", err);
@@ -996,7 +982,6 @@ export default function Aulas() {
       <style>{css}</style>
       <div className="aulas-root">
 
-        {/* ── TOPBAR ── */}
         <header className="topbar">
           <div className="topbar-left">
             <button className="back-btn" onClick={() => navigate("/dashboard")}>
@@ -1013,13 +998,10 @@ export default function Aulas() {
           </div>
         </header>
 
-        {/* ── BODY ── */}
         <div className="body-layout">
 
-          {/* ── LEFT ── */}
           <main className="left-col">
 
-            {/* Player */}
             <div className="player-wrap">
               {videoIniciado && aulaAtual ? (
                 youtubeId ? (
@@ -1092,7 +1074,6 @@ export default function Aulas() {
               )}
             </div>
 
-            {/* Info da aula ativa */}
             {aulaAtual && (
               <div className="lesson-info">
                 <span className="lesson-info-label">
@@ -1105,7 +1086,6 @@ export default function Aulas() {
               </div>
             )}
 
-            {/* Quiz */}
             {aulaAtual && (
               <div className="quiz-wrap">
                 <div className="quiz-header">
@@ -1129,7 +1109,6 @@ export default function Aulas() {
                   )}
                 </div>
 
-                {/* Barra de progresso */}
                 <div className="quiz-progress-bar">
                   <div
                     className="quiz-progress-fill"
@@ -1271,7 +1250,6 @@ export default function Aulas() {
             )}
           </main>
 
-          {/* ── RIGHT SIDEBAR ── */}
           <aside className="right-sidebar">
             <div className="sidebar-section-header">
               <div className="sidebar-section-title">Conteúdo do curso</div>

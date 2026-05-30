@@ -20,6 +20,7 @@ import iconMateriais from "../assets/materials.svg";
 import iconAvaliacao from "../assets/avaliation.svg";
 import thumbFallback from "../assets/thumb1.png";
 import "../styles/Home.css";
+import "../styles/App.css";
 import { supabase } from "../lib/supabase";
 
 interface ModuloData {
@@ -50,6 +51,16 @@ interface UserData {
   user_metadata: any;
 }
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return isMobile;
+};
+
 const Dashboard = () => {
   const [abaAtiva, setAbaAtiva] = useState("cursos");
   const [moduloAtivo, setModuloAtivo] = useState<string | null>(null);
@@ -79,7 +90,6 @@ const Dashboard = () => {
 
   const detailsRef = useRef<HTMLDivElement | null>(null);
 
-  /* BUSCAR MÓDULOS PELO BACKEND */
   useEffect(() => {
     const fetchModulos = async () => {
       setLoadingModulos(true);
@@ -96,7 +106,6 @@ const Dashboard = () => {
     fetchModulos();
   }, []);
 
-  /* BUSCAR TOTAL DE AULAS */
   useEffect(() => {
     const fetchTotalAulas = async () => {
       try {
@@ -109,7 +118,6 @@ const Dashboard = () => {
     fetchTotalAulas();
   }, []);
 
-  /* BUSCAR PROGRESSO DO USUÁRIO (via backend autenticado) */
   useEffect(() => {
     const fetchProgresso = async () => {
       setLoadingProgress(true);
@@ -119,15 +127,12 @@ const Dashboard = () => {
 
         setProgresso(data);
 
-        /* ── Aulas assistidas ── */
         const concluidas = data.filter((p) => p.completed);
         const aulasAssistidas = concluidas.length;
 
-        /* ── Progresso geral ── */
         const progressoGeral =
           totalAulas > 0 ? Math.round((aulasAssistidas / totalAulas) * 100) : 0;
 
-        /* ── Ofensiva (dias consecutivos com pelo menos 1 aula) ── */
         const diasComAula = new Set(
           concluidas
             .filter((p) => p.completedAt)
@@ -145,7 +150,6 @@ const Dashboard = () => {
           }
         }
 
-        /* ── Evolução semanal (últimos 7 dias) ── */
         const diasSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
         const contagem: Record<string, number> = {};
         for (let i = 6; i >= 0; i--) {
@@ -169,7 +173,6 @@ const Dashboard = () => {
         setMetricas({ aulasAssistidas, ofensiva, progressoGeral });
       } catch (error: any) {
         if (error.response?.status === 401) {
-          // Modo convidado: não logamos erro, apenas garantimos que o loading pare
           setProgresso([]);
         } else {
           console.error("Erro ao buscar progresso:", error);
@@ -182,20 +185,16 @@ const Dashboard = () => {
     fetchProgresso();
   }, [totalAulas]);
 
-  /* CARREGAR USUÁRIO */
   useEffect(() => {
     const loadUser = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
 
-      console.log("DEBUG HOME: Sessão Supabase", session);
-
       if (session?.user) {
         try {
           const response = await api.get("/users/me");
           const backendUser = response.data;
-          console.log("DEBUG HOME: Dados Backend", backendUser);
 
           setUserData({
             id: session.user.id,
@@ -204,7 +203,6 @@ const Dashboard = () => {
             user_metadata: session.user.user_metadata,
           });
         } catch (err) {
-          console.error("DEBUG HOME: Erro Backend", err);
           setUserData({
             id: session.user.id,
             email: session.user.email ?? "",
@@ -219,7 +217,6 @@ const Dashboard = () => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      console.log("DEBUG HOME: AuthStateChange", _event, session);
       if (session?.user) {
         try {
           const response = await api.get("/users/me");
@@ -243,7 +240,6 @@ const Dashboard = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  /* LOGOUT */
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -255,7 +251,6 @@ const Dashboard = () => {
     }
   };
 
-  /* HELPER: progresso de um módulo específico (via classroom.moduleId) */
   const getProgressoModulo = (moduleId: string) => {
     const registros = progresso.filter(
       (p) => p.classroom?.moduleId === moduleId,
@@ -264,6 +259,45 @@ const Dashboard = () => {
     const concluidos = registros.filter((p) => p.completed).length;
     return Math.round((concluidos / registros.length) * 100);
   };
+
+  const ModuleDetailsPanel = ({ modulo }: { modulo: ModuloData }) => (
+    <div
+      className="module-details-info-card fade-in-container"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="details-description">
+        <p>{modulo.description}</p>
+      </div>
+      <div className="details-actions-list">
+        <ul>
+          <li
+            onClick={() => navigate(`/modulo/${modulo.id}/aulas`)}
+            className="clickable-detail-item"
+            style={{ cursor: "pointer" }}
+          >
+            <img src={iconAulas} alt="" className="detail-li-icon" />
+            <span>Aulas</span>
+          </li>
+          <li
+            onClick={() => navigate(`/modulo/${modulo.id}/materiais`)}
+            className="clickable-detail-item"
+            style={{ cursor: "pointer" }}
+          >
+            <img src={iconMateriais} alt="" className="detail-li-icon" />
+            <span>Materiais</span>
+          </li>
+          <li
+            onClick={() => navigate(`/modulo/${modulo.id}/avaliacao`)}
+            className="clickable-detail-item"
+            style={{ cursor: "pointer" }}
+          >
+            <img src={iconAvaliacao} alt="" className="detail-li-icon" />
+            <span>Avaliação</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 
   return (
     <div
@@ -274,10 +308,9 @@ const Dashboard = () => {
       }}
     >
       {(loadingModulos || loadingProgress) && <LoadingOverlay />}
-      <div className="bg-glow-blue"></div>
-      <div className="bg-glow-green"></div>
+      <div className="shape-blue"></div>
+      <div className="shape-green"></div>
 
-      {/* Navbar */}
       <nav className="navbar" onClick={(e) => e.stopPropagation()}>
         <img src={logoCev} alt="Logo" className="nav-logo" />
         <div className="nav-menu">
@@ -314,7 +347,6 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* Sidebar de Perfil */}
       <div
         className={`profile-sidebar ${isSidebarOpen ? "open" : ""}`}
         onClick={(e) => e.stopPropagation()}
@@ -324,15 +356,11 @@ const Dashboard = () => {
             className="sidebar-link-item"
             onClick={() => navigate("/perfil")}
           >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
             <span>Meu Perfil</span>
-          </button>
-
-          {/* ADICIONE ESTE NOVO BOTÃO AQUI */}
-          <button
-            className="sidebar-link-item"
-            onClick={() => navigate("/configuracoes")}
-          >
-            <span>Configurações</span>
           </button>
 
           <button
@@ -342,20 +370,87 @@ const Dashboard = () => {
               setIsSidebarOpen(false);
             }}
           >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="9"></rect>
+              <rect x="14" y="3" width="7" height="5"></rect>
+              <rect x="14" y="12" width="7" height="9"></rect>
+              <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
             <span>Minhas Métricas</span>
+          </button>
+
+          <button
+            type="button"
+            className="sidebar-link-item"
+            onClick={() => navigate("/configuracoes")}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Configurações</span>
           </button>
         </div>
         <div className="sidebar-footer">
           <button className="btn-sidebar-logout" onClick={handleLogout}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
             <span>Sair da Conta</span>
           </button>
         </div>
       </div>
 
       <div className="courses-content">
-        {/* =================== ABA CURSOS =================== */}
         {abaAtiva === "cursos" && (
           <div className="fade-in-container" style={{ position: "relative" }}>
+            {(userData?.email?.includes("guest") ||
+              userData?.email?.includes("convidado") ||
+              !userData?.id) && (
+              <div
+                className="guest-warning-banner"
+                style={{
+                  background: 'rgba(245, 158, 11, 0.03)',
+                  border: '1px solid rgba(245, 158, 11, 0.2)',
+                  borderRadius: '12px',
+                  padding: '16px 20px',
+                  marginBottom: '25px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '15px'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>⚠️</span>
+                  <p style={{ color: '#fcd34d', fontSize: '0.95rem', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
+                    <strong style={{ color: '#fcd34d' }}>Modo Convidado ativo:</strong> Seu progresso de aulas e notas de desafios são mantidos apenas nesta sessão e serão <strong style={{ color: '#fcd34d' }}>perdidos permanentemente</strong> após fazer logout.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.currentTarget.parentElement?.remove();
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'rgba(245, 158, 11, 0.5)',
+                    cursor: 'pointer',
+                    fontSize: '1.1rem',
+                    padding: '4px',
+                    lineHeight: '1'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#fcd34d'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(245, 158, 11, 0.5)'}
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
             {loadingModulos ? (
               <div className="modules-loading">
                 <div className="loading-spinner"></div>
@@ -403,7 +498,6 @@ const Dashboard = () => {
                       <div className="module-info">
                         <h3>{modulo.title}</h3>
 
-                        {/* Barra de progresso por módulo */}
                         <div className="module-progress-bar-wrap">
                           <div
                             className="module-progress-bar-fill"
@@ -421,57 +515,23 @@ const Dashboard = () => {
               </div>
             )}
 
-            {/* Card de detalhes renderizado FORA do grid, abaixo dos cards */}
             {moduloAtivo && modulos.find((m) => m.id === moduloAtivo) && (
               <div
                 ref={detailsRef}
-                className="module-details-info-card fade-in-container"
+                style={{ gridColumn: "1 / -1" }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="details-description">
-                  <p>
-                    {modulos.find((m) => m.id === moduloAtivo)!.description}
-                  </p>
-                </div>
-                <div className="details-actions-list">
-                  <ul>
-                    <li
-                      onClick={() => navigate(`/modulo/${moduloAtivo}/aulas`)}
-                      className="clickable-detail-item"
-                    >
-                      <img src={iconAulas} alt="" className="detail-li-icon" />
-                      <span>Aulas</span>
-                    </li>
-                    <li className="disabled-detail-item">
-                      <img
-                        src={iconMateriais}
-                        alt=""
-                        className="detail-li-icon"
-                      />
-                      <span>Materiais</span>
-                    </li>
-                    <li className="disabled-detail-item">
-                      <img
-                        src={iconAvaliacao}
-                        alt=""
-                        className="detail-li-icon"
-                      />
-                      <span>Avaliação</span>
-                    </li>
-                  </ul>
-                </div>
+                <ModuleDetailsPanel modulo={modulos.find((m) => m.id === moduloAtivo)!} />
               </div>
             )}
           </div>
         )}
 
-        {/* =================== ABA DASHBOARD =================== */}
         {abaAtiva === "dashboard" && (
           <div
             className="dashboard-page-container fade-in-container"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Métricas */}
             {loadingProgress ? (
               <div className="modules-loading">
                 <div className="loading-spinner"></div>
@@ -530,7 +590,6 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* Gráfico de evolução semanal */}
                 <div className="chart-section-container">
                   <div className="chart-header">
                     <h2>Aulas por Dia — Última Semana</h2>
@@ -599,7 +658,6 @@ const Dashboard = () => {
               </>
             )}
 
-            {/* Cards dos módulos com progresso no dashboard */}
             <div className="dashboard-modules-section">
               <div className="section-header-row">
                 <h2 className="section-title">Seus Módulos</h2>
@@ -623,7 +681,6 @@ const Dashboard = () => {
                         className={`dmr-card ${isCompleto ? "dmr-card-done" : ""}`}
                         onClick={() => navigate(`/modulo/${modulo.id}/aulas`)}
                       >
-                        {/* Thumbnail com overlay */}
                         <div className="dmr-card-thumb">
                           <img
                             src={modulo.img || thumbFallback}
@@ -645,11 +702,9 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        {/* Conteúdo */}
                         <div className="dmr-card-body">
                           <h4 className="dmr-card-title">{modulo.title}</h4>
 
-                          {/* Barra de progresso */}
                           <div className="dmr-card-progress-wrap">
                             <div className="dmr-card-progress-bar">
                               <div
@@ -677,8 +732,8 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Botão IA */}
         <button
+          type="button"
           className="ia-fab"
           onClick={(e) => {
             e.stopPropagation();

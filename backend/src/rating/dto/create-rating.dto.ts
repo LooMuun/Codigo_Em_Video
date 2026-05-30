@@ -1,10 +1,10 @@
-import { IsString, IsInt, IsOptional, Min, Max } from 'class-validator';
+import { IsString, IsNumber, IsOptional, Min, Max } from 'class-validator';
 
 export class CreateRatingDto {
   @IsString()
   moduleId!: string;
 
-  @IsInt()
+  @IsNumber()
   @Min(1)
   @Max(5)
   score!: number;

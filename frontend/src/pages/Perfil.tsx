@@ -27,7 +27,7 @@ const Perfil = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [imgUrl, setImgUrl] = useState("");
-  const [senhaAtual, setSenhaAtual] = useState("");
+
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [showSenhaForm, setShowSenhaForm] = useState(false);
@@ -42,17 +42,15 @@ const Perfil = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // 1. Buscar usuário do Supabase primeiro (sempre disponível se estiver logado)
+        // 1. Buscar usuário do Supabase (fallback) e do backend (dados reais)
         const { data: { user: supabaseUser } } = await supabase.auth.getUser();
-        console.log("DEBUG PERFIL: Dados Supabase", supabaseUser);
 
         let backendUser = null;
         try {
           const response = await api.get("/users/me");
           backendUser = response.data;
-          console.log("DEBUG PERFIL: Dados Backend", backendUser);
-        } catch (err) {
-          console.error("DEBUG PERFIL: Erro ao buscar backend (404 ou outro):", err);
+        } catch {
+          // Backend indisponível, usa dados do Supabase
         }
 
         // 2. Definir a imagem final (Prioridade: Backend -> Supabase -> Fallback)
@@ -76,8 +74,8 @@ const Perfil = () => {
         }
 
         setImgUrl(finalImg || "");
-      } catch (err) {
-        console.error("DEBUG PERFIL: Erro crítico ao carregar perfil:", err);
+      } catch {
+        console.error("Erro ao carregar perfil.");
       } finally {
         setLoading(false);
       }

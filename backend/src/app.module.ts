@@ -14,6 +14,7 @@ import { RatingModule } from './rating/rating.module';
 import { AiModule } from './ai/ai.module';
 import { QuizAnswerModule } from './quiz-answer/quiz-answer.module';
 import { OtpModule } from './otp/otp.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { OtpModule } from './otp/otp.module';
     RatingModule,
     AiModule,
     QuizAnswerModule,
-    OtpModule
+    OtpModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

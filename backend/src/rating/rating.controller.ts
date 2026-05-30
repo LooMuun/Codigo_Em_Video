@@ -27,6 +27,9 @@ export class RatingController {
   @Post()
   @UseGuards(JwtAuthGuard)
   createRating(@Body() data: CreateRatingDto, @Req() req: AuthenticatedRequest) {
+    console.log('🚀 Request received in RatingController:');
+    console.log('Body:', JSON.stringify(data));
+    console.log('User:', req.user);
     return this.ratingService.createRating(data, req.user);
   }
 
