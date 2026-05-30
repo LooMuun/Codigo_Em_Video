@@ -785,16 +785,28 @@ export default function Aulas() {
     const fetchDados = async () => {
       setLoading(true);
       try {
-        const [modulosRes, aulasRes, progressoRes] = await Promise.all([
+        // Buscar dados públicos (módulos e aulas)
+        const [modulosRes, aulasRes] = await Promise.all([
           api.get("/modules"),
           api.get("/classrooms"),
-          api.get("/progress"),
         ]);
         setModulos(modulosRes.data);
         setTodasAulas(aulasRes.data);
-        setProgresso(progressoRes.data);
       } catch (err) {
-        console.error("Erro ao buscar dados:", err);
+        console.error("Erro crítico ao buscar conteúdo do curso:", err);
+      }
+
+      try {
+        // Buscar progresso (rota protegida - falha esperada para convidados)
+        const progressoRes = await api.get("/progress");
+        setProgresso(progressoRes.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          // Guest mode: progresso vazio, sem erro no console
+          setProgresso([]);
+        } else {
+          console.error("Erro ao buscar progresso:", err);
+        }
       } finally {
         setLoading(false);
       }

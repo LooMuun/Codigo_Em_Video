@@ -167,8 +167,13 @@ const Dashboard = () => {
 
         setDadosEvolucao(evolucao);
         setMetricas({ aulasAssistidas, ofensiva, progressoGeral });
-      } catch (error) {
-        console.error("Erro ao buscar progresso:", error);
+      } catch (error: any) {
+        if (error.response?.status === 401) {
+          // Modo convidado: não logamos erro, apenas garantimos que o loading pare
+          setProgresso([]);
+        } else {
+          console.error("Erro ao buscar progresso:", error);
+        }
       } finally {
         setLoadingProgress(false);
       }
